@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hira Lal - Admin Panel</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #ff6600; text-align: center; }
+        label { font-weight: bold; display: block; margin-top: 15px; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; background: #003399; color: white; border: none; padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 18px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>कोटेदार एडमिन पैनल</h2>
+        <label>दुकान की स्थिति:</label>
+        <select id="status">
+            <option value="📢 दुकान खुली है: राशन वितरण चालू है">खुली है</option>
+            <option value="🔒 दुकान बंद है: अभी वितरण नहीं हो रहा">बंद है</option>
+        </select>
+        <label>अंतिम तिथि:</label>
+        <input type="text" id="deadline" placeholder="उदा: 20 अप्रैल 2026">
+        <button onclick="updateWebsite()">वेबसाइट अपडेट करें</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        function updateWebsite() {
+            var s = document.getElementById('status').value;
+            var d = document.getElementById('deadline').value;
+            database.ref('liveData').set({ status: s, deadline: d })
+            .then(() => { alert("Update Successful!"); });
+        }
+    </script>
+</body>
+</html>
