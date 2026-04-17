@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्री हीरा लाल - सरकारी राशन दुकान</title>
+    
+    <style>
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            background-color: #f0f2f5; 
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header { 
+            background-color: #ff6600; 
+            color: white; 
+            padding: 30px 10px; 
+            text-align: center; 
+            border-bottom: 6px solid #003399; 
+        }
+
+        .owner-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .container { 
+            max-width: 700px; 
+            margin: 20px auto; 
+            padding: 15px; 
+        }
+
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            margin-bottom: 20px; 
+        }
+
+        .status-open { 
+            background-color: #d4edda; 
+            color: #155724; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #c3e6cb;
+        }
+
+        h3 { color: #003399; border-bottom: 2px solid #ff6600; padding-bottom: 5px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #003399; color: white; }
+
+        input, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+        }
+
+        .btn-calc { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn-submit { background: #003399; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; }
+        
+        .result-box { 
+            margin-top: 15px; 
+            padding: 15px; 
+            background: #e7f3ff; 
+            border-radius: 6px; 
+            display: none; 
+            font-weight: bold;
+            color: #003399;
+            border-left: 5px solid #003399;
+        }
+
+        .contact-btn { 
+            display: block; 
+            text-align: center; 
+            background-color: #d9534f; 
+            color: white; 
+            text-decoration: none; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        footer { text-align: center; padding: 30px; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="owner-name">|| श्री हीरा लाल ||</span>
+        <h1>सरकारी राशन दुकान (बड़गड़ी)</h1>
+        <p>कोटेदार डिजिटल सेवा पोर्टल - गोरखपुर</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="status-open">📢 दुकान खुली है: राशन वितरण चालू है</div>
+            <p style="text-align:center; margin-top:10px;">
+                <strong>मुख्य कोटेदार:</strong> श्री हीरा लाल जी <br>
+                <strong>संपर्क नंबर:</strong> 7525008951 <br>
+                <strong>समय:</strong> सुबह 8:00 से शाम 5:00 तक
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📦 स्टॉक की जानकारी</h3>
+            <table>
+                <tr>
+                    <th>सामग्री</th>
+                    <th>उपलब्धता</th>
+                    <th>मात्रा</th>
+                </tr>
+                <tr>
+                    <td>गेंहूँ</td>
+                    <td>✅ उपलब्ध</td>
+                    <td>2 KG / यूनिट</td>
+                </tr>
+                <tr>
+                    <td>चावल</td>
+                    <td>✅ उपलब्ध</td>
+                    <td>3 KG / यूनिट</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🧮 राशन कैलकुलेटर</h3>
+            <p>कार्ड के यूनिट (सदस्यों) की संख्या डालें:</p>
+            <input type="number" id="unitInput" placeholder="उदा: 5">
+            <button class="btn-calc" onclick="showRation()">कितना राशन मिलेगा? चेक करें</button>
+            <div id="result" class="result-box"></div>
+        </div>
+
+        <div class="card">
+            <h3>📝 शिकायत एवं सुझाव</h3>
+            <form id="feedbackForm">
+                <input type="text" placeholder="आपका नाम" required>
+                <input type="tel" placeholder="मोबाइल नंबर" required>
+                <textarea rows="3" placeholder="अपनी समस्या या सुझाव यहाँ लिखें..."></textarea>
+                <button type="button" class="btn-submit" onclick="submitForm()">सबमिट करें</button>
+            </form>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h3>📞 सीधा संपर्क करें</h3>
+            <a href="tel:7525008951" class="contact-btn">कॉल करें: 7525008951</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 कोटेदार: श्री हीरा लाल, बड़गड़ी, गोरखपुर</p>
+        <p>उत्तर प्रदेश खाद्य एवं रसद विभाग</p>
+    </footer>
+
+    <script>
+        function showRation() {
+            let units = document.getElementById('unitInput').value;
+            let resultDiv = document.getElementById('result');
+            
+            if(units > 0) {
+                let wheat = units * 2;
+                let rice = units * 3;
+                resultDiv.style.display = "block";
+                resultDiv.innerHTML = `हीरा लाल जी की दुकान से आपको कुल ${wheat} KG गेंहूँ और ${rice} KG चावल प्राप्त होगा।`;
+            } else {
+                alert("कृपया सही यूनिट संख्या डालें");
+            }
+        }
+
+        function submitForm() {
+            alert("आपका संदेश श्री हीरा लाल जी के पास भेज दिया गया है। धन्यवाद!");
+            document.getElementById('feedbackForm').reset();
+        }
+    </script>
+
+</body>
+</html>
