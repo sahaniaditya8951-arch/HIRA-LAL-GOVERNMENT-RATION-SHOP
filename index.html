@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff6600">
+    <title>श्री हीरा लाल - सरकारी राशन दुकान</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f0f2f5; color: #333; text-align: center; }
+        
+        /* News Ticker */
+        .news-ticker { background: #003399; color: white; padding: 5px; font-weight: bold; font-size: 15px; border-bottom: 2px solid #ff6600; }
+        
+        header { background: #ff6600; color: white; padding: 20px 10px; border-bottom: 5px solid #003399; }
+        .container { max-width: 600px; margin: auto; padding: 15px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .status-box { padding: 15px; border-radius: 8px; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; background: #e9ecef; }
+        
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        .btn { background: #003399; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .btn-green { background: #28a745; }
+        .btn-red { background: #d9534f; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; text-align: left; }
+        th, td { border: 1px solid #ddd; padding: 10px; }
+        th { background: #003399; color: white; }
+        
+        .result { display: none; background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: left; }
+        
+        /* Gallery */
+        .gallery-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+        .gallery-img { width: 150px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #ccc; }
+        
+        #adminPanel, #loginPanel { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="news-ticker">
+        <marquee id="tickerText">यहाँ ताज़ा खबर दिखेगी...</marquee>
+    </div>
+
+    <header>
+        <div style="font-size: 1.4em; font-weight: bold;">|| श्री हीरा लाल ||</div>
+        <h1 style="margin: 5px 0;">सरकारी राशन दुकान (बरागदही)</h1>
+        <p style="margin: 0;">संपर्क: 7525008951 | समय: 08:00 AM - 05:00 PM</p>
+    </header>
+
+    <div class="container" id="publicView">
+        
+        <div class="card">
+            <div id="liveStatus" class="status-box">लोड हो रहा है...</div>
+            <div id="liveDeadline" style="font-weight: bold; color: #d9534f; margin-top: 5px;"></div>
+            
+            <h4 style="margin-bottom: 5px; color: #003399;">📊 लाइव स्टॉक (Bachat Calculator)</h4>
+            <div style="display: flex; justify-content: space-between; background: #e7f3ff; padding: 10px; border-radius: 8px; font-weight: bold;">
+                <span id="stockGehu">गेंहूँ: -- KG</span>
+                <span id="stockChawal">चावल: -- KG</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #003399; margin-top: 0;">📦 राशन की मात्रा</h3>
+            <table>
+                <tr>
+                    <th>कार्ड का प्रकार</th>
+                    <th>गेंहूँ (Wheat)</th>
+                    <th>चावल (Rice)</th>
+                </tr>
+                <tr>
+                    <td><b>सफ़ेद कार्ड</b> (प्रति यूनिट)</td>
+                    <td>1 KG</td>
+                    <td>4 KG</td>
+                </tr>
+                <tr>
+                    <td><b>लाल कार्ड</b> (फिक्स/अंत्योदय)</td>
+                    <td>10 KG</td>
+                    <td>25 KG</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🔍 अपना राशन स्टेटस चेक करें</h3>
+            <p style="font-size: 0.9em; color: #666;">नाम या कार्ड के अंतिम 4 अंक डालें</p>
+            <input type="text" id="userInput" placeholder="उदा: अंजू देवी या 0229">
+            <button class="btn" onclick="checkRation()">चेक करें</button>
+            <div id="resBox" class="result">
+                <p>👤 नाम: <b id="rName"></b></p>
+                <p>🆔 कार्ड: <b id="rID"></b></p>
+                <p>📦 स्थिति: <b id="rDist"></b></p>
+                <p id="rDate" style="font-size: 0.8em; color: #666; margin-top: 5px;"></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📸 राशन वितरण गैलरी</h3>
+            <div class="gallery-container">
+                <img src="https://via.placeholder.com/150/ff6600/ffffff?text=Photo+1" class="gallery-img" alt="दुकान की फोटो">
+                <img src="https://via.placeholder.com/150/003399/ffffff?text=Photo+2" class="gallery-img" alt="वितरण की फोटो">
+            </div>
+        </div>
+
+        <button onclick="showLogin()" style="background:none; border:none; color:#999; text-decoration:underline; cursor:pointer; margin-top:20px;">Admin Login</button>
+    </div>
+
+    <div class="container" id="loginPanel">
+        <div class="card">
+            <h2 style="color: #ff6600;">कोटेदार लॉगिन</h2>
+            <input type="number" id="loginID" placeholder="User ID">
+            <input type="password" id="loginPass" placeholder="Password">
+            <button class="btn" onclick="verifyLogin()">लॉगिन करें</button>
+            <button class="btn btn-red" onclick="closeAdmin()" style="margin-top: 10px;">वापस जाएँ</button>
+        </div>
+    </div>
+
+    <div class="container" id="adminPanel">
+        <div class="card" style="border: 2px solid #ff6600;">
+            <h2 style="color: #ff6600;">एडमिन कंट्रोल रूम</h2>
+            <button class="btn btn-red" onclick="closeAdmin()" style="margin-bottom: 15px;">लॉगआउट (Logout)</button>
+
+            <h3 style="border-bottom: 2px solid #ccc;">1. दुकान की जानकारी</h3>
+            <select id="aStatus">
+                <option value="📢 दुकान खुली है: राशन वितरण चालू है">खुली है</option>
+                <option value="🔒 दुकान बंद है: अभी वितरण नहीं हो रहा">बंद है</option>
+            </select>
+            <input type="text" id="aDeadline" placeholder="अंतिम तिथि (उदा: 20 अप्रैल)">
+            <input type="text" id="aTicker" placeholder="चलती हुई पट्टी पर खबर लिखें...">
+            
+            <h3 style="border-bottom: 2px solid #ccc;">2. स्टॉक अपडेट (Bachat)</h3>
+            <input type="text" id="aGehu" placeholder="गेंहूँ का स्टॉक (KG में)">
+            <input type="text" id="aChawal" placeholder="चावल का स्टॉक (KG में)">
+            <button class="btn btn-green" onclick="updateAdminGeneral()">सेव करें</button>
+
+            <h3 style="border-bottom: 2px solid #ccc; margin-top: 20px;">3. कार्ड वितरण एंट्री</h3>
+            <input type="text" id="aCardNo" placeholder="कार्ड के अंतिम 4 अंक">
+            <select id="aDistStatus">
+                <option value="✅ राशन मिल चुका है">राशन मिल गया</option>
+                <option value="⏳ अभी नहीं मिला है">अभी नहीं मिला</option>
+            </select>
+            <button class="btn btn-green" onclick="updateAdminDelivery()">वितरण अपडेट करें</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // 557 CARDS WALI LIST YAHAN PASTE KAREIN
+        const rationList = [
+            {id:"0229", n:"अंजू देवी"}, {id:"0687", n:"कौशल्या देवी"}, {id:"8964", n:"सरस्वती"}, {id:"9971", n:"संगीता"} // (Apni badi wali list yahan rakhna)
+        ];
+
+        var firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        // Load Live Data
+        database.ref('liveData').on('value', (s) => {
+            const d = s.val();
+            if(d){
+                document.getElementById('liveStatus').innerText = d.status || "स्टेटस उपलब्ध नहीं";
+                document.getElementById('liveDeadline').innerText = "वितरण की अंतिम तिथि: " + (d.deadline || "--");
+                document.getElementById('tickerText').innerText = d.notice || "स्वागत है!";
+                document.getElementById('stockGehu').innerText = "गेंहूँ: " + (d.gehu || "0") + " KG";
+                document.getElementById('stockChawal').innerText = "चावल: " + (d.chawal || "0") + " KG";
+                
+                // Set values in admin panel inputs
+                document.getElementById('aStatus').value = d.status || "";
+                document.getElementById('aDeadline').value = d.deadline || "";
+                document.getElementById('aTicker').value = d.notice || "";
+                document.getElementById('aGehu').value = d.gehu || "";
+                document.getElementById('aChawal').value = d.chawal || "";
+            }
+        });
+
+        // Search Function
+        function checkRation() {
+            const input = document.getElementById('userInput').value.toLowerCase();
+            const resBox = document.getElementById('resBox');
+            if(!input){alert("कृपया नाम या कार्ड नंबर भरें"); return;}
+            const found = rationList.find(i => i.id.includes(input) || i.n.includes(input));
+
+            if(found){
+                resBox.style.display = "block";
+                document.getElementById('rName').innerText = found.n;
+                document.getElementById('rID').innerText = "****" + found.id;
+                
+                database.ref('delivery/' + found.id).once('value', (snap) => {
+                    const data = snap.val();
+                    if(data){
+                        document.getElementById('rDist').innerText = data.status;
+                        document.getElementById('rDist').style.color = data.status.includes("✅") ? "green" : "red";
+                        document.getElementById('rDate').innerText = "अंतिम अपडेट: " + data.date;
+                    } else {
+                        document.getElementById('rDist').innerText = "⏳ अभी नहीं मिला है";
+                        document.getElementById('rDist').style.color = "red";
+                        document.getElementById('rDate').innerText = "";
+                    }
+                });
+            } else { alert("डाटा नहीं मिला।"); resBox.style.display="none"; }
+        }
+
+        // Login System
+        function showLogin() {
+            document.getElementById('publicView').style.display = 'none';
+            document.getElementById('loginPanel').style.display = 'block';
+        }
+
+        function verifyLogin() {
+            const id = document.getElementById('loginID').value;
+            const pass = document.getElementById('loginPass').value;
+            if(id === "7525008952" && pass === "Aditya8951") {
+                document.getElementById('loginPanel').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginID').value = "";
+                document.getElementById('loginPass').value = "";
+            } else {
+                alert("गलत ID या Password!");
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginPanel').style.display = 'none';
+            document.getElementById('publicView').style.display = 'block';
+        }
+
+        // Admin Functions
+        function updateAdminGeneral() {
+            database.ref('liveData').update({
+                status: document.getElementById('aStatus').value,
+                deadline: document.getElementById('aDeadline').value,
+                notice: document.getElementById('aTicker').value,
+                gehu: document.getElementById('aGehu').value,
+                chawal: document.getElementById('aChawal').value
+            }).then(() => alert("वेबसाइट अपडेट हो गई!"));
+        }
+
+        function updateAdminDelivery() {
+            const id = document.getElementById('aCardNo').value;
+            const res = document.getElementById('aDistStatus').value;
+            if(id.length < 4) { alert("कृपया 4 अंक डालें"); return; }
+            database.ref('delivery/' + id).set({ 
+                status: res, 
+                date: new Date().toLocaleString('hi-IN') 
+            }).then(() => { 
+                alert("कार्ड " + id + " अपडेट हो गया!"); 
+                document.getElementById('aCardNo').value = ""; 
+            });
+        }
+    </script>
+</body>
+</html>
