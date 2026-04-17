@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>श्री हीरा लाल - सरकारी राशन दुकान</title>
+    <title>श्री हीरा लाल - सरकारी राशन दुकान (बरागदही)</title>
     
     <style>
         body { 
@@ -48,26 +48,41 @@
         .status-open { 
             background-color: #d4edda; 
             color: #155724; 
-            padding: 12px; 
+            padding: 15px; 
             border-radius: 8px; 
             font-weight: bold;
             text-align: center;
             border: 1px solid #c3e6cb;
+            font-size: 1.1em;
+        }
+
+        .deadline-alert {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 10px;
+            border: 1px solid #ffeeba;
+            font-weight: bold;
         }
 
         h3 { color: #003399; border-bottom: 2px solid #ff6600; padding-bottom: 5px; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
         th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
         th { background-color: #003399; color: white; }
 
-        input, textarea { 
+        .calc-group { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px; }
+        
+        select, input, textarea { 
             width: 100%; 
             padding: 12px; 
             margin: 10px 0; 
             border: 1px solid #ccc; 
             border-radius: 6px; 
             box-sizing: border-box; 
+            font-size: 16px;
         }
 
         .btn-calc { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
@@ -104,47 +119,56 @@
 
     <header>
         <span class="owner-name">|| श्री हीरा लाल ||</span>
-        <h1>सरकारी राशन दुकान (बड़गड़ी)</h1>
+        <h1>सरकारी राशन दुकान (बरागदही)</h1>
         <p>कोटेदार डिजिटल सेवा पोर्टल - गोरखपुर</p>
     </header>
 
     <div class="container">
         
         <div class="card">
-            <div class="status-open">📢 दुकान खुली है: राशन वितरण चालू है</div>
-            <p style="text-align:center; margin-top:10px;">
-                <strong>मुख्य कोटेदार:</strong> श्री हीरा लाल जी <br>
-                <strong>संपर्क नंबर:</strong> 7525008951 <br>
-                <strong>समय:</strong> सुबह 8:00 से शाम 5:00 तक
+            <div class="status-open">📢 दुकान खुली है: अप्रैल माह का राशन वितरण चालू है</div>
+            <div class="deadline-alert">⚠️ ध्यान दें: राशन वितरण केवल 20 अप्रैल 2026 तक होगा।</div>
+            <p style="text-align:center; margin-top:15px;">
+                <strong>कोटेदार:</strong> श्री हीरा लाल जी <br>
+                <strong>संपर्क:</strong> 7525008951 | <strong>समय:</strong> 08:00 AM - 05:00 PM
             </p>
         </div>
 
         <div class="card">
-            <h3>📦 स्टॉक की जानकारी</h3>
+            <h3>📦 राशन की मात्रा (अप्रैल माह)</h3>
             <table>
                 <tr>
-                    <th>सामग्री</th>
-                    <th>उपलब्धता</th>
-                    <th>मात्रा</th>
+                    <th>कार्ड का प्रकार</th>
+                    <th>गेंहूँ</th>
+                    <th>चावल</th>
                 </tr>
                 <tr>
-                    <td>गेंहूँ</td>
-                    <td>✅ उपलब्ध</td>
-                    <td>2 KG / यूनिट</td>
+                    <td><strong>सफ़ेद (पात्र गृहस्थी)</strong></td>
+                    <td>1 KG / यूनिट</td>
+                    <td>4 KG / यूनिट</td>
                 </tr>
                 <tr>
-                    <td>चावल</td>
-                    <td>✅ उपलब्ध</td>
-                    <td>3 KG / यूनिट</td>
+                    <td><strong>लाल (अंत्योदय)</strong></td>
+                    <td>10 KG / कार्ड</td>
+                    <td>25 KG / कार्ड</td>
                 </tr>
             </table>
         </div>
 
         <div class="card">
             <h3>🧮 राशन कैलकुलेटर</h3>
-            <p>कार्ड के यूनिट (सदस्यों) की संख्या डालें:</p>
-            <input type="number" id="unitInput" placeholder="उदा: 5">
-            <button class="btn-calc" onclick="showRation()">कितना राशन मिलेगा? चेक करें</button>
+            <p>अपना कार्ड चुनें और जानकारी भरें:</p>
+            
+            <select id="cardType" onchange="toggleInput()">
+                <option value="white">सफ़ेद कार्ड (पात्र गृहस्थी)</option>
+                <option value="red">लाल कार्ड (अंत्योदय)</option>
+            </select>
+
+            <div id="unitSection">
+                <input type="number" id="unitInput" placeholder="यूनिट (सदस्यों) की संख्या डालें">
+            </div>
+
+            <button class="btn-calc" onclick="calculateRation()">चेक करें कितना मिलेगा</button>
             <div id="result" class="result-box"></div>
         </div>
 
@@ -153,8 +177,8 @@
             <form id="feedbackForm">
                 <input type="text" placeholder="आपका नाम" required>
                 <input type="tel" placeholder="मोबाइल नंबर" required>
-                <textarea rows="3" placeholder="अपनी समस्या या सुझाव यहाँ लिखें..."></textarea>
-                <button type="button" class="btn-submit" onclick="submitForm()">सबमिट करें</button>
+                <textarea rows="3" placeholder="अपनी समस्या यहाँ लिखें..."></textarea>
+                <button type="button" class="btn-submit" onclick="submitForm()">सूचना भेजें</button>
             </form>
         </div>
 
@@ -166,27 +190,43 @@
     </div>
 
     <footer>
-        <p>© 2026 कोटेदार: श्री हीरा लाल, बड़गड़ी, गोरखपुर</p>
-        <p>उत्तर प्रदेश खाद्य एवं रसद विभाग</p>
+        <p>© 2026 कोटेदार: श्री हीरा लाल, ग्राम-बरागदही, गोरखपुर</p>
+        <p>खाद्य एवं रसद विभाग, उत्तर प्रदेश</p>
     </footer>
 
     <script>
-        function showRation() {
-            let units = document.getElementById('unitInput').value;
-            let resultDiv = document.getElementById('result');
-            
-            if(units > 0) {
-                let wheat = units * 2;
-                let rice = units * 3;
-                resultDiv.style.display = "block";
-                resultDiv.innerHTML = `हीरा लाल जी की दुकान से आपको कुल ${wheat} KG गेंहूँ और ${rice} KG चावल प्राप्त होगा।`;
+        function toggleInput() {
+            let cardType = document.getElementById('cardType').value;
+            let unitSection = document.getElementById('unitSection');
+            if(cardType === 'red') {
+                unitSection.style.display = "none";
             } else {
-                alert("कृपया सही यूनिट संख्या डालें");
+                unitSection.style.display = "block";
+            }
+        }
+
+        function calculateRation() {
+            let cardType = document.getElementById('cardType').value;
+            let resultDiv = document.getElementById('result');
+            resultDiv.style.display = "block";
+            
+            if(cardType === 'white') {
+                let units = document.getElementById('unitInput').value;
+                if(units > 0) {
+                    let wheat = units * 1;
+                    let rice = units * 4;
+                    resultDiv.innerHTML = `सफ़ेद कार्ड (${units} यूनिट): <br>कुल ${wheat} KG गेंहूँ और ${rice} KG चावल मिलेगा।`;
+                } else {
+                    alert("कृपया सही यूनिट संख्या डालें");
+                    resultDiv.style.display = "none";
+                }
+            } else {
+                resultDiv.innerHTML = `लाल (अंत्योदय) कार्ड: <br>कुल 10 KG गेंहूँ और 25 KG चावल मिलेगा।`;
             }
         }
 
         function submitForm() {
-            alert("आपका संदेश श्री हीरा लाल जी के पास भेज दिया गया है। धन्यवाद!");
+            alert("धन्यवाद! आपकी सूचना श्री हीरा लाल जी तक पहुँचा दी गई है।");
             document.getElementById('feedbackForm').reset();
         }
     </script>
