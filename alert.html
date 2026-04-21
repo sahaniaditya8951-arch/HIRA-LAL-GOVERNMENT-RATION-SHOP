@@ -3,31 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hira Lal Ration Portal - Alerts</title>
+    <title>Hira Lal Ration Portal - WhatsApp Alerts</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; }
         .portal-card { background-color: #ffffff; width: 100%; max-width: 450px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
         .portal-card h2 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
         .portal-card p { text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 25px; }
-        .msg-preview { background-color: #e8f8f5; padding: 15px; border-radius: 5px; font-size: 14px; color: #2c3e50; margin-bottom: 20px; border-left: 4px solid #1abc9c; line-height: 1.5; }
+        .msg-preview { background-color: #e8f8f5; padding: 15px; border-radius: 5px; font-size: 14px; color: #2c3e50; margin-bottom: 20px; border-left: 4px solid #25D366; line-height: 1.5; }
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; margin-bottom: 8px; color: #34495e; font-weight: 500; }
         .input-group input { width: 100%; padding: 12px; border: 1px solid #bdc3c7; border-radius: 5px; font-size: 16px; outline: none; transition: border-color 0.3s; }
-        .input-group input:focus { border-color: #1abc9c; }
-        .send-btn { width: 100%; padding: 14px; background-color: #1abc9c; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
-        .send-btn:hover { background-color: #16a085; }
-        .send-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
+        .input-group input:focus { border-color: #25D366; }
+        
+        /* WhatsApp Green Color for Button */
+        .send-btn { width: 100%; padding: 14px; background-color: #25D366; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .send-btn:hover { background-color: #1DA851; }
+        
         #statusMessage { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; padding: 10px; border-radius: 5px; display: none; }
-        .success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block !important; }
         .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block !important; }
     </style>
 </head>
 <body>
 
     <div class="portal-card">
-        <h2>Ration Alert System</h2>
-        <p>Send automated reminders directly to customer's mobile.</p>
+        <h2>WhatsApp Alert System</h2>
+        <p>Send free automated reminders via WhatsApp.</p>
         
         <div class="msg-preview">
             <strong>Message Preview:</strong><br>
@@ -39,67 +40,42 @@
             <input type="tel" id="mobileNumber" placeholder="Enter 10-digit number" maxlength="10" autocomplete="off" required>
         </div>
         
-        <button class="send-btn" id="sendMsgBtn" onclick="sendSMS()">SEND ALERT MESSAGE</button>
+        <button class="send-btn" onclick="sendWhatsApp()">
+            SEND WHATSAPP ALERT
+        </button>
 
         <div id="statusMessage"></div>
     </div>
 
     <script>
-        function sendSMS() {
+        function sendWhatsApp() {
             const numberInput = document.getElementById('mobileNumber');
             const number = numberInput.value.trim();
-            const btn = document.getElementById('sendMsgBtn');
             const statusDiv = document.getElementById('statusMessage');
 
+            // Pehle ke error messages hata do
             statusDiv.className = "";
             statusDiv.innerHTML = "";
 
+            // Check karo ki number 10 digit ka hai ya nahi
             if(number.length !== 10 || isNaN(number)) {
-                showStatus("Please enter a valid 10-digit mobile number.", "error");
+                statusDiv.innerHTML = "Please enter a valid 10-digit mobile number.";
+                statusDiv.className = "error";
                 numberInput.focus();
                 return;
             }
 
-            btn.innerHTML = "Sending Message...";
-            btn.disabled = true;
-
-            const apiKey = "5kO3otv1Ra9gTwlQDUze6IWVhBmKNnb80c2AJMP4CLXiFrpYdSrHbiDTSLOZM65YR4QeqBFKd3sN0gpv";
+            // Jo message bhejna hai
             const message = "Namaste, Aapka is mahine ka ration abhi tak utha nahi hai. Kripya jald se jald ration prapt karein.";
 
-            const url = "https://www.fast2sms.com/dev/bulkV2?authorization=" + apiKey + "&route=q&message=" + encodeURIComponent(message) + "&language=english&flash=0&numbers=" + number;
+            // WhatsApp ka Direct Link (India code 91 ke sath)
+            const whatsappUrl = "https://wa.me/91" + number + "?text=" + encodeURIComponent(message);
 
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if(data.return === true) {
-                    showStatus("Message sent successfully!", "success");
-                    numberInput.value = ""; 
-                } else {
-                    // Yahan bug fix kiya gaya hai taaki pura message dikhe
-                    let errorMsg = "Failed to send message.";
-                    if (data.message) {
-                        if (typeof data.message === 'string') {
-                            errorMsg = data.message;
-                        } else if (Array.isArray(data.message)) {
-                            errorMsg = data.message[0];
-                        }
-                    }
-                    showStatus("Error: " + errorMsg, "error");
-                }
-            })
-            .catch(error => {
-                showStatus("Network Error. Please check your internet connection.", "error");
-            })
-            .finally(() => {
-                btn.innerHTML = "SEND ALERT MESSAGE";
-                btn.disabled = false;
-            });
-        }
-
-        function showStatus(msg, type) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.innerHTML = msg;
-            statusDiv.className = type;
+            // Naye tab mein WhatsApp khol do
+            window.open(whatsappUrl, '_blank');
+            
+            // Box ko khali kar do agle number ke liye
+            numberInput.value = ""; 
         }
     </script>
 </body>
