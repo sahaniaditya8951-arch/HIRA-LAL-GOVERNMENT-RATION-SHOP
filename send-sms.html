@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hira Lal Ration Shop - SMS System</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        input, select, button { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; border-radius: 5px; border: 1px solid #ccc; }
+        button { background-color: #28a745; color: white; border: none; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background-color: #218838; }
+        .btn-blue { background-color: #007bff; }
+        .btn-blue:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="text-align: center; color: #333;">Hira Lal Government Ration Shop</h2>
+    <p style="text-align: center; color: #666;">Customer SMS Alert System</p>
+    
+    <hr>
+
+    <label><b>ग्राहक का मोबाइल नंबर डालें:</b></label>
+    <input type="number" id="mobileNumber" placeholder="10-digit Mobile Number (ex: 9876543210)">
+
+    <hr>
+
+    <h4 style="margin-bottom: 0;">मैसेज 1: राशन पेंडिंग अलर्ट</h4>
+    <button onclick="sendMessage('pending')" class="btn-blue">Send: "आपका राशन उठा नहीं है"</button>
+
+    <br><br><hr>
+
+    <h4 style="margin-bottom: 0;">मैसेज 2: राशन वितरण शुरू होने की तारीख</h4>
+    <label>तारीख चुनें (किस दिन से राशन मिलेगा):</label>
+    <input type="date" id="startDate">
+    <button onclick="sendMessage('start')">Send: "इस तारीख से राशन मिलेगा"</button>
+
+</div>
+
+<script>
+    function sendMessage(messageType) {
+        const mobile = document.getElementById('mobileNumber').value;
+        if (mobile.length !== 10) {
+            alert("कृपया सही 10-अंकों का मोबाइल नंबर डालें!");
+            return;
+        }
+
+        let msg = "";
+        if (messageType === 'pending') {
+            msg = "नमस्ते, हीरा लाल जी की दुकान पर आपका राशन अभी तक उठा नहीं है। कृपया समय निकालकर अपना राशन प्राप्त करें।";
+        } else if (messageType === 'start') {
+            const dateVal = document.getElementById('startDate').value;
+            if (!dateVal) {
+                alert("कृपया पहले राशन बटने की तारीख (Date) सेलेक्ट करें!");
+                return;
+            }
+            const dateObj = new Date(dateVal);
+            const formattedDate = `${dateObj.getDate()}-${dateObj.getMonth() + 1}-${dateObj.getFullYear()}`;
+            msg = `नमस्ते, हीरा लाल जी की दुकान पर ${formattedDate} से राशन का वितरण चालू होगा। कृपया आकर प्राप्त करें।`;
+        }
+
+        // ==========================================
+        // API KEY यहाँ बदलनी है 👇
+        // ==========================================
+        const apiKey = "5kO3otv1Ra9gTwlQDUze6IWVhBmKNnb80c2AJMP4CLXiFrpYdSrHbiDTSLOZM65YR4QeqBFKd3sN0gpv"; 
+        // ==========================================
+
+        const url = `https://api.fast2sms.com/raw?authorization=${apiKey}&sender_id=FSTSMS&message=${encodeURIComponent(msg)}&route=p&numbers=${mobile}`;
+
+        fetch(url)
+        .then(response => {
+            if (response.ok) {
+                alert("✅ मैसेज सफलतापूर्वक भेज दिया गया है!");
+                document.getElementById('mobileNumber').value = ""; 
+            } else {
+                alert("❌ मैसेज भेजने में दिक्कत आई। API Key चेक करें।");
+            }
+        })
+        .catch(error => alert("❌ नेटवर्क एरर! इंटरनेट चेक करें।"));
+    }
+</script>
+
+</body>
+</html>
