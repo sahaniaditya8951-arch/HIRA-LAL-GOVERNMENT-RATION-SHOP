@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hira Lal Ration Shop - Grahak Jodein</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .form-box { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+    <div class="form-box">
+        <h2 style="text-align: center;">Grahak Jodein</h2>
+        
+        <label>Grahak ka Naam:</label>
+        <input type="text" id="name" placeholder="Naam likhein">
+        
+        <label>Ration Card Number:</label>
+        <input type="text" id="ration_no" placeholder="Ration Card Number">
+        
+        <label>Mobile Number:</label>
+        <input type="number" id="mobile" placeholder="10 digit Mobile Number">
+        
+        <button onclick="saveData()">Data Save Karein</button>
+    </div>
+
+    <script>
+        // Aapka Firebase Config
+        const firebaseConfig = {
+          apiKey: "AIzaSyB5D3yJNtucTP7KDNbf-P6oI7D6sWGRYjU",
+          authDomain: "customer-data-76bed.firebaseapp.com",
+          projectId: "customer-data-76bed",
+          storageBucket: "customer-data-76bed.firebasestorage.app",
+          messagingSenderId: "769732738494",
+          appId: "1:769732738494:web:fc970f3a20473357e68def",
+          measurementId: "G-FBXMMBFL6F"
+        };
+
+        // Firebase Initialize karein
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function saveData() {
+            var name = document.getElementById("name").value;
+            var ration_no = document.getElementById("ration_no").value;
+            var mobile = document.getElementById("mobile").value;
+
+            if(name === "" || ration_no === "" || mobile === "") {
+                alert("Kripya saari details bharein!");
+                return;
+            }
+
+            if(mobile.length !== 10) {
+                alert("Kripya sahi 10 digit ka mobile number daalein.");
+                return;
+            }
+
+            // Database mein data bhejna
+            db.collection("customers").add({
+                name: name,
+                rationNumber: ration_no,
+                mobileNumber: mobile,
+                dateAdded: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                alert("✅ Grahak ka data successfully save ho gaya!");
+                document.getElementById("name").value = "";
+                document.getElementById("ration_no").value = "";
+                document.getElementById("mobile").value = "";
+            })
+            .catch((error) => {
+                alert("❌ Error: " + error.message);
+            });
+        }
+    </script>
+</body>
+</html>
