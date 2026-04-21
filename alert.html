@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hira Lal Ration Portal - Alerts</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px; }
+        .portal-card { background-color: #ffffff; width: 100%; max-width: 450px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+        .portal-card h2 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
+        .portal-card p { text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 25px; }
+        .msg-preview { background-color: #e8f8f5; padding: 15px; border-radius: 5px; font-size: 14px; color: #2c3e50; margin-bottom: 20px; border-left: 4px solid #1abc9c; line-height: 1.5; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #34495e; font-weight: 500; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #bdc3c7; border-radius: 5px; font-size: 16px; outline: none; transition: border-color 0.3s; }
+        .input-group input:focus { border-color: #1abc9c; }
+        .send-btn { width: 100%; padding: 14px; background-color: #1abc9c; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+        .send-btn:hover { background-color: #16a085; }
+        .send-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
+        #statusMessage { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; padding: 10px; border-radius: 5px; display: none; }
+        .success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block !important; }
+        .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block !important; }
+    </style>
+</head>
+<body>
+
+    <div class="portal-card">
+        <h2>Ration Alert System</h2>
+        <p>Send automated reminders directly to customer's mobile.</p>
+        
+        <div class="msg-preview">
+            <strong>Message Preview:</strong><br>
+            "Namaste, Aapka is mahine ka ration abhi tak utha nahi hai. Kripya jald se jald ration prapt karein."
+        </div>
+
+        <div class="input-group">
+            <label for="mobileNumber">Customer Mobile Number</label>
+            <input type="tel" id="mobileNumber" placeholder="Enter 10-digit number" maxlength="10" autocomplete="off" required>
+        </div>
+        
+        <button class="send-btn" id="sendMsgBtn" onclick="sendSMS()">SEND ALERT MESSAGE</button>
+
+        <div id="statusMessage"></div>
+    </div>
+
+    <script>
+        function sendSMS() {
+            const numberInput = document.getElementById('mobileNumber');
+            const number = numberInput.value.trim();
+            const btn = document.getElementById('sendMsgBtn');
+            const statusDiv = document.getElementById('statusMessage');
+
+            // Reset status message
+            statusDiv.className = "";
+            statusDiv.innerHTML = "";
+
+            // Validate 10-digit number
+            if(number.length !== 10 || isNaN(number)) {
+                showStatus("Please enter a valid 10-digit mobile number.", "error");
+                numberInput.focus();
+                return;
+            }
+
+            // Update button state
+            btn.innerHTML = "Sending Message...";
+            btn.disabled = true;
+
+            // API Configuration
+            const apiKey = "5kO3otv1Ra9gTwlQDUze6IWVhBmKNnb80c2AJMP4CLXiFrpYdSrHbiDTSLOZM65YR4QeqBFKd3sN0gpv";
+            const message = "Namaste, Aapka is mahine ka ration abhi tak utha nahi hai. Kripya jald se jald ration prapt karein.";
+
+            // Construct API URL for Fast2SMS Quick Route
+            const url = "https://www.fast2sms.com/dev/bulkV2?authorization=" + apiKey + "&route=q&message=" + encodeURIComponent(message) + "&language=english&flash=0&numbers=" + number;
+
+            // Send Request
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if(data.return === true) {
+                    showStatus("Message sent successfully!", "success");
+                    numberInput.value = ""; // Clear the input field
+                } else {
+                    // API returned an error
+                    const errorMsg = data.message ? data.message[0] : "Failed to send message.";
+                    showStatus("Error: " + errorMsg, "error");
+                }
+            })
+            .catch(error => {
+                showStatus("Network Error. Please check your internet connection.", "error");
+            })
+            .finally(() => {
+                // Restore button state
+                btn.innerHTML = "SEND ALERT MESSAGE";
+                btn.disabled = false;
+            });
+        }
+
+        function showStatus(msg, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.innerHTML = msg;
+            statusDiv.className = type;
+        }
+    </script>
+</body>
+</html>
