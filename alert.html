@@ -51,38 +51,39 @@
             const btn = document.getElementById('sendMsgBtn');
             const statusDiv = document.getElementById('statusMessage');
 
-            // Reset status message
             statusDiv.className = "";
             statusDiv.innerHTML = "";
 
-            // Validate 10-digit number
             if(number.length !== 10 || isNaN(number)) {
                 showStatus("Please enter a valid 10-digit mobile number.", "error");
                 numberInput.focus();
                 return;
             }
 
-            // Update button state
             btn.innerHTML = "Sending Message...";
             btn.disabled = true;
 
-            // API Configuration
             const apiKey = "5kO3otv1Ra9gTwlQDUze6IWVhBmKNnb80c2AJMP4CLXiFrpYdSrHbiDTSLOZM65YR4QeqBFKd3sN0gpv";
             const message = "Namaste, Aapka is mahine ka ration abhi tak utha nahi hai. Kripya jald se jald ration prapt karein.";
 
-            // Construct API URL for Fast2SMS Quick Route
             const url = "https://www.fast2sms.com/dev/bulkV2?authorization=" + apiKey + "&route=q&message=" + encodeURIComponent(message) + "&language=english&flash=0&numbers=" + number;
 
-            // Send Request
             fetch(url)
             .then(response => response.json())
             .then(data => {
                 if(data.return === true) {
                     showStatus("Message sent successfully!", "success");
-                    numberInput.value = ""; // Clear the input field
+                    numberInput.value = ""; 
                 } else {
-                    // API returned an error
-                    const errorMsg = data.message ? data.message[0] : "Failed to send message.";
+                    // Yahan bug fix kiya gaya hai taaki pura message dikhe
+                    let errorMsg = "Failed to send message.";
+                    if (data.message) {
+                        if (typeof data.message === 'string') {
+                            errorMsg = data.message;
+                        } else if (Array.isArray(data.message)) {
+                            errorMsg = data.message[0];
+                        }
+                    }
                     showStatus("Error: " + errorMsg, "error");
                 }
             })
@@ -90,7 +91,6 @@
                 showStatus("Network Error. Please check your internet connection.", "error");
             })
             .finally(() => {
-                // Restore button state
                 btn.innerHTML = "SEND ALERT MESSAGE";
                 btn.disabled = false;
             });
