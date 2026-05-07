@@ -1,82 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hira Lal Ration Shop - Grahak List</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <title>पंजीकृत ग्राहक सूची | हीरा लाल राशन दुकान</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
-        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #007bff; color: white; }
-        .btn-copy { margin-top: 15px; width: 100%; padding: 10px; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-        .btn-copy:hover { background-color: #e68a00; }
+        :root {
+            --primary: #1e3a8a; --secondary: #f59e0b; --success: #10b981;
+            --bg: #f8fafc; --surface: #ffffff; --text-main: #0f172a; --border: #e2e8f0;
+        }
+        body { font-family: 'Poppins', 'Mukta', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; }
+        .top-bar { background: var(--primary); color: white; padding: 8px 20px; font-size: 13px; display: flex; justify-content: space-between; }
+        .flag-line { height: 4px; background: linear-gradient(90deg, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%); }
+        header { background: rgba(255, 255, 255, 0.95); padding: 15px 20px; display: flex; align-items: center; justify-content: center; gap: 15px; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .logo { width: 60px; height: 60px; }
+        .header-text h1 { font-size: 20px; color: var(--primary); font-weight: 800; margin: 0; }
+        .badge-shop { background: linear-gradient(135deg, var(--secondary), #d97706); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; margin-top: 5px; }
+        
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .card { background: var(--surface); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        .search-box:focus { border-color: var(--primary); outline: none; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { border: 1px solid var(--border); padding: 12px; text-align: left; }
+        th { background-color: var(--primary); color: white; font-weight: 600; }
+        tr:nth-child(even) { background-color: #f1f5f9; }
+        tr:hover { background-color: #e2e8f0; }
+        
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-block; font-weight: 600; margin-bottom: 20px; }
+        
+        .badge-red { background: #fee2e2; color: #ef4444; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .badge-white { background: #e0f2fe; color: #0284c7; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .del-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-building-flag"></i> उत्तर प्रदेश सरकार</span>
+        <span id="totalCount">कुल कार्ड: 0</span>
+    </div>
+    <div class="flag-line"></div>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Seal_of_Uttar_Pradesh.svg/120px-Seal_of_Uttar_Pradesh.svg.png" alt="Logo" class="logo">
+        <div class="header-text">
+            <h1>पंजीकृत ग्राहक (राशन कार्ड) सूची</h1>
+            <div class="badge-shop"><i class="fa-solid fa-user-tie"></i> अधिकृत विक्रेता: श्री हीरा लाल जी (बरागदही)</div>
+        </div>
+    </header>
 
     <div class="container">
-        <h2 style="text-align: center;">Grahako ki List</h2>
-        <button class="btn-copy" onclick="copyAllNumbers()">Saare Mobile Numbers Copy Karein (SMS ke liye)</button>
+        <a href="index.html" class="btn-outline"><i class="fa-solid fa-arrow-left"></i> डैशबोर्ड पर लौटें</a>
         
-        <table id="customerTable">
-            <thead>
-                <tr>
-                    <th>Naam</th>
-                    <th>Ration Card</th>
-                    <th>Mobile Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                </tbody>
-        </table>
+        <div class="card">
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 नाम या कार्ड नंबर से खोजें..." onkeyup="filterTable()">
+            
+            <div style="overflow-x:auto;">
+                <table id="customerTable">
+                    <thead>
+                        <tr>
+                            <th>कार्ड नंबर</th>
+                            <th>मुखिया का नाम</th>
+                            <th>मोबाइल नंबर</th>
+                            <th>कार्ड प्रकार</th>
+                            <th>यूनिट</th>
+                            <th>एक्शन</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr><td colspan="6" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> डाटा लोड हो रहा है...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        // Aapka Firebase Config
-        const firebaseConfig = {
-          apiKey: "AIzaSyB5D3yJNtucTP7KDNbf-P6oI7D6sWGRYjU",
-          authDomain: "customer-data-76bed.firebaseapp.com",
-          projectId: "customer-data-76bed",
-          storageBucket: "customer-data-76bed.firebasestorage.app",
-          messagingSenderId: "769732738494",
-          appId: "1:769732738494:web:fc970f3a20473357e68def",
-          measurementId: "G-FBXMMBFL6F"
-        };
-
+        var firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        let allNumbers = [];
+        var database = firebase.database();
 
-        // Database se data lana
-        db.collection("customers").orderBy("dateAdded", "desc").get().then((querySnapshot) => {
-            const tbody = document.querySelector("#customerTable tbody");
-            querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                allNumbers.push(data.mobileNumber); // Numbers ko list mein save karna
-                
-                let row = `<tr>
-                    <td>${data.name}</td>
-                    <td>${data.rationNumber}</td>
-                    <td>${data.mobileNumber}</td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        });
-
-        // Saare numbers ek sath copy karne ka function
-        function copyAllNumbers() {
-            if(allNumbers.length === 0) {
-                alert("Abhi tak koi data nahi hai!");
+        // Fetch Data
+        database.ref('customersList').on('value', function(snapshot) {
+            var data = snapshot.val();
+            var tbody = document.getElementById('tableBody');
+            tbody.innerHTML = ""; 
+            
+            if(!data) {
+                tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>कोई डाटा मौजूद नहीं है।</td></tr>";
+                document.getElementById('totalCount').innerText = "कुल कार्ड: 0";
                 return;
             }
-            let numbersString = allNumbers.join(","); // Comma lagakar numbers jodna (eg: 9876.., 9875..)
-            navigator.clipboard.writeText(numbersString).then(() => {
-                alert("✅ Saare numbers copy ho gaye hain! Ab aap inhe SMS wale box mein paste kar sakte hain.");
-            });
+
+            var count = 0;
+            for(var cardNo in data) {
+                var customer = data[cardNo];
+                count++;
+                var typeBadge = customer.type.includes("लाल") ? `<span class="badge-red">${customer.type}</span>` : `<span class="badge-white">${customer.type}</span>`;
+                
+                var row = `<tr>
+                    <td><strong>${cardNo}</strong></td>
+                    <td>${customer.name}</td>
+                    <td>${customer.mobile}</td>
+                    <td>${typeBadge}</td>
+                    <td>${customer.units}</td>
+                    <td><button class="del-btn" onclick="deleteCustomer('${cardNo}')"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            }
+            document.getElementById('totalCount').innerText = "कुल कार्ड: " + count;
+        });
+
+        // Search Filter Logic
+        function filterTable() {
+            var input = document.getElementById("searchInput").value.toUpperCase();
+            var table = document.getElementById("customerTable");
+            var tr = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < tr.length; i++) {
+                var cardCol = tr[i].getElementsByTagName("td")[0];
+                var nameCol = tr[i].getElementsByTagName("td")[1];
+                if (cardCol || nameCol) {
+                    var cardVal = cardCol.textContent || cardCol.innerText;
+                    var nameVal = nameCol.textContent || nameCol.innerText;
+                    if (cardVal.toUpperCase().indexOf(input) > -1 || nameVal.toUpperCase().indexOf(input) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }       
+            }
+        }
+
+        // Delete Logic
+        function deleteCustomer(cardNo) {
+            if(confirm("क्या आप सच में कार्ड नंबर " + cardNo + " को हटाना चाहते हैं?")) {
+                database.ref('customersList/' + cardNo).remove()
+                .then(() => alert("कार्ड डिलीट कर दिया गया है।"))
+                .catch(err => alert("Error: " + err));
+            }
         }
     </script>
 </body>
