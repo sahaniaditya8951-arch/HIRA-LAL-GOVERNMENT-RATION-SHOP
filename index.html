@@ -1,563 +1,278 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="light">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1e3a8a">
-    <title>VIP ई-राशन व जन सेवा पोर्टल | NEXTGEN STORE</title>
-    
-    <!-- Premium Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>Hira Lal Govt Ration Shop</title>
     <style>
+        /* SARKARI PREMIUM UI CSS */
         :root {
-            --primary: #1e3a8a; /* Deep Navy */
-            --primary-light: #3b82f6;
-            --secondary: #f59e0b; /* Saffron/Amber */
-            --success: #10b981; 
-            --danger: #ef4444; 
-            --info: #0ea5e9;
-            --bg: #f8fafc; 
-            --surface: #ffffff; 
-            --text-main: #0f172a; 
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.025);
-            --card-radius: 16px;
+            --govt-blue: #003366;
+            --govt-orange: #FF9933;
+            --govt-green: #138808;
+            --bg-color: #f4f6f9;
         }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-light: #60a5fa;
-            --secondary: #fbbf24;
-            --success: #34d399;
-            --danger: #f87171;
-            --info: #38bdf8;
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', 'Mukta', sans-serif; background: var(--bg); color: var(--text-main); transition: background 0.3s ease, color 0.3s ease; }
-        
-        /* Top Bar & Flag */
-        .top-bar { background: var(--primary); color: white; padding: 8px 20px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; font-weight: 500; letter-spacing: 0.5px; }
-        .flag-line { height: 4px; background: linear-gradient(90deg, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%); }
-        
-        /* Glassmorphism Header */
-        header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 20px; display: flex; align-items: center; justify-content: center; gap: 20px; border-bottom: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; transition: 0.3s; }
-        [data-theme="dark"] header { background: rgba(30, 41, 59, 0.85); }
-        .logo { width: 70px; height: 70px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
-        .header-text { text-align: center; }
-        .header-text h1 { font-size: 24px; color: var(--danger); font-weight: 800; letter-spacing: 1px; }
-        .header-text h2 { font-size: 16px; color: var(--primary); font-weight: 600; margin: 4px 0 8px 0; }
-        .badge-shop { background: linear-gradient(135deg, var(--secondary), #d97706); color: white; padding: 5px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3); }
-        
-        /* Ticker */
-        .marquee-wrapper { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 15px; height: 40px; overflow: hidden; font-weight: 600; color: var(--danger); }
-        .marquee-label { background: var(--danger); color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px; z-index: 10; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
-        
-        /* Layout */
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
-        @media(min-width: 850px) { .dashboard-grid { grid-template-columns: 1fr 1fr; } }
-        
-        /* Cards */
-        .card { background: var(--surface); border-radius: var(--card-radius); padding: 25px; box-shadow: var(--shadow); border: 1px solid var(--border); position: relative; overflow: hidden; transition: transform 0.2s ease; }
-        .card:hover { transform: translateY(-2px); }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; }
-        .card.c-status::before { background: var(--primary); }
-        .card.c-calc::before { background: var(--secondary); }
-        .card.c-vip::before { background: var(--info); }
-        .card.c-search::before { background: var(--success); }
-        
-        .card-title { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .card-title i { color: var(--primary); font-size: 22px; }
-        
-        /* Inputs & Buttons */
-        input, select, textarea { width: 100%; padding: 14px 16px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; font-family: inherit; background: var(--bg); color: var(--text-main); transition: all 0.3s ease; }
-        input:focus, select:focus, textarea:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); outline: none; background: var(--surface); }
-        
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; color: white; transition: all 0.2s ease; display: inline-flex; justify-content: center; align-items: center; gap: 8px; font-family: inherit; }
-        .btn:hover { filter: brightness(110%); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .btn:active { transform: translateY(1px); }
-        
-        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
-        .btn-success { background: linear-gradient(135deg, var(--success), #34d399); }
-        .btn-warning { background: linear-gradient(135deg, var(--secondary), #fbbf24); color: #000; }
-        .btn-danger { background: linear-gradient(135deg, var(--danger), #f87171); }
-        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: transparent; box-shadow: none; }
-
-        /* Status Boxes */
-        .status-box { background: var(--bg); padding: 15px; border-radius: 12px; border-left: 4px solid var(--success); margin-bottom: 15px; }
-        .stock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .stock-item { background: var(--bg); border: 1px solid var(--border); padding: 15px; border-radius: 12px; text-align: center; }
-        .stock-item span { display: block; font-size: 13px; color: var(--text-muted); font-weight: 500; }
-        .stock-item strong { font-size: 24px; color: var(--success); font-weight: 800; }
-
-        /* VIP Services */
-        .service-box { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .service-title { font-weight: 600; color: var(--text-main); margin-bottom: 12px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
-
-        /* Receipts & Results */
-        .receipt-box { display: none; background: var(--surface); border: 2px dashed var(--success); padding: 25px; border-radius: 12px; margin-top: 20px; position: relative; }
-        .receipt-box::before { content: '🎫'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 24px; background: var(--surface); padding: 0 10px; }
-        .receipt-header { text-align: center; border-bottom: 1px dashed var(--border); padding-bottom: 15px; margin-bottom: 15px; }
-        .receipt-header h3 { color: var(--primary); margin: 0; font-size: 18px; }
-        .receipt-header p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-        .r-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--bg); font-size: 15px; }
-        .r-row:last-child { border: none; }
-        
-        .token-display { display: none; background: #eff6ff; border: 2px solid #bfdbfe; color: var(--primary); text-align: center; padding: 20px; border-radius: 12px; margin-top: 15px; }
-        [data-theme="dark"] .token-display { background: #1e3a8a; border-color: #3b82f6; color: #fff; }
-        .token-display h1 { font-size: 48px; margin: 10px 0; font-weight: 800; }
-
-        /* Admin UI */
-        .admin-data-box { background: var(--bg); padding: 15px; border-radius: 12px; margin-top: 15px; max-height: 250px; overflow-y: auto; font-size: 14px; border: 1px solid var(--border); display: none; }
-        .admin-data-item { background: var(--surface); padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .admin-data-item:last-child { margin-bottom: 0; }
-        
-        .action-bar { display: flex; gap: 10px; background: var(--bg); padding: 15px; border-radius: 12px; margin-top: 20px; flex-wrap: wrap; }
-        
-        /* Footer */
-        footer { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 13px; margin-top: 40px; border-top: 1px solid var(--border); }
-
-        @media print {
-            body { background: white; color: black; }
-            body * { visibility: hidden; }
-            #resBox, #resBox * { visibility: visible; }
-            #resBox { position: absolute; left: 0; top: 0; width: 100%; border: 1px solid #000; box-shadow: none; }
-            .btn, .theme-switch { display: none !important; }
+        header {
+            background-color: var(--govt-blue);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--govt-orange);
         }
+        .logo-text h1 { margin: 0; font-size: 24px; }
+        .logo-text p { margin: 5px 0 0 0; font-size: 14px; color: #d1e0e0; }
+        .admin-btn {
+            background-color: white;
+            color: var(--govt-blue);
+            border: none;
+            padding: 8px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        marquee {
+            background-color: #ffe6e6;
+            color: #cc0000;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 2px solid #cc0000;
+        }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-top: 4px solid var(--govt-blue);
+        }
+        h2 { color: var(--govt-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        /* Table Design */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--govt-blue); color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+
+        /* Form Design */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        input[type="text"], input[type="number"], input[type="password"] {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        }
+        .submit-btn {
+            background-color: var(--govt-green); color: white; border: none;
+            padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 100%;
+        }
+        .submit-btn:hover { background-color: #0f6b06; }
+
+        /* Hide sections initially */
+        #adminPanel, #loginModal { display: none; }
+
+        /* Login Modal */
+        #loginModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .login-box { background: white; padding: 30px; border-radius: 5px; width: 300px; text-align: center; }
+        .close-btn { color: red; cursor: pointer; float: right; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <span><i class="fa-solid fa-building-flag"></i> उत्तर प्रदेश सरकार | Govt. of UP</span>
-        <span id="digitalClock"><i class="fa-regular fa-clock"></i> </span>
-    </div>
-    <div class="flag-line"></div>
-
     <header>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Seal_of_Uttar_Pradesh.svg/120px-Seal_of_Uttar_Pradesh.svg.png" alt="UP Govt Logo" class="logo">
-        <div class="header-text">
-            <h1>खाद्य एवं रसद विभाग</h1>
-            <h2>स्मार्ट VIP राशन व जन सेवा ई-पोर्टल</h2>
-            <div class="badge-shop"><i class="fa-solid fa-check-circle"></i> अधिकृत विक्रेता: श्री हीरा लाल (बरागदही)</div>
+        <div class="logo-text">
+            <h1>Hira Lal Govt Ration Shop</h1>
+            <p>सार्वजनिक वितरण प्रणाली (Public Distribution System)</p>
         </div>
+        <button class="admin-btn" onclick="showLogin()">Admin Login</button>
     </header>
 
-    <div class="marquee-wrapper">
-        <div class="marquee-label"><i class="fa-solid fa-bolt"></i> ताज़ा खबर</div>
-        <marquee id="tickerText" scrollamount="6">VIP ई-पोर्टल में आपका स्वागत है। सर्वर से कनेक्ट हो रहा है...</marquee>
-    </div>
+    <marquee id="publicNoticeText">सूचना: इस महीने का राशन वितरण शुरू हो गया है। कृपया अपना कार्ड लेकर आएं।</marquee>
 
-    <div class="container" id="publicView">
-        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-            <button class="btn btn-outline" style="width: auto; padding: 8px 16px; border-radius: 20px;" onclick="toggleTheme()">
-                <i class="fa-solid fa-moon"></i> Theme
-            </button>
+    <div id="publicView" class="container">
+        
+        <div class="card">
+            <h2>राशन कार्ड का कोटा (Ration Quota)</h2>
+            <table>
+                <tr>
+                    <th>कार्ड का प्रकार (Card Type)</th>
+                    <th>गेहूं (Wheat)</th>
+                    <th>चावल (Rice)</th>
+                </tr>
+                <tr>
+                    <td><strong>सफ़ेद कार्ड (White Card)</strong></td>
+                    <td>1 Kg</td>
+                    <td>4 Kg</td>
+                </tr>
+                <tr>
+                    <td style="color: red;"><strong>लाल कार्ड (Red Card)</strong></td>
+                    <td>10 Kg</td>
+                    <td>25 Kg</td>
+                </tr>
+            </table>
         </div>
 
-        <div class="dashboard-grid">
-            <!-- Left Column -->
-            <div>
-                <!-- Shop Status Card -->
-                <div class="card c-status">
-                    <div class="card-title"><i class="fa-solid fa-store"></i> दुकान की स्थिति एवं स्टॉक</div>
-                    
-                    <div class="status-box">
-                        <div id="liveStatus" style="font-size: 16px; font-weight: 600;">लोड हो रहा है...</div>
-                        <div id="liveDeadline" style="color: var(--danger); font-size: 14px; margin-top: 5px;"></div>
-                        <div id="shopTimeStatus" style="margin-top: 10px; font-size: 13px; font-weight: 500;"></div>
-                    </div>
-                    
-                    <div id="crowdStatus" style="padding: 12px; border-radius: 8px; font-weight: 600; text-align: center; border: 1px solid var(--border); background: var(--bg);">
-                        <i class="fa-solid fa-users"></i> लोड हो रहा है...
-                    </div>
-
-                    <div class="stock-grid">
-                        <div class="stock-item">
-                            <span><i class="fa-solid fa-wheat-awn"></i> गेंहूँ स्टॉक</span>
-                            <strong id="stockGehu">--</strong>
-                        </div>
-                        <div class="stock-item">
-                            <span><i class="fa-solid fa-bowl-rice"></i> चावल स्टॉक</span>
-                            <strong id="stockChawal">--</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- VIP Services Card -->
-                <div class="card c-vip">
-                    <div class="card-title"><i class="fa-solid fa-crown text-warning"></i> VIP नागरिक सेवाएँ</div>
-                    
-                    <div class="service-box">
-                        <div class="service-title"><i class="fa-solid fa-ticket" style="color: var(--info)"></i> 1. आज का ई-टोकन प्राप्त करें</div>
-                        <input type="text" id="tokenName" placeholder="अपना पूरा नाम लिखें">
-                        <button class="btn btn-primary" onclick="generateToken()"><i class="fa-solid fa-paper-plane"></i> टोकन जनरेट करें</button>
-                        <div id="myTokenBox" class="token-display"></div>
-                    </div>
-
-                    <div class="service-box">
-                        <div class="service-title"><i class="fa-regular fa-clock" style="color: var(--secondary)"></i> 2. VIP पैक-एंड-गो (Pre-Booking)</div>
-                        <input type="text" id="vipName" placeholder="नाम और कार्ड के 4 अंक">
-                        <select id="vipTime">
-                            <option value="सुबह 8 से 10 बजे">सुबह 8:00 AM - 10:00 AM</option>
-                            <option value="दोपहर 12 से 2 बजे">दोपहर 12:00 PM - 2:00 PM</option>
-                            <option value="शाम 3 से 5 बजे">शाम 3:00 PM - 5:00 PM</option>
-                        </select>
-                        <button class="btn btn-warning" onclick="submitVIP()"><i class="fa-solid fa-calendar-check"></i> स्लॉट बुक करें</button>
-                    </div>
-
-                    <div class="service-box" style="margin-bottom: 0;">
-                        <div class="service-title"><i class="fa-solid fa-bag-shopping" style="color: var(--success)"></i> 3. किराना एवं जन सेवा (CSC)</div>
-                        <input type="text" id="kiranaName" placeholder="आपका नाम व मोबाइल नंबर">
-                        <textarea id="kiranaOrder" placeholder="सामान की लिस्ट या फॉर्म का नाम लिखें..." rows="2"></textarea>
-                        <button class="btn btn-success" onclick="submitKirana()"><i class="fa-solid fa-cart-arrow-down"></i> ऑर्डर भेजें</button>
-                    </div>
-                </div>
+        <div class="card">
+            <h2>राशन कार्ड विवरण दर्ज करें (Register Card Details)</h2>
+            <div class="form-group">
+                <label>पूरा नाम (Full Name)</label>
+                <input type="text" id="userName" placeholder="अपना नाम लिखें">
             </div>
-
-            <!-- Right Column -->
-            <div>
-                <!-- Search Card -->
-                <div class="card c-search">
-                    <div class="card-title"><i class="fa-solid fa-magnifying-glass"></i> राशन वितरण स्थिति खोजें</div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">557 रजिस्टर्ड कार्ड्स में अपना नाम या अंतिम 4 अंक दर्ज करें:</p>
-                    
-                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <input type="text" id="userInput" placeholder="उदा: 0229 या अंजू देवी" autocomplete="off" style="margin-bottom: 0;">
-                        <button class="btn btn-primary" style="width: auto; padding: 0 25px;" onclick="checkRation()"><i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                    
-                    <div id="resBox" class="receipt-box">
-                        <div class="receipt-header">
-                            <h3>ई-राशन वितरण पर्ची</h3>
-                            <p>श्री हीरा लाल राशन दुकान (बरागदही)</p>
-                        </div>
-                        <div class="r-row"><span>👤 लाभार्थी का नाम:</span> <b id="rName"></b></div>
-                        <div class="r-row"><span>🆔 कार्ड संख्या:</span> <b id="rID"></b></div>
-                        <div class="r-row"><span>📦 वर्तमान स्थिति:</span> <b id="rDist"></b></div>
-                        <div style="text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 15px;" id="rDate"></div>
-                        
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button class="btn btn-outline" style="flex: 1;" onclick="speakStatus()"><i class="fa-solid fa-volume-high"></i> सुनें</button>
-                            <button class="btn btn-primary" style="flex: 1;" onclick="window.print()"><i class="fa-solid fa-print"></i> प्रिंट</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Calculator Card -->
-                <div class="card c-calc mt-4">
-                    <div class="card-title"><i class="fa-solid fa-calculator"></i> राशन मात्रा कैलकुलेटर</div>
-                    <input type="number" id="calcUnit" placeholder="सफ़ेद कार्ड: परिवार के कुल सदस्य (यूनिट) लिखें">
-                    <button class="btn btn-outline" onclick="calculateUnits()">मात्रा चेक करें</button>
-                    <div id="calcResBox" style="display: none; background: var(--bg); padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; border: 1px solid var(--border);"></div>
-                </div>
-
-                <!-- WhatsApp Alerts -->
-                <div class="card mt-4" style="border-top-color: #25D366;">
-                    <div class="card-title" style="color: #25D366;"><i class="fa-brands fa-whatsapp"></i> स्मार्ट राशन अलर्ट</div>
-                    <a href="https://chat.whatsapp.com/IP8zGPfJALv4YO5aC8RbwX" target="_blank" class="btn" style="background: #25D366; margin-bottom: 15px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp ग्रुप जॉइन करें</a>
-                    
-                    <div style="display:flex; gap:10px;">
-                        <input type="text" id="subName" placeholder="नाम" style="margin-bottom:0;">
-                        <input type="number" id="subPhone" placeholder="10 अंकों का नंबर" style="margin-bottom:0;">
-                    </div>
-                    <button class="btn btn-primary" style="margin-top:15px;" onclick="subscribeAlert()"><i class="fa-regular fa-bell"></i> SMS/WhatsApp अलर्ट चालू करें</button>
-                </div>
+            <div class="form-group">
+                <label>मोबाइल नंबर (Mobile No)</label>
+                <input type="number" id="userMobile" placeholder="10 अंकों का मोबाइल नंबर">
             </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 40px;">
-            <button onclick="showLogin()" style="background:none; border:none; color:var(--text-muted); font-size:14px; font-weight:600; cursor:pointer; text-decoration:underline;">
-                <i class="fa-solid fa-lock"></i> विभागीय कंट्रोल रूम (Admin Login)
-            </button>
+            <div class="form-group">
+                <label>राशन कार्ड नंबर (Ration Card Number)</label>
+                <input type="number" id="userCardNo" placeholder="राशन कार्ड का नंबर दर्ज करें">
+            </div>
+            <button class="submit-btn" onclick="submitData()">विवरण सुरक्षित करें (Submit)</button>
         </div>
     </div>
 
-    <!-- Login Panel -->
-    <div class="container" id="loginPanel" style="max-width: 450px; display: none;">
-        <div class="card text-center" style="border-top-color: var(--danger);">
-            <div class="card-title justify-content-center" style="color: var(--danger);"><i class="fa-solid fa-shield-halved"></i> एडमिन सिक्योर लॉगिन</div>
-            <input type="number" id="loginID" placeholder="Admin User ID">
-            <input type="password" id="loginPass" placeholder="Password">
-            <button class="btn btn-danger mb-2" onclick="verifyLogin()">सिस्टम में प्रवेश करें</button>
-            <button class="btn btn-outline" onclick="closeAdmin()">वापस जाएं</button>
+    <div id="loginModal">
+        <div class="login-box">
+            <span class="close-btn" onclick="hideLogin()">X</span>
+            <h3 style="color: var(--govt-blue);">Admin Access</h3>
+            <input type="password" id="adminPassword" placeholder="Enter Password" style="margin-bottom: 15px;">
+            <button class="submit-btn" onclick="verifyAdmin()">Login</button>
+            <p id="loginError" style="color: red; display: none; font-size: 12px;">Wrong Password!</p>
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="container" id="adminPanel" style="display: none;">
-        <div class="card" style="border-top-color: var(--success);">
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 20px;">
-                <h2 style="font-size: 20px; color: var(--success); margin:0;"><i class="fa-solid fa-user-tie"></i> मास्टर एडमिन डैशबोर्ड</h2>
-                <button class="btn btn-danger" style="width: auto; padding: 8px 20px;" onclick="closeAdmin()">लॉगआउट <i class="fa-solid fa-right-from-bracket"></i></button>
+    <div id="adminPanel" class="container">
+        <div class="card" style="background-color: #e6f2ff; border-top: 4px solid #cc0000;">
+            <h2 style="color: #cc0000;">⚠️ Admin Control Panel</h2>
+            <button onclick="logoutAdmin()" style="float: right; margin-top: -45px; padding: 5px 10px; background: #333; color: white; border: none; cursor: pointer;">Logout</button>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label>सूचना बोर्ड अपडेट करें (Update Notice Board)</label>
+                <input type="text" id="newNotice" placeholder="नई सूचना यहाँ लिखें...">
+                <button class="submit-btn" style="background-color: var(--govt-blue); margin-top: 10px;" onclick="updateNotice()">Update Notice</button>
             </div>
+        </div>
 
-            <div class="dashboard-grid">
-                <!-- Admin Col 1 -->
-                <div>
-                    <div class="service-box">
-                        <div class="service-title">1. दुकान व स्टॉक लाइव अपडेट</div>
-                        <select id="aStatus">
-                            <option value="📢 दुकान खुली है: राशन वितरण चालू है">दुकान खुली है</option>
-                            <option value="🔒 दुकान बंद है: अभी वितरण नहीं हो रहा">दुकान बंद है</option>
-                        </select>
-                        <select id="aCrowd">
-                            <option value="🟢 अभी दुकान पर भीड़ कम है, आ सकते हैं।">🟢 भीड़ कम है</option>
-                            <option value="🟡 अभी सामान्य भीड़ है, थोड़ा इंतज़ार करना पड़ेगा।">🟡 सामान्य भीड़</option>
-                            <option value="🔴 अभी बहुत भीड़ है, कृपया कुछ समय बाद आएं।">🔴 बहुत भीड़ है</option>
-                        </select>
-                        <input type="text" id="aDeadline" placeholder="अंतिम तिथि (उदा: 20 अप्रैल)">
-                        <textarea id="aTicker" placeholder="चलती हुई न्यूज़ पट्टी पर क्या दिखाना है..." rows="2"></textarea>
-                        
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" id="aGehu" placeholder="गेंहूँ (KG)">
-                            <input type="text" id="aChawal" placeholder="चावल (KG)">
-                        </div>
-                        <button class="btn btn-primary" onclick="updateAdminGeneral()">सेटिंग्स लाइव सेव करें</button>
-                        <button class="btn btn-outline mt-3" style="width: 100%; margin-top:10px; color: var(--danger); border-color: var(--danger);" onclick="resetTokens()"><i class="fa-solid fa-rotate-right"></i> आज के टोकन जीरो (0) करें</button>
-                    </div>
-
-                    <!-- Appended Customer Management Action Bar -->
-                    <div class="action-bar border border-success">
-                        <h4 style="width: 100%; font-size: 15px; margin-bottom: 5px;">Grahak Data Management</h4>
-                        <a href="add-customer.html" class="btn btn-success" style="flex: 1; text-decoration: none;"><i class="fa-solid fa-user-plus"></i> Naya Grahak</a>
-                        <a href="customer-list.html" class="btn btn-primary" style="flex: 1; text-decoration: none;"><i class="fa-solid fa-list"></i> Grahak List</a>
-                    </div>
-                </div>
-
-                <!-- Admin Col 2 -->
-                <div>
-                    <div class="service-box" style="border-left: 4px solid var(--danger);">
-                        <div class="service-title" style="color: var(--danger);">2. कार्ड वितरण एंट्री (557 Cards)</div>
-                        <input type="number" id="aCardNo" placeholder="कार्ड के अंतिम 4 अंक दर्ज करें">
-                        <select id="aDistStatus">
-                            <option value="✅ राशन प्रदान किया गया">✅ राशन दिया गया (Delivered)</option>
-                            <option value="⏳ राशन प्राप्त नहीं हुआ है">⏳ लंबित (Pending)</option>
-                        </select>
-                        <button class="btn btn-danger" onclick="updateAdminDelivery()">वितरण दर्ज करें</button>
-                    </div>
-
-                    <div class="service-box">
-                        <div class="service-title">3. जनता के आर्डर व रिक्वेस्ट पैनल</div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-                            <button class="btn btn-outline" onclick="loadData('tokens', 'adminTokenList')">🎟️ ई-टोकन</button>
-                            <button class="btn btn-outline" onclick="loadData('vipBookings', 'adminVipList')">⏱️ VIP बुकिंग्स</button>
-                            <button class="btn btn-outline" onclick="loadData('kiranaOrders', 'adminKiranaList')">🛍️ किराना आर्डर</button>
-                            <button class="btn btn-outline" onclick="loadData('subscribers', 'adminSubList')">📲 WhatsApp लिस्ट</button>
-                        </div>
-                        
-                        <div id="adminTokenList" class="admin-data-box"></div>
-                        <div id="adminVipList" class="admin-data-box"></div>
-                        <div id="adminKiranaList" class="admin-data-box"></div>
-                        <div id="adminSubList" class="admin-data-box"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="card">
+            <h2>दर्ज किए गए कार्ड (Saved Records)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>नाम</th>
+                        <th>मोबाइल</th>
+                        <th>कार्ड नंबर</th>
+                    </tr>
+                </thead>
+                <tbody id="savedDataTable">
+                    <tr><td colspan="3" style="text-align:center; color: #666;"><i class="fa-solid fa-spinner fa-spin"></i> डाटा लोड हो रहा है...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <footer>
-        <p>Powered by <strong>NEXTGEN STORE Solutions</strong> | Hira Lal Govt Ration Shop</p>
-        <p style="margin-top: 5px;">📞 Tech Support: +91 7525008951</p>
-    </footer>
-
-    <!-- Scripts -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <script>
-        // 557 CARDS LIST 
-        const rationList = [
-            {id:"0229", n:"अंजू देवी"}, {id:"0687", n:"कौशल्या देवी"}, {id:"0688", n:"जुगूरता"}, {id:"0689", n:"प्रभावती"}, {id:"0690", n:"सुगनी"}, {id:"0691", n:"बिजुली"}, {id:"0692", n:"जुडावती"}, {id:"1390", n:"केवली देवी"}, {id:"2475", n:"विन्द्रावती देवी"}, {id:"2476", n:"चानमती"}, {id:"2477", n:"चन्द्रावती"}, {id:"2576", n:"मीना"}, {id:"2577", n:"झरना देवी"}, {id:"2608", n:"गायत्री"}, {id:"2609", n:"कलावती देवी"}, {id:"2610", n:"कुन्ती"}, {id:"2611", n:"इशरावती"}, {id:"2612", n:"गुड्डी"}, {id:"2613", n:"कलावती"}, {id:"2614", n:"अंजनी"}, {id:"2615", n:"दुर्गावती"}, {id:"2616", n:"जिरिया"}, {id:"2617", n:"गीता देवी"}, {id:"2618", n:"जिलेबा"}, {id:"2619", n:"दुर्गावती"}, {id:"2620", n:"दमिरती"}, {id:"2621", n:"चम्पा"}, {id:"2622", n:"गीता देवी"}, {id:"2629", n:"मन्तीरा"}, {id:"2630", n:"प्रभावती"}, {id:"2631", n:"मुनिया देवी"}, {id:"2632", n:"धनपति"}, {id:"2633", n:"धनवन्त"}, {id:"2634", n:"मान्ती"}, {id:"2635", n:"प्रभावती"}, {id:"2636", n:"पार्वती"}, {id:"2637", n:"बासमती"}, {id:"2638", n:"लक्ष्मीना"}, {id:"2639", n:"लक्ष्मीना"}, {id:"2640", n:"विन्द्रावती"}, {id:"2641", n:"विन्द्रावती"}, {id:"2643", n:"रमावती"}, {id:"2644", n:"रमावती"}, {id:"2645", n:"विद्यावती"}, {id:"2646", n:"विन्द्रावती"}, {id:"2652", n:"सन्ती"}, {id:"2653", n:"सीमा"}, {id:"2654", n:"सलहन्ता देवी"}, {id:"2655", n:"सुमित्रा"}, {id:"2656", n:"सुधा"}, {id:"3171", n:"रेशमी"}, {id:"4245", n:"बनवारी"}, {id:"4246", n:"गुजराती"}, {id:"4247", n:"फूलमती"}, {id:"4382", n:"सुशीला देवी"}, {id:"7437", n:"सुनिता देवी"}, {id:"7860", n:"हेवंता"}, {id:"7861", n:"इसरावती"}, {id:"8566", n:"उषा देवी"}, {id:"8868", n:"बरसाती"}, {id:"8871", n:"कुसुम"}, {id:"8872", n:"निलम देवी"}, {id:"8874", n:"बासमती"}, {id:"8878", n:"शकुन्तला"}, {id:"8882", n:"कलपती"}, {id:"8885", n:"निर्मला देवी"}, {id:"8889", n:"झिनकी"}, {id:"8891", n:"बरसाती"}, {id:"8897", n:"रवीना"}, {id:"8900", n:"बासमती"}, {id:"8901", n:"रम्भा"}, {id:"8904", n:"शोभा"}, {id:"8907", n:"मान्ती"}, {id:"8908", n:"किसमती"}, {id:"8912", n:"मंगरी"}, {id:"8915", n:"सुभागी"}, {id:"8917", n:"अच्छे कुमार"}, {id:"8919", n:"लाची"}, {id:"8920", n:"प्रेम"}, {id:"8924", n:"बैजू"}, {id:"8925", n:"बाबूलाल"}, {id:"8927", n:"सिताबी"}, {id:"8932", n:"चमेली"}, {id:"8934", n:"कैलाशी देवी"}, {id:"8936", n:"कैलाशी देवी"}, {id:"8937", n:"कमली"}, {id:"8938", n:"किरन"}, {id:"9380", n:"मंगली"}, {id:"9392", n:"फुलझारी"}, {id:"9423", n:"शारदा देवी"}, {id:"9480", n:"विजुली"}, {id:"9486", n:"वुचड़ी"}, {id:"9512", n:"ज्ञानमती"}, {id:"9536", n:"शान्ति देवी"}, {id:"9798", n:"प्रभावती"}
-            // (Bakki ki list waise hi maniye jaisa aapne likhi thi)
-        ];
-
-        // UI & Theme
-        function toggleTheme() {
-            const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', t);
-        }
-
-        setInterval(() => { document.getElementById('digitalClock').innerHTML = `<i class="fa-regular fa-clock"></i> ` + new Date().toLocaleString('hi-IN', { dateStyle: 'short', timeStyle: 'medium' }); }, 1000);
-
-        const h = new Date().getHours();
-        const timeEl = document.getElementById('shopTimeStatus');
-        if(h >= 8 && h < 17) { timeEl.innerHTML = "🕒 <span style='color:var(--success);'>अभी दुकान खुली होनी चाहिए (08:00 AM - 05:00 PM)</span>"; } 
-        else { timeEl.innerHTML = "🕒 <span style='color:var(--danger);'>अभी दुकान बंद है (08:00 AM - 05:00 PM)</span>"; }
-
-        // Calculator
-        function calculateUnits() {
-            const u = parseInt(document.getElementById('calcUnit').value);
-            const box = document.getElementById('calcResBox');
-            if(isNaN(u) || u <= 0) { alert("कृपया सही यूनिट संख्या दर्ज करें।"); box.style.display = "none"; return; }
-            box.style.display = "block";
-            box.innerHTML = `सफ़ेद कार्ड (${u} यूनिट):<br><strong style="color:var(--success); font-size:18px;">🌾 गेंहूँ = ${u * 1} KG &nbsp;|&nbsp; 🍚 चावल = ${u * 4} KG</strong><br><div style="font-size:12px; color:var(--text-muted); margin-top:8px;">* अंत्योदय (लाल कार्ड): 10 KG गेंहूँ और 25 KG चावल (फिक्स)</div>`;
-        }
-
-        // Firebase Init (Aapki DB)
-        var firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/" };
+        // 1. FIREBASE SETUP & INITIALIZATION
+        var firebaseConfig = {
+            databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/"
+        };
         firebase.initializeApp(firebaseConfig);
         var database = firebase.database();
 
-        // Load Live Data
-        database.ref('liveData').on('value', (s) => {
-            const d = s.val() || {};
-            document.getElementById('liveStatus').innerText = d.status || "स्थिति उपलब्ध नहीं";
-            document.getElementById('liveDeadline').innerText = "अंतिम तिथि: " + (d.deadline || "--");
-            document.getElementById('tickerText').innerText = d.notice || "VIP ई-पोर्टल में आपका स्वागत है।";
-            document.getElementById('stockGehu').innerText = (d.gehu || "--") + " KG";
-            document.getElementById('stockChawal').innerText = (d.chawal || "--") + " KG";
-            document.getElementById('crowdStatus').innerHTML = `<i class="fa-solid fa-users"></i> ` + (d.crowd || "🟢 अभी दुकान पर भीड़ कम है, आ सकते हैं।");
+        // 2. FETCH DATA FOR ADMIN PANEL (Live Update)
+        database.ref('newRegistrations').on('value', function(snapshot) {
+            var tbody = document.getElementById('savedDataTable');
+            tbody.innerHTML = ''; // Pehle ka loading text hatao
             
-            document.getElementById('aStatus').value = d.status || "";
-            document.getElementById('aCrowd').value = d.crowd || "";
-            document.getElementById('aDeadline').value = d.deadline || "";
-            document.getElementById('aTicker').value = d.notice || "";
-            document.getElementById('aGehu').value = d.gehu || "";
-            document.getElementById('aChawal').value = d.chawal || "";
+            var data = snapshot.val();
+            if(!data) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; font-weight:bold; color:red;">अभी तक कोई डाटा नहीं आया है।</td></tr>';
+                return;
+            }
+
+            // Data ko table mein daalna
+            for(var key in data) {
+                var record = data[key];
+                var row = `<tr>
+                    <td>${record.name}</td>
+                    <td>${record.mobile}</td>
+                    <td><strong>${record.cardNo}</strong></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            }
         });
 
-        // Search
-        function checkRation() {
-            const input = document.getElementById('userInput').value.trim();
-            const resBox = document.getElementById('resBox');
-            if(!input){alert("कृपया नाम या कार्ड नंबर भरें।"); return;}
-            
-            const found = rationList.find(i => i.id === input || i.n === input || i.id.includes(input) || i.n.includes(input));
+        // Modal Controls
+        function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
+        function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
 
-            if(found){
-                resBox.style.display = "block";
-                document.getElementById('rName').innerText = found.n;
-                document.getElementById('rID').innerText = "********" + found.id;
-                
-                database.ref('delivery/' + found.id).once('value', (snap) => {
-                    const data = snap.val();
-                    const distEl = document.getElementById('rDist');
-                    if(data){
-                        distEl.innerText = data.status;
-                        distEl.style.color = data.status.includes("✅") ? "var(--success)" : "var(--danger)";
-                        document.getElementById('rDate').innerText = "अंतिम अपडेट: " + data.date;
-                    } else {
-                        distEl.innerText = "⏳ राशन प्राप्त नहीं हुआ है (Pending)";
-                        distEl.style.color = "var(--danger)";
-                        document.getElementById('rDate').innerText = "";
-                    }
-                });
-            } else { alert("रिकॉर्ड नहीं मिला। कृपया सही नाम या नंबर दर्ज करें।"); resBox.style.display="none"; }
-        }
-
-        // Voice Assistant
-        function speakStatus() {
-            const name = document.getElementById('rName').innerText;
-            const status = document.getElementById('rDist').innerText;
-            if(!name) return;
-            const utterance = new SpeechSynthesisUtterance(`नमस्ते ${name}, आपके कार्ड का स्टेटस है: ${status}।`);
-            utterance.lang = 'hi-IN'; window.speechSynthesis.speak(utterance);
-        }
-
-        // VIP Services
-        function generateToken() {
-            const name = document.getElementById('tokenName').value.trim();
-            if(!name) { alert("कृपया अपना नाम लिखें!"); return; }
-            
-            const tokenRef = database.ref('tokenCount');
-            tokenRef.transaction((currentCount) => { return (currentCount || 0) + 1; }, (error, committed, snapshot) => {
-                if(committed) {
-                    const newToken = snapshot.val();
-                    database.ref('tokens/' + Date.now()).set({ name: name, token: newToken, time: new Date().toLocaleTimeString('hi-IN') });
-                    const box = document.getElementById('myTokenBox');
-                    box.style.display = "block";
-                    box.innerHTML = `<p style="margin:0; font-size:14px;">आपका ई-टोकन नंबर</p><h1>#${newToken}</h1><p style="margin:0; font-size:12px;">कृपया दुकान पर यह नंबर बताएं।</p>`;
-                    document.getElementById('tokenName').value = "";
-                }
-            });
-        }
-
-        function submitData(path, dataObj, successMsg, inputsToClear) {
-            database.ref(path + '/' + Date.now()).set(dataObj).then(() => {
-                alert(successMsg); inputsToClear.forEach(id => document.getElementById(id).value = "");
-            }).catch(e => alert("Error: " + e));
-        }
-
-        function submitVIP() {
-            const n = document.getElementById('vipName').value.trim(); const t = document.getElementById('vipTime').value;
-            if(!n) return alert("नाम व कार्ड के 4 अंक दर्ज करें!");
-            submitData('vipBookings', {name: n, slot: t, date: new Date().toLocaleDateString('hi-IN')}, "स्लॉट बुक हो गया! आपका पैकेट तैयार रहेगा।", ['vipName']);
-        }
-
-        function submitKirana() {
-            const n = document.getElementById('kiranaName').value.trim(); const o = document.getElementById('kiranaOrder').value.trim();
-            if(!n || !o) return alert("नाम/नंबर और अपना आर्डर दोनों लिखें!");
-            submitData('kiranaOrders', {name: n, order: o, date: new Date().toLocaleString('hi-IN')}, "आपका रिक्वेस्ट/ऑर्डर प्राप्त हो गया है।", ['kiranaName', 'kiranaOrder']);
-        }
-
-        function subscribeAlert() {
-            const n = document.getElementById('subName').value.trim(); const p = document.getElementById('subPhone').value.trim();
-            if(!n || p.length !== 10) return alert("सही नाम और 10 अंकों का WhatsApp नंबर डालें।");
-            database.ref('subscribers/' + p).set({ name: n, date: new Date().toLocaleDateString('hi-IN') })
-            .then(() => { alert("आपका नंबर अलर्ट के लिए सेव हो गया है।"); document.getElementById('subName').value=""; document.getElementById('subPhone').value=""; });
-        }
-
-        // Login & Admin
-        function showLogin() { document.getElementById('publicView').style.display='none'; document.getElementById('loginPanel').style.display='block'; }
-        function closeAdmin() { document.getElementById('adminPanel').style.display='none'; document.getElementById('loginPanel').style.display='none'; document.getElementById('publicView').style.display='block'; }
-        
-        function verifyLogin() {
-            if(document.getElementById('loginID').value === "7525008952" && document.getElementById('loginPass').value === "Aditya8951") {
-                document.getElementById('loginPanel').style.display = 'none'; document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('loginID').value = ""; document.getElementById('loginPass').value = "";
-            } else { alert("गलत ID या Password!"); }
-        }
-
-        function updateAdminGeneral() {
-            database.ref('liveData').update({
-                status: document.getElementById('aStatus').value, crowd: document.getElementById('aCrowd').value,
-                deadline: document.getElementById('aDeadline').value, notice: document.getElementById('aTicker').value,
-                gehu: document.getElementById('aGehu').value, chawal: document.getElementById('aChawal').value
-            }).then(() => alert("दुकान की सेटिंग सेव हो गई!"));
-        }
-
-        function updateAdminDelivery() {
-            const id = document.getElementById('aCardNo').value; const res = document.getElementById('aDistStatus').value;
-            if(id.length < 4) { alert("कृपया कार्ड के 4 अंक दर्ज करें।"); return; }
-            database.ref('delivery/' + id).set({ status: res, date: new Date().toLocaleString('hi-IN') })
-            .then(() => { alert("कार्ड नंबर " + id + " का वितरण दर्ज हो गया!"); document.getElementById('aCardNo').value = ""; });
-        }
-
-        function resetTokens() {
-            if(confirm("क्या आप सच में आज के सारे टोकन जीरो (0) करना चाहते हैं?")) {
-                database.ref('tokenCount').set(0); database.ref('tokens').remove().then(() => alert("टोकन रीसेट हो गए!"));
+        // Admin Login Logic
+        function verifyAdmin() {
+            var pwd = document.getElementById('adminPassword').value;
+            if(pwd === "20581921") {
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('publicView').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
-        // Load Admin View Lists
-        function loadData(path, divId) {
-            document.querySelectorAll('.admin-data-box').forEach(b => b.style.display = 'none');
-            const box = document.getElementById(divId); box.style.display = 'block'; box.innerHTML = "<div style='text-align:center; color:var(--text-muted);'><i class='fa-solid fa-spinner fa-spin'></i> लोड हो रहा है...</div>";
+        // Logout
+        function logoutAdmin() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('publicView').style.display = 'block';
+        }
 
-            database.ref(path).once('value', (snap) => {
-                const data = snap.val();
-                if(!data) { box.innerHTML = "<div style='color:var(--danger); text-align:center;'><i class='fa-solid fa-circle-exclamation'></i> अभी कोई डेटा नहीं है।</div>"; return; }
-                let html = "";
-                for(let key in data) {
-                    const i = data[key];
-                    if(path === 'tokens') html += `<div class="admin-data-item"><div><strong>#${i.token} - ${i.name}</strong></div> <small style="color:var(--text-muted)">${i.time}</small></div>`;
-                    else if(path === 'vipBookings') html += `<div class="admin-data-item"><div><strong>${i.name}</strong><br><span style="color:var(--secondary)">${i.slot}</span></div> <small style="color:var(--text-muted)">${i.date}</small></div>`;
-                    else if(path === 'kiranaOrders') html += `<div class="admin-data-item"><div><strong style="color:var(--success)">${i.name}</strong><br>${i.order}</div> <small style="color:var(--text-muted)">${i.date}</small></div>`;
-                    else if(path === 'subscribers') html += `<div class="admin-data-item"><div><strong>${i.name}</strong><br><i class="fa-brands fa-whatsapp text-success"></i> ${key}</div> <small style="color:var(--text-muted)">${i.date}</small></div>`;
-                }
-                box.innerHTML = html;
-            });
+        // Update Notice Logic
+        function updateNotice() {
+            var notice = document.getElementById('newNotice').value;
+            if(notice !== "") {
+                // Ise bhi aage chal kar Firebase se jod sakte hain
+                document.getElementById('publicNoticeText').innerText = notice;
+                alert("Notice Update Ho Gaya!");
+                document.getElementById('newNotice').value = '';
+            }
+        }
+
+        // Submit Data Logic (Saving to Firebase)
+        function submitData() {
+            var name = document.getElementById('userName').value.trim();
+            var mobile = document.getElementById('userMobile').value.trim();
+            var card = document.getElementById('userCardNo').value.trim();
+
+            if(name && mobile && card) {
+                // Firebase ke "newRegistrations" folder me data push karna
+                database.ref('newRegistrations/' + Date.now()).set({
+                    name: name,
+                    mobile: mobile,
+                    cardNo: card,
+                    date: new Date().toLocaleDateString('hi-IN')
+                }).then(() => {
+                    alert("विवरण सफलतापूर्वक दर्ज कर लिया गया है! (Data Saved to Firebase)");
+                    // Form clear karna
+                    document.getElementById('userName').value = '';
+                    document.getElementById('userMobile').value = '';
+                    document.getElementById('userCardNo').value = '';
+                }).catch((error) => {
+                    alert("Error saving data: " + error);
+                });
+            } else {
+                alert("कृपया सभी जानकारी भरें!");
+            }
         }
     </script>
 </body>
