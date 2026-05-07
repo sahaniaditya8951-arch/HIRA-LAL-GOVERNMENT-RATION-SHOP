@@ -1,83 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hira Lal Ration Shop - Grahak Jodein</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <title>नया ग्राहक पंजीकरण | हीरा लाल राशन दुकान</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
-        .form-box { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-        button:hover { background-color: #218838; }
+        /* SARKARI PREMIUM UI CSS */
+        :root {
+            --primary: #1e3a8a; --primary-light: #3b82f6; --secondary: #f59e0b;
+            --success: #10b981; --danger: #ef4444; --bg: #f8fafc;
+            --surface: #ffffff; --text-main: #0f172a; --border: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+        body { font-family: 'Poppins', 'Mukta', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; }
+        .top-bar { background: var(--primary); color: white; padding: 8px 20px; font-size: 13px; display: flex; justify-content: space-between; }
+        .flag-line { height: 4px; background: linear-gradient(90deg, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%); }
+        header { background: rgba(255, 255, 255, 0.95); padding: 15px 20px; display: flex; align-items: center; justify-content: center; gap: 15px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow); }
+        .logo { width: 60px; height: 60px; }
+        .header-text h1 { font-size: 20px; color: var(--danger); font-weight: 800; margin: 0; }
+        .badge-shop { background: linear-gradient(135deg, var(--secondary), #d97706); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; margin-top: 5px; }
+        
+        .container { max-width: 600px; margin: 30px auto; padding: 0 20px; }
+        .card { background: var(--surface); border-radius: 12px; padding: 25px; box-shadow: var(--shadow); border-top: 4px solid var(--success); }
+        .card-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; border-bottom: 2px dashed var(--border); padding-bottom: 10px; }
+        
+        label { font-weight: 600; font-size: 14px; color: var(--text-main); margin-bottom: 5px; display: block; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-success { background: linear-gradient(135deg, var(--success), #34d399); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); margin-top: 10px; text-decoration: none; display: block; text-align: center; }
     </style>
 </head>
 <body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-building-flag"></i> उत्तर प्रदेश सरकार</span>
+        <span>विभागीय पोर्टल</span>
+    </div>
+    <div class="flag-line"></div>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Seal_of_Uttar_Pradesh.svg/120px-Seal_of_Uttar_Pradesh.svg.png" alt="Logo" class="logo">
+        <div class="header-text">
+            <h1>नया राशन कार्ड (ग्राहक) पंजीकरण</h1>
+            <div class="badge-shop"><i class="fa-solid fa-user-tie"></i> अधिकृत विक्रेता: श्री हीरा लाल जी (बरागदही)</div>
+        </div>
+    </header>
 
-    <div class="form-box">
-        <h2 style="text-align: center;">Grahak Jodein</h2>
-        
-        <label>Grahak ka Naam:</label>
-        <input type="text" id="name" placeholder="Naam likhein">
-        
-        <label>Ration Card Number:</label>
-        <input type="text" id="ration_no" placeholder="Ration Card Number">
-        
-        <label>Mobile Number:</label>
-        <input type="number" id="mobile" placeholder="10 digit Mobile Number">
-        
-        <button onclick="saveData()">Data Save Karein</button>
+    <div class="container">
+        <div class="card">
+            <div class="card-title"><i class="fa-solid fa-user-plus"></i> ग्राहक का विवरण दर्ज करें</div>
+            
+            <label>मुखिया का पूरा नाम</label>
+            <input type="text" id="cName" placeholder="उदा: अंजू देवी">
+
+            <label>राशन कार्ड नंबर (अंतिम 4 या 12 अंक)</label>
+            <input type="number" id="cCardNo" placeholder="उदा: 0229">
+
+            <label>मोबाइल नंबर</label>
+            <input type="number" id="cMobile" placeholder="10 अंकों का मोबाइल नंबर">
+
+            <label>कार्ड का प्रकार</label>
+            <select id="cType">
+                <option value="सफ़ेद कार्ड (APL/BPL)">सफ़ेद कार्ड (APL/BPL)</option>
+                <option value="लाल कार्ड (अंत्योदय)">लाल कार्ड (अंत्योदय)</option>
+            </select>
+
+            <label>परिवार के कुल सदस्य (यूनिट)</label>
+            <input type="number" id="cUnits" placeholder="कुल यूनिट संख्या लिखें">
+
+            <button class="btn btn-success" onclick="saveCustomer()"><i class="fa-solid fa-floppy-disk"></i> डाटा सुरक्षित करें (Save)</button>
+            <a href="index.html" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> वापस डैशबोर्ड पर जाएँ</a>
+        </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        // Aapka Firebase Config
-        const firebaseConfig = {
-          apiKey: "AIzaSyB5D3yJNtucTP7KDNbf-P6oI7D6sWGRYjU",
-          authDomain: "customer-data-76bed.firebaseapp.com",
-          projectId: "customer-data-76bed",
-          storageBucket: "customer-data-76bed.firebasestorage.app",
-          messagingSenderId: "769732738494",
-          appId: "1:769732738494:web:fc970f3a20473357e68def",
-          measurementId: "G-FBXMMBFL6F"
-        };
-
-        // Firebase Initialize karein
+        var firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        var database = firebase.database();
 
-        function saveData() {
-            var name = document.getElementById("name").value;
-            var ration_no = document.getElementById("ration_no").value;
-            var mobile = document.getElementById("mobile").value;
+        function saveCustomer() {
+            var name = document.getElementById('cName').value.trim();
+            var cardNo = document.getElementById('cCardNo').value.trim();
+            var mobile = document.getElementById('cMobile').value.trim();
+            var type = document.getElementById('cType').value;
+            var units = document.getElementById('cUnits').value.trim();
 
-            if(name === "" || ration_no === "" || mobile === "") {
-                alert("Kripya saari details bharein!");
-                return;
+            if(!name || !cardNo || !units) {
+                alert("कृपया नाम, कार्ड नंबर और यूनिट जरूर भरें!"); return;
             }
 
-            if(mobile.length !== 10) {
-                alert("Kripya sahi 10 digit ka mobile number daalein.");
-                return;
-            }
-
-            // Database mein data bhejna
-            db.collection("customers").add({
+            // Save to Firebase under 'customersList'
+            database.ref('customersList/' + cardNo).set({
                 name: name,
-                rationNumber: ration_no,
-                mobileNumber: mobile,
-                dateAdded: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert("✅ Grahak ka data successfully save ho gaya!");
-                document.getElementById("name").value = "";
-                document.getElementById("ration_no").value = "";
-                document.getElementById("mobile").value = "";
-            })
-            .catch((error) => {
-                alert("❌ Error: " + error.message);
-            });
+                mobile: mobile || "N/A",
+                type: type,
+                units: units,
+                dateAdded: new Date().toLocaleDateString('hi-IN')
+            }).then(() => {
+                alert("ग्राहक का डाटा सफलतापूर्वक सेव हो गया!");
+                document.getElementById('cName').value = "";
+                document.getElementById('cCardNo').value = "";
+                document.getElementById('cMobile').value = "";
+                document.getElementById('cUnits').value = "";
+            }).catch((error) => { alert("Error: " + error); });
         }
     </script>
 </body>
