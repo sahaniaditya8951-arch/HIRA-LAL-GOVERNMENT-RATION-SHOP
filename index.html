@@ -3,179 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hira Lal Govt Ration Shop</title>
+    <title>उ० प्र० खाद्य एवं रसद विभाग | Hira Lal Govt Ration Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* SARKARI PREMIUM UI CSS */
+        /* ======= UP GOVT THEME CSS ======= */
         :root {
-            --govt-blue: #003366;
-            --govt-orange: #FF9933;
-            --govt-green: #138808;
-            --bg-color: #f4f6f9;
+            --up-orange: #c85a17;
+            --up-blue: #0b3b60;
+            --up-brown: #a65e2e;
+            --bg-color: #ffffff;
+            --surface: #f4f6f9;
+            --border: #e2e8f0;
+            /* Buttons from Screenshot */
+            --btn-dash-bg: #f3f0ff; --btn-dash-text: #581c87;
+            --btn-dark-bg: #52525b; --btn-dark-text: #ffffff;
+            --btn-yellow-bg: #fde047; --btn-yellow-text: #3f3f46;
+            --btn-green-bg: #bbf7d0; --btn-green-text: #166534;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-        }
-        header {
-            background-color: var(--govt-blue);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 5px solid var(--govt-orange);
-        }
-        .logo-text h1 { margin: 0; font-size: 24px; }
-        .logo-text p { margin: 5px 0 0 0; font-size: 14px; color: #d1e0e0; }
-        .admin-btn {
-            background-color: white;
-            color: var(--govt-blue);
-            border: none;
-            padding: 8px 15px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-        marquee {
-            background-color: #ffe6e6;
-            color: #cc0000;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            border-bottom: 2px solid #cc0000;
-        }
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border-top: 4px solid var(--govt-blue);
-        }
-        h2 { color: var(--govt-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        body { font-family: 'Mukta', 'Poppins', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: #333; }
+        * { box-sizing: border-box; }
+
+        /* HEADER (Screenshot 1) */
+        .top-header { text-align: center; padding: 15px 20px 10px; background: white; }
+        .top-header img { width: 70px; height: 70px; margin-bottom: 5px; }
+        .top-header h1 { margin: 0; font-size: 24px; color: var(--up-orange); font-weight: 800; }
+        .top-header h2 { margin: 2px 0 10px 0; font-size: 16px; color: #000; font-weight: 600; }
         
-        /* Table Design */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: var(--govt-blue); color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
+        /* MENU BAR */
+        .menu-bar { background-color: var(--up-brown); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 15px; }
+        .menu-bar i { font-size: 18px; cursor: pointer; }
 
-        /* Form Design */
+        /* TICKER */
+        .ticker-wrap { background: #e0f2fe; color: #0369a1; padding: 8px 10px; font-weight: 600; font-size: 14px; border-bottom: 1px solid #bae6fd; display: flex; }
+        .ticker-wrap marquee { flex: 1; margin-left: 10px; }
+
+        /* BANNER */
+        .banner { width: 100%; height: 200px; background: linear-gradient(to right, #1e3a8a, #3b82f6); color: white; display: flex; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; margin-bottom: 15px;}
+        .banner h3 { font-size: 22px; margin: 0; z-index: 2; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .banner::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_India.svg') no-repeat center/cover; opacity: 0.1; z-index: 1;}
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
+
+        /* BIG BUTTONS (Screenshot 1) */
+        .btn-large { display: flex; align-items: center; justify-content: center; width: 100%; padding: 15px; border-radius: 30px; margin-bottom: 12px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); gap: 10px; text-decoration: none;}
+        .btn-dash { background: var(--btn-dash-bg); color: var(--btn-dash-text); border: 1px solid #ddd6fe; }
+        .btn-dark { background: var(--btn-dark-bg); color: var(--btn-dark-text); }
+        .btn-yellow { background: var(--btn-yellow-bg); color: var(--btn-yellow-text); }
+        .btn-green { background: var(--btn-green-bg); color: var(--btn-green-text); }
+        .icon-circle { width: 30px; height: 30px; border-radius: 50%; background: white; display: flex; justify-content: center; align-items: center; font-size: 14px; color: #000; }
+
+        /* 15 EXTRA SARKARI FEATURES GRID */
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 25px 0; }
+        .feature-box { background: white; border: 1px solid var(--border); padding: 15px 10px; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); cursor: pointer; transition: 0.3s; }
+        .feature-box:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); transform: translateY(-2px); border-color: var(--up-blue); }
+        .feature-box i { font-size: 24px; color: var(--up-orange); margin-bottom: 8px; display: block; }
+        .feature-box span { font-size: 12px; font-weight: 600; color: var(--up-blue); line-height: 1.2; }
+
+        /* FORMS & CARDS */
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid var(--border); border-top: 3px solid var(--up-blue); }
+        .card h2 { color: var(--up-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 18px; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: var(--up-blue); color: white; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        
         .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        input[type="text"], input[type="number"], input[type="password"] {
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
-        }
-        .submit-btn {
-            background-color: var(--govt-green); color: white; border: none;
-            padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 100%;
-        }
-        .submit-btn:hover { background-color: #0f6b06; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; font-size: 14px; }
+        input[type="text"], input[type="number"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+        .submit-btn { background-color: #2563eb; color: white; border: none; padding: 12px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 100%; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3); }
+        
+        /* ====== LOGIN PAGE (Screenshot 2) ====== */
+        #loginView { display: none; background: #f8fafc; min-height: 100vh; padding-bottom: 50px; }
+        .login-container { max-width: 400px; margin: 20px auto; background: white; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 4px; border: 1px solid var(--border); }
+        .login-title { text-align: center; color: var(--up-blue); font-size: 20px; font-weight: 700; margin-bottom: 25px; }
+        .login-group { margin-bottom: 15px; }
+        .login-group label { display: flex; align-items: center; gap: 8px; color: #333; font-weight: 500; font-size: 14px; margin-bottom: 8px; }
+        .captcha-box { display: flex; gap: 15px; align-items: center; margin-top: 5px; }
+        .captcha-code { background: #f1f5f9; padding: 8px 15px; font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: bold; color: #3b82f6; letter-spacing: 3px; text-decoration: line-through; border-radius: 4px; border: 1px dashed #cbd5e1; user-select: none; }
+        .refresh-btn { color: #6366f1; cursor: pointer; font-size: 14px; text-decoration: none; font-weight: 500; }
+        .remember-me { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 20px; color: #555; }
+        .forgot-pass { display: block; margin-top: 15px; font-size: 13px; color: #666; }
+        .forgot-pass a { color: #6366f1; text-decoration: none; }
+        .login-footer { text-align: center; margin-top: 30px; font-size: 12px; color: #0b3b60; line-height: 1.6; }
+        .login-footer b { color: #2563eb; }
 
-        /* Hide sections initially */
-        #adminPanel, #loginModal { display: none; }
-
-        /* Login Modal */
-        #loginModal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000;
-        }
-        .login-box { background: white; padding: 30px; border-radius: 5px; width: 300px; text-align: center; }
-        .close-btn { color: red; cursor: pointer; float: right; font-weight: bold; }
+        /* ====== ADMIN PANEL ====== */
+        #adminPanel { display: none; }
+        .admin-header-box { background: #eef2ff; border-top: 4px solid #4f46e5; }
+        .logout-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; float: right; margin-top: -30px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-text">
-            <h1>Hira Lal Govt Ration Shop</h1>
-            <p>सार्वजनिक वितरण प्रणाली (Public Distribution System)</p>
+    <div id="publicView">
+        <div class="top-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Seal_of_Uttar_Pradesh.svg/120px-Seal_of_Uttar_Pradesh.svg.png" alt="UP Govt Logo">
+            <h1>उ० प्र० खाद्य एवं रसद विभाग</h1>
+            <h2>सार्वजनिक वितरण प्रणाली</h2>
         </div>
-        <button class="admin-btn" onclick="showLogin()">Admin Login</button>
-    </header>
 
-    <marquee id="publicNoticeText">सूचना: इस महीने का राशन वितरण शुरू हो गया है। कृपया अपना कार्ड लेकर आएं।</marquee>
+        <div class="menu-bar">
+            <span>MENU</span>
+            <i class="fa-solid fa-xmark"></i>
+        </div>
 
-    <div id="publicView" class="container">
+        <div class="ticker-wrap">
+            <i class="fa-solid fa-bullhorn" style="margin-top:2px;"></i>
+            <marquee>विपणन वर्ष 2026-27 के अन्तर्गत गेहूँ का न्यूनतम समर्थन मूल्य (MSP) घोषित | उचित दर विक्रेता (कोटेदार) - श्री हीरा लाल जी | ई-पोस (e-PoS) मशीन द्वारा वितरण जारी है।</marquee>
+        </div>
+
+        <div class="banner">
+            <div>
+                <h3>JANJATIYA GAURAV DIWAS</h3>
+                <p style="margin:5px 0 0; font-size:14px;">Celebrating 150th Birth Anniversary of Bhagwan Birsa Munda</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <button class="btn-large btn-dash" onclick="showLogin()">
+                <div class="icon-circle" style="color:var(--btn-dash-text)"><i class="fa-regular fa-circle-user"></i></div>
+                Dashboard & Service Desk Ticketing System (Dealer Login)
+            </button>
+            <button class="btn-large btn-dark">
+                <div class="icon-circle"><i class="fa-regular fa-clock"></i></div>
+                प्रबंधन प्रणाली
+            </button>
+            <button class="btn-large btn-yellow">
+                <img src="https://cdn-icons-png.flaticon.com/512/3014/3014383.png" style="width:24px;">
+                क्रय प्रबंधन प्रणाली
+            </button>
+            <button class="btn-large btn-green">
+                <img src="https://cdn-icons-png.flaticon.com/512/3014/3014383.png" style="width:24px;">
+                रबी क्रय प्रबंधन प्रणाली
+            </button>
+
+            <h3 style="margin-top: 30px; border-bottom: 2px solid var(--up-orange); padding-bottom: 5px; color: var(--up-blue);">महत्वपूर्ण जन-सुविधाएं (Citizen Services)</h3>
+            <div class="features-grid">
+                <div class="feature-box"><i class="fa-solid fa-magnifying-glass-chart"></i><span>राशन कार्ड की पात्रता सूची</span></div>
+                <div class="feature-box"><i class="fa-solid fa-truck-fast"></i><span>सप्लाई चैन प्रबंधन (SCM)</span></div>
+                <div class="feature-box"><i class="fa-solid fa-fingerprint"></i><span>आधार सीडिंग स्थिति</span></div>
+                <div class="feature-box"><i class="fa-solid fa-globe"></i><span>ONORC (पोर्टेबिलिटी)</span></div>
+                <div class="feature-box"><i class="fa-solid fa-scale-balanced"></i><span>गोदाम इन्वेंटरी विवरण</span></div>
+                <div class="feature-box"><i class="fa-solid fa-headset"></i><span>शिकायत निवारण (1967)</span></div>
+                <div class="feature-box"><i class="fa-solid fa-file-invoice"></i><span>ई-चालान प्रिंट करें</span></div>
+                <div class="feature-box"><i class="fa-solid fa-store"></i><span>उचित दर दुकान खोजें</span></div>
+                <div class="feature-box"><i class="fa-solid fa-tractor"></i><span>किसान पंजीकरण</span></div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fa-solid fa-box-open"></i> राशन कार्ड का कोटा (Ration Quota)</h2>
+                <table>
+                    <tr><th>कार्ड का प्रकार (Type)</th><th>गेहूं (Wheat)</th><th>चावल (Rice)</th></tr>
+                    <tr><td><strong>सफ़ेद कार्ड (PHH)</strong></td><td>1 Kg / Unit</td><td>4 Kg / Unit</td></tr>
+                    <tr><td style="color: red;"><strong>लाल कार्ड (AAY)</strong></td><td>10 Kg (Fix)</td><td>25 Kg (Fix)</td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2><i class="fa-solid fa-id-card"></i> राशन कार्ड विवरण दर्ज करें (New Entry)</h2>
+                <div class="form-group">
+                    <label>पूरा नाम (Full Name)</label>
+                    <input type="text" id="userName" placeholder="अपना नाम लिखें">
+                </div>
+                <div class="form-group">
+                    <label>मोबाइल नंबर (Mobile No)</label>
+                    <input type="number" id="userMobile" placeholder="10 अंकों का मोबाइल नंबर">
+                </div>
+                <div class="form-group">
+                    <label>राशन कार्ड नंबर (Ration Card Number)</label>
+                    <input type="number" id="userCardNo" placeholder="राशन कार्ड का नंबर दर्ज करें">
+                </div>
+                <button class="submit-btn" style="background-color: var(--up-orange);" onclick="submitData()">विवरण सुरक्षित करें (Save Details)</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="loginView">
+        <div class="top-header" style="background: transparent;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Seal_of_Uttar_Pradesh.svg/120px-Seal_of_Uttar_Pradesh.svg.png" alt="UP Govt Logo">
+        </div>
         
-        <div class="card">
-            <h2>राशन कार्ड का कोटा (Ration Quota)</h2>
-            <table>
-                <tr>
-                    <th>कार्ड का प्रकार (Card Type)</th>
-                    <th>गेहूं (Wheat)</th>
-                    <th>चावल (Rice)</th>
-                </tr>
-                <tr>
-                    <td><strong>सफ़ेद कार्ड (White Card)</strong></td>
-                    <td>1 Kg</td>
-                    <td>4 Kg</td>
-                </tr>
-                <tr>
-                    <td style="color: red;"><strong>लाल कार्ड (Red Card)</strong></td>
-                    <td>10 Kg</td>
-                    <td>25 Kg</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="card">
-            <h2>राशन कार्ड विवरण दर्ज करें (Register Card Details)</h2>
-            <div class="form-group">
-                <label>पूरा नाम (Full Name)</label>
-                <input type="text" id="userName" placeholder="अपना नाम लिखें">
-            </div>
-            <div class="form-group">
-                <label>मोबाइल नंबर (Mobile No)</label>
-                <input type="number" id="userMobile" placeholder="10 अंकों का मोबाइल नंबर">
-            </div>
-            <div class="form-group">
-                <label>राशन कार्ड नंबर (Ration Card Number)</label>
-                <input type="number" id="userCardNo" placeholder="राशन कार्ड का नंबर दर्ज करें">
-            </div>
-            <button class="submit-btn" onclick="submitData()">विवरण सुरक्षित करें (Submit)</button>
-        </div>
-    </div>
-
-    <div id="loginModal">
-        <div class="login-box">
-            <span class="close-btn" onclick="hideLogin()">X</span>
-            <h3 style="color: var(--govt-blue);">Admin Access</h3>
-            <input type="password" id="adminPassword" placeholder="Enter Password" style="margin-bottom: 15px;">
-            <button class="submit-btn" onclick="verifyAdmin()">Login</button>
-            <p id="loginError" style="color: red; display: none; font-size: 12px;">Wrong Password!</p>
-        </div>
-    </div>
-
-    <div id="adminPanel" class="container">
-        <div class="card" style="background-color: #e6f2ff; border-top: 4px solid #cc0000;">
-            <h2 style="color: #cc0000;">⚠️ Admin Control Panel</h2>
-            <button onclick="logoutAdmin()" style="float: right; margin-top: -45px; padding: 5px 10px; background: #333; color: white; border: none; cursor: pointer;">Logout</button>
+        <div class="login-container">
+            <div class="login-title">खाद्य एवं रसद विभाग, उत्तर प्रदेश सरकार</div>
             
-            <div class="form-group" style="margin-top: 20px;">
-                <label>सूचना बोर्ड अपडेट करें (Update Notice Board)</label>
-                <input type="text" id="newNotice" placeholder="नई सूचना यहाँ लिखें...">
-                <button class="submit-btn" style="background-color: var(--govt-blue); margin-top: 10px;" onclick="updateNotice()">Update Notice</button>
+            <div class="login-group">
+                <label><i class="fa-solid fa-mobile-screen"></i> Mobile No.</label>
+                <input type="number" id="adminMobile" placeholder="Valid Mobile No.">
             </div>
+            
+            <div class="login-group">
+                <label><i class="fa-solid fa-key"></i> Password</label>
+                <input type="password" id="adminPassword" placeholder="Password">
+            </div>
+            
+            <div class="login-group">
+                <input type="text" id="captchaInput" placeholder="Enter Captcha">
+                <div class="captcha-box">
+                    <div class="captcha-code" id="captchaCode">F91JPT</div>
+                    <a class="refresh-btn" onclick="generateCaptcha()">Refresh</a>
+                </div>
+            </div>
+            
+            <div class="remember-me">
+                <input type="checkbox" id="remember" checked>
+                <label for="remember" style="margin:0; font-weight:normal;">Remember me</label>
+            </div>
+            
+            <button class="submit-btn" onclick="verifyAdmin()">Login</button>
+            
+            <span class="forgot-pass">forget password? <a href="#">click here...</a></span>
+            <p id="loginError" style="color: red; display: none; font-size: 13px; margin-top: 10px; text-align: center;">Invalid Mobile, Password, or Captcha!</p>
         </div>
 
-        <div class="card">
-            <h2>दर्ज किए गए कार्ड (Saved Records)</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>नाम</th>
-                        <th>मोबाइल</th>
-                        <th>कार्ड नंबर</th>
-                    </tr>
-                </thead>
-                <tbody id="savedDataTable">
-                    <tr><td colspan="3" style="text-align:center; color: #666;"><i class="fa-solid fa-spinner fa-spin"></i> डाटा लोड हो रहा है...</td></tr>
-                </tbody>
-            </table>
+        <div class="login-footer">
+            <b>Developed by :-</b> Nishchey Rastogi (ECE), BIT Mesra, Ranchi<br>
+            <b>Under The Guidance of :-</b> F&CS Department<br>
+            Government of Uttar Pradesh | Ernst & Young | NIC-UP State Unit<br><br>
+            <a href="#" onclick="showPublic()" style="color:#6366f1; text-decoration:none;">&larr; Back to Home</a>
+        </div>
+    </div>
+
+
+    <div id="adminPanel">
+        <div class="top-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Seal_of_Uttar_Pradesh.svg/120px-Seal_of_Uttar_Pradesh.svg.png" alt="UP Govt Logo">
+            <h1>Dealer Admin Portal</h1>
+            <h2>श्री हीरा लाल जी (FPS Code: 2058)</h2>
+        </div>
+        <div class="menu-bar" style="background:#4f46e5;">
+            <span>DASHBOARD</span>
+        </div>
+
+        <div class="container" style="margin-top: 20px;">
+            <div class="card admin-header-box">
+                <h2 style="color: #4f46e5; border-bottom: none;">⚠️ Admin Control Panel</h2>
+                <button class="logout-btn" onclick="logoutAdmin()">Logout <i class="fa-solid fa-right-from-bracket"></i></button>
+                
+                <div class="form-group" style="margin-top: 10px;">
+                    <label>सार्वजनिक सूचना बोर्ड अपडेट करें (Update Ticker)</label>
+                    <input type="text" id="newNotice" placeholder="नई सूचना यहाँ लिखें...">
+                    <button class="submit-btn" style="background-color: var(--up-blue); margin-top: 10px;" onclick="updateNotice()">Update Notice</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fa-solid fa-users"></i> दर्ज किए गए कार्ड (Live Records)</h2>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>नाम (Name)</th>
+                                <th>मोबाइल (Mobile)</th>
+                                <th>कार्ड नंबर (Card No)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="savedDataTable">
+                            <tr><td colspan="3" style="text-align:center; color: #666;"><i class="fa-solid fa-spinner fa-spin"></i> डाटा लोड हो रहा है...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -183,79 +274,100 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script>
-        // 1. FIREBASE SETUP & INITIALIZATION
+        // --- 1. FIREBASE SETUP ---
         var firebaseConfig = {
             databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com/"
         };
         firebase.initializeApp(firebaseConfig);
         var database = firebase.database();
 
-        // 2. FETCH DATA FOR ADMIN PANEL (Live Update)
+        // --- 2. FETCH DATA FOR ADMIN PANEL ---
         database.ref('newRegistrations').on('value', function(snapshot) {
             var tbody = document.getElementById('savedDataTable');
-            tbody.innerHTML = ''; // Pehle ka loading text hatao
-            
+            tbody.innerHTML = ''; 
             var data = snapshot.val();
             if(!data) {
                 tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; font-weight:bold; color:red;">अभी तक कोई डाटा नहीं आया है।</td></tr>';
                 return;
             }
-
-            // Data ko table mein daalna
             for(var key in data) {
                 var record = data[key];
                 var row = `<tr>
                     <td>${record.name}</td>
                     <td>${record.mobile}</td>
-                    <td><strong>${record.cardNo}</strong></td>
+                    <td><strong style="color:var(--up-blue);">${record.cardNo}</strong></td>
                 </tr>`;
                 tbody.innerHTML += row;
             }
         });
 
-        // Modal Controls
-        function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
-        function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
+        // --- 3. UI CONTROLS & LOGIN LOGIC ---
+        let currentCaptcha = "F91JPT";
 
-        // Admin Login Logic
+        function generateCaptcha() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let result = "";
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            currentCaptcha = result;
+            document.getElementById('captchaCode').innerText = result;
+        }
+
+        function showLogin() { 
+            document.getElementById('publicView').style.display = 'none'; 
+            document.getElementById('adminPanel').style.display = 'none'; 
+            document.getElementById('loginView').style.display = 'block'; 
+            generateCaptcha();
+        }
+
+        function showPublic() {
+            document.getElementById('loginView').style.display = 'none'; 
+            document.getElementById('adminPanel').style.display = 'none'; 
+            document.getElementById('publicView').style.display = 'block'; 
+        }
+
         function verifyAdmin() {
+            var mob = document.getElementById('adminMobile').value;
             var pwd = document.getElementById('adminPassword').value;
-            if(pwd === "20581921") {
-                document.getElementById('loginModal').style.display = 'none';
-                document.getElementById('publicView').style.display = 'none';
+            var cap = document.getElementById('captchaInput').value.toUpperCase();
+
+            // Hardware details checking
+            if(mob === "7525008951" && pwd === "20581921" && cap === currentCaptcha) {
+                document.getElementById('loginView').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
+                
+                // clear fields
+                document.getElementById('adminMobile').value = '';
                 document.getElementById('adminPassword').value = '';
+                document.getElementById('captchaInput').value = '';
                 document.getElementById('loginError').style.display = 'none';
             } else {
                 document.getElementById('loginError').style.display = 'block';
+                generateCaptcha(); // Regenerate captcha on fail
             }
         }
 
-        // Logout
         function logoutAdmin() {
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('publicView').style.display = 'block';
+            showPublic();
         }
 
-        // Update Notice Logic
+        // --- 4. FORM ACTIONS ---
         function updateNotice() {
             var notice = document.getElementById('newNotice').value;
             if(notice !== "") {
-                // Ise bhi aage chal kar Firebase se jod sakte hain
-                document.getElementById('publicNoticeText').innerText = notice;
-                alert("Notice Update Ho Gaya!");
+                document.querySelector('.ticker-wrap marquee').innerText = notice;
+                alert("सूचना (Ticker) सफलता पूर्वक अपडेट हो गई है!");
                 document.getElementById('newNotice').value = '';
             }
         }
 
-        // Submit Data Logic (Saving to Firebase)
         function submitData() {
             var name = document.getElementById('userName').value.trim();
             var mobile = document.getElementById('userMobile').value.trim();
             var card = document.getElementById('userCardNo').value.trim();
 
             if(name && mobile && card) {
-                // Firebase ke "newRegistrations" folder me data push karna
                 database.ref('newRegistrations/' + Date.now()).set({
                     name: name,
                     mobile: mobile,
@@ -263,7 +375,6 @@
                     date: new Date().toLocaleDateString('hi-IN')
                 }).then(() => {
                     alert("विवरण सफलतापूर्वक दर्ज कर लिया गया है! (Data Saved to Firebase)");
-                    // Form clear karna
                     document.getElementById('userName').value = '';
                     document.getElementById('userMobile').value = '';
                     document.getElementById('userCardNo').value = '';
