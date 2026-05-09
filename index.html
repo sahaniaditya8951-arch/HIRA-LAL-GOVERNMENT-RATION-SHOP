@@ -58,7 +58,8 @@
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; font-size: 14px; }
         input[type="text"], input[type="number"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
-        .submit-btn { background-color: #2563eb; color: white; border: none; padding: 12px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 100%; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3); }
+        .submit-btn { background-color: #2563eb; color: white; border: none; padding: 12px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 100%; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3); transition: 0.3s; }
+        .submit-btn:hover { filter: brightness(0.9); }
         
         /* ====== LOGIN PAGE ====== */
         #loginView { display: none; background: #f8fafc; min-height: 100vh; padding-bottom: 50px; }
@@ -78,14 +79,14 @@
         .del-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
         .print-btn { background: #10b981; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 10px; display: inline-flex; align-items: center; gap: 5px;}
 
-        /* ====== PRINT CSS (PDF BANANE KE LIYE) ====== */
+        /* ====== PRINT CSS ====== */
         .print-header { display: none; text-align: center; margin-bottom: 20px; color: #000; }
         @media print {
-            body * { visibility: hidden; } /* Sab kuch chupa do */
-            #printArea, #printArea * { visibility: visible; } /* Sirf Table dikhao */
+            body * { visibility: hidden; } 
+            #printArea, #printArea * { visibility: visible; } 
             #printArea { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; } /* Delete button aur Print button print me nahi aayenge */
-            .print-header { display: block; } /* Print me header dikhega */
+            .no-print { display: none !important; } 
+            .print-header { display: block; } 
             .card { border: none; box-shadow: none; }
         }
     </style>
@@ -179,6 +180,18 @@
             
             <button class="submit-btn" onclick="verifyAdmin()" style="margin-top: 10px;">Login</button>
             <p id="loginError" style="color: red; display: none; font-size: 13px; margin-top: 10px; text-align: center;">Invalid Mobile, Password, or Captcha!</p>
+
+            <!-- FINGERPRINT LOGIN SYSTEM ADDED HERE -->
+            <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                <button class="submit-btn" style="background-color: #10b981; margin-bottom: 10px;" onclick="loginWithFingerprint()">
+                    <i class="fa-solid fa-fingerprint"></i> Login with Fingerprint
+                </button>
+                <button class="submit-btn" style="background-color: #64748b; font-size: 14px; padding: 10px;" onclick="registerFingerprint()">
+                    <i class="fa-solid fa-gear"></i> Setup Fingerprint (First Time)
+                </button>
+                <div id="fpStatus" style="margin-top: 10px; font-size: 14px; font-weight: bold; text-align: center;"></div>
+            </div>
+            
         </div>
 
         <div class="login-footer">
@@ -337,7 +350,68 @@
             showPublic();
         }
 
-        // --- 5. FORM ACTIONS ---
+        // --- 5. FINGERPRINT LOGIN LOGIC ADDED HERE ---
+        function generateRandomBuffer() {
+            return Uint8Array.from(Math.random().toString(36).substring(2), c => c.charCodeAt(0));
+        }
+
+        async function registerFingerprint() {
+            document.getElementById('fpStatus').innerText = "Scanner open ho raha hai...";
+            document.getElementById('fpStatus').style.color = "#0b3b60";
+            
+            try {
+                const publicKeyCredentialCreationOptions = {
+                    challenge: generateRandomBuffer(),
+                    rp: { name: "Hiralal Admin", id: window.location.hostname || "localhost" },
+                    user: { id: generateRandomBuffer(), name: "admin@hiralal", displayName: "Admin" },
+                    pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+                    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
+                    timeout: 60000,
+                    attestation: "direct"
+                };
+
+                await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
+                document.getElementById('fpStatus').innerText = "✅ Fingerprint Setup Successful!";
+                document.getElementById('fpStatus').style.color = "green";
+            } catch (err) {
+                console.error(err);
+                document.getElementById('fpStatus').innerText = "❌ Setup Cancelled ya Failed.";
+                document.getElementById('fpStatus').style.color = "red";
+            }
+        }
+
+        async function loginWithFingerprint() {
+            document.getElementById('fpStatus').innerText = "Verify kar rahe hain...";
+            document.getElementById('fpStatus').style.color = "#0b3b60";
+
+            try {
+                const publicKeyCredentialRequestOptions = {
+                    challenge: generateRandomBuffer(),
+                    rpId: window.location.hostname || "localhost",
+                    userVerification: "required",
+                    timeout: 60000
+                };
+
+                await navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions });
+                
+                document.getElementById('fpStatus').innerText = "🔓 Login Successful!";
+                document.getElementById('fpStatus').style.color = "green";
+                
+                // Bina Password ke direct Admin Panel open karo
+                setTimeout(() => {
+                    document.getElementById('loginView').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    document.getElementById('fpStatus').innerText = ""; // status clean
+                }, 800);
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('fpStatus').innerText = "❌ Fingerprint match nahi hua.";
+                document.getElementById('fpStatus').style.color = "red";
+            }
+        }
+
+        // --- 6. FORM ACTIONS ---
         function updateNotice() {
             var notice = document.getElementById('newNotice').value;
             if(notice !== "") {
