@@ -15,6 +15,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
+    <!-- Header Section -->
     <header class="bg-amber-600 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-3">
@@ -26,16 +27,18 @@
                     <p class="text-xs text-amber-100 font-medium">Hiralal Govt. Ration Shop Portal</p>
                 </div>
             </div>
-            <div class="bg-amber-700/50 px-4 py-1.5 rounded-full text-xs font-semibold animate-pulse">
-                <i class="fa-solid fa-bullhorn mr-1"></i> इस महीने का वितरण चालू है
+            <div class="flex items-center gap-4">
+                <a href="admin.html" class="bg-amber-700/80 hover:bg-amber-800 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-lock mr-1"></i> कोटेदार लॉगिन</a>
             </div>
         </div>
     </header>
 
+    <!-- Main Content Grid -->
     <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         
+        <!-- Left 2 Columns: Public Actions -->
         <div class="md:col-span-2 space-y-6">
-            
+            <!-- Check Status -->
             <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100">
                 <div class="flex items-center gap-3 mb-4 text-blue-600">
                     <i class="fa-solid fa-magnifying-glass text-xl"></i>
@@ -43,22 +46,22 @@
                 </div>
                 <div class="flex gap-2">
                     <input type="text" id="searchCardNo" placeholder="अपना राशन कार्ड नंबर दर्ज करें" class="flex-grow px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <button onclick="checkRationStatus()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 cursor-pointer shadow-md shadow-blue-200">
+                    <button onclick="checkRationStatus()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-search"></i> खोजें
                     </button>
                 </div>
 
                 <div id="resultBox" class="mt-5 p-4 bg-slate-50 border border-slate-200 rounded-xl hidden">
                     <div class="border-b border-slate-200 pb-3 mb-3">
-                        <p class="text-xs text-slate-500 font-medium uppercase">कार्ड धारक का नाम</p>
+                        <p class="text-xs text-slate-500 font-medium uppercase">कार्ड धारक का naam</p>
                         <p class="text-base font-bold text-slate-800" id="displayName">-</p>
                     </div>
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2"><i class="fa-solid fa-clock-rotate-left mr-1"></i> वितरण इतिहास (History)</h3>
-                    <div id="historyTableContainer" class="overflow-x-auto text-sm">
-                        </div>
+                    <div id="historyTableContainer" class="overflow-x-auto text-sm"></div>
                 </div>
             </div>
 
+            <!-- New Registration -->
             <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100">
                 <div class="flex items-center gap-3 mb-4 text-emerald-600">
                     <i class="fa-solid fa-user-plus text-xl"></i>
@@ -74,171 +77,81 @@
                         <input type="text" id="regName" placeholder="Card Holder Name" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                     </div>
                 </div>
-                <button onclick="registerRationCard()" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-sm font-semibold transition shadow-md shadow-emerald-100 cursor-pointer">
+                <button onclick="registerRationCard()" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer">
                     सुरक्षित करें (Register)
                 </button>
             </div>
-
         </div>
 
+        <!-- Right 1 Column: Rates -->
         <div class="space-y-6">
-            
             <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl shadow-xs border border-amber-100/70">
                 <div class="flex items-center gap-3 mb-4 text-amber-700">
                     <i class="fa-solid fa-gavel text-xl"></i>
                     <h2 class="text-base font-bold">सरकारी दर एवं राशन मात्रा</h2>
                 </div>
                 <div class="space-y-3 text-xs">
-                    <div class="bg-white p-3 rounded-xl border border-amber-200/50 shadow-2xs">
+                    <div class="bg-white p-3 rounded-xl border border-amber-200/50">
                         <div class="flex justify-between font-bold text-slate-700 mb-1">
                             <span>🌾 गेहूं (Wheat)</span>
                             <span class="text-amber-700">₹2 / किग्रा</span>
                         </div>
                         <p class="text-slate-500">PHH: 1 Kg हर यूनिट पर | AAY: 10 Kg फिक्स</p>
                     </div>
-                    <div class="bg-white p-3 rounded-xl border border-amber-200/50 shadow-2xs">
+                    <div class="bg-white p-3 rounded-xl border border-amber-200/50">
                         <div class="flex justify-between font-bold text-slate-700 mb-1">
                             <span>🍚 चावल (Rice)</span>
                             <span class="text-amber-700">₹3 / किग्रा</span>
                         </div>
-                        <p class="text-slate-500">PHH: 4 Kg हर यूनिट पर | AAY: 25 Kg फिक्स</p>
+                        <p class="text-slate-500">PHH: 4 Kg हर uint पर | AAY: 25 Kg फिक्स</p>
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100 bg-linear-to-b from-white to-slate-50/50">
-                <div class="flex items-center gap-3 mb-4 text-purple-600">
-                    <i class="fa-solid fa-lock text-xl"></i>
-                    <h2 class="text-base font-bold text-slate-800">3. कोटेदार पैनल (Admin Quick Entry)</h2>
-                </div>
-                <div class="space-y-3">
-                    <input type="text" id="adminCardNo" placeholder="राशन कार्ड नंबर डालें" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm">
-                    <input type="number" id="adminQty" placeholder="कुल मात्रा (Kg) उदा. 35" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm">
-                    <button onclick="markAsDistributed()" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-xl text-sm font-semibold transition shadow-md shadow-purple-100 cursor-pointer">
-                        <i class="fa-solid fa-check-double mr-1"></i> राशन वितरण दर्ज करें
-                    </button>
-                </div>
-            </div>
-
         </div>
     </main>
 
-    <footer class="bg-slate-800 text-slate-400 text-center py-4 text-xs mt-auto border-t border-slate-700">
-        <p>© 2026 Hiralal Government Ration Management System. Powered by Firebase Realtime.</p>
+    <footer class="bg-slate-800 text-slate-400 text-center py-4 text-xs mt-auto">
+        <p>© 2026 Hiralal Government Ration Management System.</p>
     </footer>
 
     <script>
-        // Firebase Configuration (Aapki default setting automatic configured hai)
-        const firebaseConfig = {
-            databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com",
-            projectId: "ration-admin-68b62",
-        };
-        
+        const firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com", projectId: "ration-admin-68b62" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 1. New User Registration Function
         function registerRationCard() {
             const cardNo = document.getElementById('regCardNo').value.trim();
             const name = document.getElementById('regName').value.trim();
-
-            if(!cardNo || !name) {
-                alert("कृपया राशन कार्ड नंबर और मुखिया का नाम दोनों भरें!");
-                return;
-            }
-
-            database.ref('RationCards/' + cardNo).set({
-                cardHolderName: name,
-                registrationDate: new Date().toLocaleDateString('hi-IN')
-            }).then(() => {
-                alert("बधाई हो! नया राशन कार्ड सफलतापूर्वक पंजीकृत हो गया है।");
-                document.getElementById('regCardNo').value = "";
-                document.getElementById('regName').value = "";
-            }).catch(err => alert("त्रुटि: " + err.message));
+            if(!cardNo || !name) { alert("कृपया सभी विवरण भरें!"); return; }
+            database.ref('RationCards/' + cardNo).set({ cardHolderName: name, registrationDate: new Date().toLocaleDateString('hi-IN') }).then(() => {
+                alert("सफलतापूर्वक पंजीकृत हो गया!");
+                document.getElementById('regCardNo').value = ""; document.getElementById('regName').value = "";
+            });
         }
 
-        // 2. Check Ration Status Function
         function checkRationStatus() {
             const cardNo = document.getElementById('searchCardNo').value.trim();
-            const resultBox = document.getElementById('resultBox');
-            const displayName = document.getElementById('displayName');
-
-            if(!cardNo) {
-                alert("कृपया जांचने के लिए राशन कार्ड नंबर दर्ज करें!");
-                return;
-            }
-
+            if(!cardNo) { alert("कृपया कार्ड नंबर दर्ज करें!"); return; }
             database.ref('RationCards/' + cardNo).once('value').then(snapshot => {
                 if(snapshot.exists()) {
-                    displayName.innerText = snapshot.val().cardHolderName;
-                    resultBox.classList.remove('hidden');
+                    document.getElementById('displayName').innerText = snapshot.val().cardHolderName;
+                    document.getElementById('resultBox').classList.remove('hidden');
                     getDistributionHistory(cardNo);
-                } else {
-                    alert("यह राशन कार्ड नंबर रजिस्टर नहीं है। पहले रजिस्टर करें!");
-                    resultBox.classList.add('hidden');
-                }
+                } else { alert("यह राशन कार्ड पंजीकृत नहीं है!"); }
             });
         }
 
-        // 3. Get Distribution History
         function getDistributionHistory(cardNo) {
             const container = document.getElementById('historyTableContainer');
-            
             database.ref('RationHistory/' + cardNo).once('value').then(snapshot => {
                 if(snapshot.exists()) {
-                    let tableHtml = `<table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-slate-400 text-xs">
-                                <th class="py-2">दिनांक (Date)</th>
-                                <th class="py-2">मात्रा (Qty)</th>
-                                <th class="py-2 text-right">स्थिति (Status)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 text-slate-700">`;
-                    
-                    snapshot.forEach(childSnapshot => {
-                        const data = childSnapshot.val();
-                        tableHtml += `<tr>
-                            <td class="py-2.5 font-medium">${data.date}</td>
-                            <td class="py-2.5">${data.quantity} Kg</td>
-                            <td class="py-2.5 text-right"><span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${data.status}</span></td>
-                        </tr>`;
+                    let html = `<table class="w-full border-collapse"><thead><tr class="text-slate-400 text-xs border-b"><th class="py-2">दिनांक</th><th class="py-2">मात्रा</th><th class="py-2 text-right">स्थिति</th></tr></thead><tbody class="divide-y text-slate-700">`;
+                    snapshot.forEach(child => {
+                        const d = child.val();
+                        html += `<tr><td class="py-2">${d.date}</td><td class="py-2">${d.quantity} Kg</td><td class="py-2 text-right"><span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${d.status}</span></td></tr>`;
                     });
-                    
-                    tableHtml += `</tbody></table>`;
-                    container.innerHTML = tableHtml;
-                } else {
-                    container.innerHTML = `<p class="text-rose-500 font-medium text-xs py-2"><i class="fa-solid fa-circle-info mr-1"></i> इस कार्ड पर हाल ही में कोई राशन वितरित नहीं किया गया है।</p>`;
-                }
-            });
-        }
-
-        // 4. Admin Entry: Mark distributed
-        function markAsDistributed() {
-            const cardNo = document.getElementById('adminCardNo').value.trim();
-            const qty = document.getElementById('adminQty').value.trim();
-
-            if(!cardNo || !qty) {
-                alert("कोटेदार जी, कृपया कार्ड नंबर और बांटी गई राशन मात्रा दोनों भरें!");
-                return;
-            }
-
-            // Check if card exists first
-            database.ref('RationCards/' + cardNo).once('value').then(snapshot => {
-                if(snapshot.exists()) {
-                    const newHistoryRef = database.ref('RationHistory/' + cardNo).push();
-                    newHistoryRef.set({
-                        date: new Date().toLocaleDateString('hi-IN'),
-                        quantity: qty,
-                        status: "प्राप्त किया (Le Gaye)"
-                    }).then(() => {
-                        alert("सफलतापूर्वक दर्ज किया गया! उपभोक्ता अब अपना स्टेटस ऑनलाइन देख सकते हैं।");
-                        document.getElementById('adminCardNo').value = "";
-                        document.getElementById('adminQty').value = "";
-                    });
-                } else {
-                    alert("यह कार्ड नंबर सिस्टम में पंजीकृत नहीं है! पहले इसका रजिस्ट्रेशन करें।");
-                }
+                    html += `</tbody></table>`; container.innerHTML = html;
+                } else { container.innerHTML = `<p class="text-rose-500 text-xs py-2">कोई रिकॉर्ड नहीं मिला।</p>`; }
             });
         }
     </script>
