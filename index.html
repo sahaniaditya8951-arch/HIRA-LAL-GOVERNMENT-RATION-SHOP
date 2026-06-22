@@ -3,157 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiralal Govt. Ration Portal</title>
+    <title>E-Ration Portal - Govt. Ration Shop Automation</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Poppins', sans-serif; }
-    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-gray-50 text-gray-800 font-sans">
 
-    <!-- Header Section -->
-    <header class="bg-amber-600 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div class="flex items-center gap-3">
-                <div class="bg-white p-2 rounded-full text-amber-600 text-2xl shadow-inner">
-                    <i class="fa-solid fa-wheat-awn"></i>
-                </div>
+    <div class="bg-amber-500 text-white text-center py-2 px-4 text-sm font-semibold overflow-hidden whitespace-nowrap">
+        <div class="inline-block animate-marquee">
+            📢 सूचना: इस महीने का राशन वितरण 28 तारीख तक खुला रहेगा। कृपया अपना स्लॉट पहले से बुक करें। हेल्पलाइन: 1800-111-4000
+        </div>
+    </div>
+
+    <nav class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-wheat-awn text-3xl text-amber-400"></i>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide">उ० प्र० खाद्य एवं रसद विभाग</h1>
-                    <p class="text-xs text-amber-100 font-medium">Hiralal Govt. Ration Shop Portal</p>
+                    <h1 class="text-xl font-bold tracking-wide">ई-राशन पोर्टल</h1>
+                    <p class="text-xs text-emerald-200">Govt. PDS Digital Storefront</p>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="admin.html" class="bg-amber-700/80 hover:bg-amber-800 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-lock mr-1"></i> कोटेदार लॉगिन</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content Grid -->
-    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- Left 2 Columns: Public Actions -->
-        <div class="md:col-span-2 space-y-6">
-            <!-- Check Status -->
-            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100">
-                <div class="flex items-center gap-3 mb-4 text-blue-600">
-                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
-                    <h2 class="text-lg font-bold text-slate-800">1. राशन की स्थिति जांचें (Check Status)</h2>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="searchCardNo" placeholder="अपना राशन कार्ड नंबर दर्ज करें" class="flex-grow px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <button onclick="checkRationStatus()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-search"></i> खोजें
-                    </button>
-                </div>
-
-                <div id="resultBox" class="mt-5 p-4 bg-slate-50 border border-slate-200 rounded-xl hidden">
-                    <div class="border-b border-slate-200 pb-3 mb-3">
-                        <p class="text-xs text-slate-500 font-medium uppercase">कार्ड धारक का naam</p>
-                        <p class="text-base font-bold text-slate-800" id="displayName">-</p>
-                    </div>
-                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2"><i class="fa-solid fa-clock-rotate-left mr-1"></i> वितरण इतिहास (History)</h3>
-                    <div id="historyTableContainer" class="overflow-x-auto text-sm"></div>
-                </div>
-            </div>
-
-            <!-- New Registration -->
-            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100">
-                <div class="flex items-center gap-3 mb-4 text-emerald-600">
-                    <i class="fa-solid fa-user-plus text-xl"></i>
-                    <h2 class="text-lg font-bold text-slate-800">2. नया ऑनलाइन पंजीकरण (Registration)</h2>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">राशन कार्ड संख्या</label>
-                        <input type="text" id="regCardNo" placeholder="Ration Card Number" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">कार्ड धारक (मुखिया) का नाम</label>
-                        <input type="text" id="regName" placeholder="Card Holder Name" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                    </div>
-                </div>
-                <button onclick="registerRationCard()" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer">
-                    सुरक्षित करें (Register)
-                </button>
+            <div class="flex space-x-2">
+                <button onclick="switchTab('customer')" class="nav-btn bg-emerald-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-600 transition"><i class="fa-solid fa-user mr-1"></i> ग्राहक पोर्टल</button>
+                <button onclick="switchTab('admin')" class="nav-btn bg-emerald-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-600 transition"><i class="fa-solid fa-user-gear mr-1"></i> एडमिन पैनल</button>
             </div>
         </div>
+    </nav>
 
-        <!-- Right 1 Column: Rates -->
-        <div class="space-y-6">
-            <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl shadow-xs border border-amber-100/70">
-                <div class="flex items-center gap-3 mb-4 text-amber-700">
-                    <i class="fa-solid fa-gavel text-xl"></i>
-                    <h2 class="text-base font-bold">सरकारी दर एवं राशन मात्रा</h2>
-                </div>
-                <div class="space-y-3 text-xs">
-                    <div class="bg-white p-3 rounded-xl border border-amber-200/50">
-                        <div class="flex justify-between font-bold text-slate-700 mb-1">
-                            <span>🌾 गेहूं (Wheat)</span>
-                            <span class="text-amber-700">₹2 / किग्रा</span>
-                        </div>
-                        <p class="text-slate-500">PHH: 1 Kg हर यूनिट पर | AAY: 10 Kg फिक्स</p>
+    <main class="max-w-7xl mx-auto px-4 py-6">
+
+        <div id="customer-tab" class="tab-content space-y-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">दुकान की स्थिति (Shop Status)</p>
+                        <h3 class="text-xl font-bold text-green-600 mt-1"><i class="fa-solid fa-circle text-xs mr-1 animate-pulse"></i> खुला है (OPEN)</h3>
                     </div>
-                    <div class="bg-white p-3 rounded-xl border border-amber-200/50">
-                        <div class="flex justify-between font-bold text-slate-700 mb-1">
-                            <span>🍚 चावल (Rice)</span>
-                            <span class="text-amber-700">₹3 / किग्रा</span>
+                    <i class="fa-solid fa-store text-3xl text-gray-300"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">वर्तमान टोकन नंबर (Live Token)</p>
+                        <h3 id="live-token-display" class="text-2xl font-black text-blue-600 mt-1">#24</h3>
+                    </div>
+                    <i class="fa-solid fa-ticket text-3xl text-gray-300"></i>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">आज की कुल बुकिंग (Today's Slots)</p>
+                        <h3 class="text-xl font-bold text-amber-600 mt-1">48 / 100</h3>
+                    </div>
+                    <i class="fa-solid fa-users text-3xl text-gray-300"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 lg:col-span-2 space-y-4">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center"><i class="fa-solid fa-id-card text-emerald-600 mr-2"></i> पात्रता और राशन विवरण जांचें</h2>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="rc-input" placeholder="अपना राशन कार्ड नंबर दर्ज करें..." class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <button onclick="searchRationCard()" class="bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-emerald-700 transition">विवरण देखें</button>
+                    </div>
+
+                    <div id="search-result" class="hidden border border-emerald-100 rounded-xl p-4 bg-emerald-50/50 space-y-4">
+                        <div class="flex justify-between items-center border-b border-emerald-100 pb-2">
+                            <h4 class="font-bold text-emerald-900">कार्डधारक: <span id="res-name" class="font-normal text-gray-700"></span></h4>
+                            <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold">पात्र गृहस्थी (PHH)</span>
                         </div>
-                        <p class="text-slate-500">PHH: 4 Kg हर uint पर | AAY: 25 Kg फिक्स</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-500 font-medium">परिवार के सदस्य (Verified Members):</p>
+                                <ul id="res-members" class="list-disc pl-5 mt-1 text-gray-700 space-y-1"></ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium">इस महीने का आवंटन (Monthly Entitlement):</p>
+                                <div class="mt-2 space-y-1 bg-white p-3 rounded-lg border border-gray-200" id="res-quota"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-dashed border-emerald-300 flex flex-col sm:flex-row justify-between items-center gap-3">
+                            <div>
+                                <h5 class="font-bold text-sm text-gray-800">दुकान पर भीड़ से बचें!</h5>
+                                <p class="text-xs text-gray-500">आज के लिए अपना समय (Time Slot) ऑनलाइन बुक करें।</p>
+                            </div>
+                            <button onclick="openBookingModal()" class="w-full sm:w-auto bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-amber-600 transition"><i class="fa-solid fa-clock mr-1"></i> टोकन बुक करें</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center"><i class="fa-solid fa-clipboard-list text-emerald-600 mr-2"></i> सरकारी दर और स्टॉक सूची</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-200 text-gray-400 font-medium">
+                                    <th class="pb-2">सामग्री</th>
+                                    <th class="pb-2 text-right">सरकारी दर</th>
+                                    <th class="pb-2 text-right">उपलब्ध स्टॉक</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 font-medium" id="stock-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 max-w-2xl mx-auto">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i> शिकायत एवं सुझाव काउंटर</h2>
+                <form onsubmit="handleComplaint(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" placeholder="अपना नाम" required class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <input type="tel" placeholder="मोबाइल नंबर" required class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <textarea placeholder="अपनी शिकायत या समस्या यहाँ विस्तार से लिखें..." rows="3" required class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                    <button type="submit" class="w-full bg-red-500 text-white font-bold py-2 rounded-lg hover:bg-red-600 transition text-sm">शिकायत दर्ज करें</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="admin-tab" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center"><i class="fa-solid fa-sliders text-emerald-600 mr-2"></i> डीलर एडमन कंट्रोल डैशबोर्ड</h2>
+                    <span class="bg-red-100 text-red-800 font-bold text-xs px-3 py-1 rounded-full"><i class="fa-solid fa-lock mr-1"></i> सिक्योर एक्सेस</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="border border-gray-100 rounded-xl p-4 bg-gray-50/50 space-y-4">
+                        <h3 class="font-bold text-gray-700 flex items-center"><i class="fa-solid fa-boxes-stacked mr-2 text-emerald-600"></i> स्टॉक अपडेट (Stock Inward)</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <select id="admin-item-select" class="border border-gray-300 rounded-lg p-2 text-sm bg-white">
+                                <option value="wheat">गेहूँ (Wheat)</option>
+                                <option value="rice">चावल (Rice)</option>
+                                <option value="sugar">चीनी (Sugar)</option>
+                            </select>
+                            <input type="number" id="admin-stock-qty" placeholder="मात्रा (किग्रा में)" class="border border-gray-300 rounded-lg p-2 text-sm bg-white">
+                            <button onclick="updateStockAdmin()" class="bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition">स्टॉक जोड़ें</button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-100 rounded-xl p-4 bg-gray-50/50 space-y-4">
+                        <h3 class="font-bold text-gray-700 flex items-center"><i class="fa-solid fa-network-wired mr-2 text-emerald-600"></i> लाइव कतार प्रबंधक (Queue Manager)</h3>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="adjustToken(-1)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-300">- पिछला</button>
+                            <div class="text-center flex-1 bg-white border border-gray-200 py-1.5 rounded-lg">
+                                <span class="text-xs text-gray-400 block font-bold">NOW SERVING</span>
+                                <span id="admin-token-view" class="text-xl font-black text-emerald-600">#24</span>
+                            </div>
+                            <button onclick="adjustToken(1)" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-emerald-700 transition">अगला +</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <h3 class="font-bold text-gray-700 mb-3 flex items-center"><i class="fa-solid fa-history mr-2 text-emerald-600"></i> डिजिटल बिक्री रजिस्टर (Real-time Sales Log)</h3>
+                    <div class="overflow-x-auto border border-gray-100 rounded-xl">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-100 text-gray-600 font-semibold">
+                                <tr>
+                                    <th class="p-3">समय (Time)</th>
+                                    <th class="p-3">राशन कार्ड नं.</th>
+                                    <th class="p-3">लाभार्थी</th>
+                                    <th class="p-3">वितरण विवरण</th>
+                                    <th class="p-3 text-right">कुल शुल्क</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-gray-600" id="sales-log-body">
+                                <tr>
+                                    <td class="p-3">Today, 10:15 AM</td>
+                                    <td class="p-3 font-mono">09238472394</td>
+                                    <td class="p-3">राम कुमार</td>
+                                    <td class="p-3">गेहूँ: 15kg, चावल: 10kg</td>
+                                    <td class="p-3 text-right font-bold text-gray-800">₹65.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-slate-800 text-slate-400 text-center py-4 text-xs mt-auto">
-        <p>© 2026 Hiralal Government Ration Management System.</p>
-    </footer>
+    <div id="booking-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl space-y-4 relative animate-fade-in">
+            <h3 class="text-lg font-bold text-gray-900 flex items-center"><i class="fa-solid fa-ticket text-amber-500 mr-2"></i> ऑनलाइन टोकन स्लॉट बुकिंग</h3>
+            <p class="text-xs text-gray-500">कृपया दुकान पर आने का पसंदीदा समय चुनें। आपके नंबर पर SMS भेजा जाएगा।</p>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-gray-400 block mb-1">समय स्लॉट चुनें (Select Slot)</label>
+                    <select id="slot-select" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option>09:00 AM - 11:00 AM (सुबह)</option>
+                        <option>11:00 AM - 01:00 PM (दोपहर)</option>
+                        <option>03:00 PM - 05:00 PM (शाम)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeBookingModal()" class="flex-1 bg-gray-100 text-gray-600 font-medium py-2 rounded-lg text-sm hover:bg-gray-200 transition">रद्द करें</button>
+                <button onclick="confirmBooking()" class="flex-1 bg-amber-500 text-white font-bold py-2 rounded-lg text-sm hover:bg-amber-600 transition">टोकन जनरेट करें</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+    </style>
 
     <script>
-        const firebaseConfig = { databaseURL: "https://ration-admin-68b62-default-rtdb.firebaseio.com", projectId: "ration-admin-68b62" };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // MOCK DATABASE / STATE
+        let appData = {
+            stock: {
+                wheat: { name: 'गेहूँ (Wheat)', price: 2, qty: 1250 },
+                rice: { name: 'चावल (Rice)', price: 3, qty: 980 },
+                sugar: { name: 'चीनी (Sugar)', price: 13, qty: 150 }
+            },
+            rationCards: {
+                "12345": {
+                    name: "रामचंद्र प्रसाद",
+                    members: ["रामचंद्र प्रसाद (स्वयं)", "सुनीता देवी (पत्नी)", "अमित कुमार (पुत्र)"],
+                    quota: { wheat: 15, rice: 10, sugar: 2 }
+                }
+            },
+            liveToken: 24
+        };
 
-        function registerRationCard() {
-            const cardNo = document.getElementById('regCardNo').value.trim();
-            const name = document.getElementById('regName').value.trim();
-            if(!cardNo || !name) { alert("कृपया सभी विवरण भरें!"); return; }
-            database.ref('RationCards/' + cardNo).set({ cardHolderName: name, registrationDate: new Date().toLocaleDateString('hi-IN') }).then(() => {
-                alert("सफलतापूर्वक पंजीकृत हो गया!");
-                document.getElementById('regCardNo').value = ""; document.getElementById('regName').value = "";
-            });
+        // TAB SWITCHER LOGIC
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
         }
 
-        function checkRationStatus() {
-            const cardNo = document.getElementById('searchCardNo').value.trim();
-            if(!cardNo) { alert("कृपया कार्ड नंबर दर्ज करें!"); return; }
-            database.ref('RationCards/' + cardNo).once('value').then(snapshot => {
-                if(snapshot.exists()) {
-                    document.getElementById('displayName').innerText = snapshot.val().cardHolderName;
-                    document.getElementById('resultBox').classList.remove('hidden');
-                    getDistributionHistory(cardNo);
-                } else { alert("यह राशन कार्ड पंजीकृत नहीं है!"); }
-            });
+        // RENDER STOCK TABLE
+        function renderStockTable() {
+            const tbody = document.getElementById('stock-table-body');
+            tbody.innerHTML = '';
+            for (let key in appData.stock) {
+                const item = appData.stock[key];
+                const row = `
+                    <tr>
+                        <td class="py-2.5">${item.name}</td>
+                        <td class="py-2.5 text-right font-bold text-gray-900">₹${item.price}/kg</td>
+                        <td class="py-2.5 text-right"><span class="bg-gray-100 px-2 py-0.5 rounded text-xs font-mono font-bold">${item.qty} kg</span></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            }
         }
 
-        function getDistributionHistory(cardNo) {
-            const container = document.getElementById('historyTableContainer');
-            database.ref('RationHistory/' + cardNo).once('value').then(snapshot => {
-                if(snapshot.exists()) {
-                    let html = `<table class="w-full border-collapse"><thead><tr class="text-slate-400 text-xs border-b"><th class="py-2">दिनांक</th><th class="py-2">मात्रा</th><th class="py-2 text-right">स्थिति</th></tr></thead><tbody class="divide-y text-slate-700">`;
-                    snapshot.forEach(child => {
-                        const d = child.val();
-                        html += `<tr><td class="py-2">${d.date}</td><td class="py-2">${d.quantity} Kg</td><td class="py-2 text-right"><span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">${d.status}</span></td></tr>`;
-                    });
-                    html += `</tbody></table>`; container.innerHTML = html;
-                } else { container.innerHTML = `<p class="text-rose-500 text-xs py-2">कोई रिकॉर्ड नहीं मिला।</p>`; }
-            });
+        // SEARCH RATION CARD
+        function searchRationCard() {
+            const input = document.getElementById('rc-input').value.trim();
+            const resultDiv = document.getElementById('search-result');
+            
+            if (appData.rationCards[input]) {
+                const card = appData.rationCards[input];
+                document.getElementById('res-name').innerText = card.name;
+                
+                // Set members
+                const mList = document.getElementById('res-members');
+                mList.innerHTML = card.members.map(m => `<li>${m}</li>`).join('');
+                
+                // Set quota
+                const qDiv = document.getElementById('res-quota');
+                qDiv.innerHTML = `
+                    <p class="flex justify-between"><span>गेहूँ:</span> <strong>${card.quota.wheat} किग्रा</strong></p>
+                    <p class="flex justify-between"><span>चावल:</span> <strong>${card.quota.rice} किग्रा</strong></p>
+                    <p class="flex justify-between"><span>चीनी:</span> <strong>${card.quota.sugar} किग्रा</strong></p>
+                `;
+                
+                resultDiv.classList.remove('hidden');
+            } else {
+                alert('टेस्टिंग के लिए राशन कार्ड नंबर "12345" दर्ज करें।');
+                resultDiv.classList.add('hidden');
+            }
         }
+
+        // BOOKING MODAL CONTROL
+        function openBookingModal() { document.getElementById('booking-modal').classList.remove('hidden'); }
+        function closeBookingModal() { document.getElementById('booking-modal').classList.add('hidden'); }
+        
+        function confirmBooking() {
+            const slot = document.getElementById('slot-select').value;
+            alert(`🎉 सफलता! आपका टोकन नंबर #${appData.liveToken + 5} जेनरेट हो गया है।\nचुना गया समय: ${slot}\nआपके रजिस्टर्ड मोबाइल नंबर पर पुष्टि संदेश (SMS) भेज दिया गया है।`);
+            closeBookingModal();
+        }
+
+        // GRIEVANCE SUBMIT
+        function handleComplaint(e) {
+            e.preventDefault();
+            alert('✅ आपकी शिकायत सफलतापूर्वक सरकारी पोर्टल पर दर्ज कर ली गई है। शिकायत संदर्भ संख्या (Grievance ID) आपके मोबाइल पर भेज दी गई है।');
+            e.target.reset();
+        }
+
+        // ADMIN: ADJUST LIVE TOKEN
+        function adjustToken(amount) {
+            appData.liveToken = Math.max(1, appData.liveToken + amount);
+            document.getElementById('live-token-display').innerText = `#${appData.liveToken}`;
+            document.getElementById('admin-token-view').innerText = `#${appData.liveToken}`;
+        }
+
+        // ADMIN: UPDATE STOCK
+        function updateStockAdmin() {
+            const itemKey = document.getElementById('admin-item-select').value;
+            const qtyInput = document.getElementById('admin-stock-qty');
+            const qty = parseInt(qtyInput.value);
+
+            if (qty && qty > 0) {
+                appData.stock[itemKey].qty += qty;
+                renderStockTable();
+                alert(`✅ ${appData.stock[itemKey].name} का स्टॉक सफलतापूर्वक अपडेट किया गया।`);
+                qtyInput.value = '';
+            } else {
+                alert('कृपया सही मात्रा दर्ज करें।');
+            }
+        }
+
+        // INITIAL RUN
+        window.onload = function() {
+            renderStockTable();
+        };
     </script>
 </body>
 </html>
