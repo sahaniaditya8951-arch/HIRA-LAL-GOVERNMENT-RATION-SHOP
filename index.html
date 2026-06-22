@@ -3,184 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>सरकारी राशन दुकान - उत्तर प्रदेश सरकार (PDS)</title>
-    <!-- Tailwind CSS for modern and clean UI -->
+    <title>सरकारी राशन दुकान - खाद्य एवं रसद विभाग, उत्तर प्रदेश सरकार</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Poppins', sans-serif; }
         @media print {
             .no-print { display: none !important; }
-            .print-area { display: block !important; width: 100%; }
+            .print-area { display: block !important; width: 100% !important; color: black !important; }
         }
     </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-slate-50 flex flex-col min-h-screen">
 
     <!-- ================= PUBLIC PORTAL TOP BAR & LOGO ================= -->
-    <header class="no-print bg-white border-b-4 border-orange-500 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <header class="no-print bg-white border-b-4 border-orange-500 shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
             <!-- UP Govt Branding -->
-            <div class="flex items-center gap-4 text-center sm:text-left">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Seal_of_Uttar_Pradesh.svg" alt="UP Govt Seal" class="h-20 w-20 object-contain">
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Seal_of_Uttar_Pradesh.svg" alt="UP Govt Seal" class="h-16 w-16 object-contain">
                 <div>
-                    <h1 class="text-xl font-bold text-orange-600">उचित दर दुकान (ई-पॉश)</h1>
+                    <h1 class="text-xl font-bold text-orange-600">उचित दर दुकान (ई-पॉश पोर्टल)</h1>
                     <p class="text-xs font-semibold text-emerald-700">खाद्य एवं रसद विभाग, उत्तर प्रदेश सरकार</p>
-                    <p class="text-sm font-medium text-gray-600">डिजिटल राशन सेवा केंद्र</p>
+                    <p class="text-sm font-medium text-slate-500">📍 कुशीनगर-गोरखपुर क्षेत्र | डीलर कोड: UP-993821</p>
                 </div>
             </div>
             
-            <!-- Admin Panel Toggle Button -->
-            <button onclick="openAdminModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-lg font-medium text-sm shadow flex items-center gap-2 transition-all">
-                <i class="fa-solid fa-lock text-orange-400"></i> एडमिन पैनल (दुकानदार लॉगिन)
-            </button>
+            <!-- Toll Free & Admin Login -->
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <div class="bg-orange-50 border border-orange-200 px-4 py-2 rounded-xl flex items-center gap-3">
+                    <i class="fa-solid fa-headset text-orange-500 text-lg animate-pulse"></i>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wide">दुकान हेल्पडेस्क नंबर</p>
+                        <p class="text-sm font-bold text-slate-800">7525008951</p>
+                    </div>
+                </div>
+                <button onclick="openAdminModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl font-medium text-sm shadow flex items-center gap-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-lock text-orange-400"></i> डीलर लॉगिन (एडमिन)
+                </button>
+            </div>
+        </div>
+
+        <!-- PUBLIC MULTI-PAGE NAVIGATION TABS -->
+        <div class="bg-slate-800 text-white border-t border-slate-700">
+            <div class="max-w-7xl mx-auto px-4 flex gap-2">
+                <button onclick="switchPublicTab('home-tab')" id="btn-home-tab" class="px-5 py-3 font-semibold text-sm border-b-4 border-orange-500 bg-slate-700 transition-all cursor-pointer">
+                    <i class="fa-solid fa-house mr-1"></i> मुख्य गृह (Home)
+                </button>
+                <button onclick="switchPublicTab('eligibility-tab')" id="btn-eligibility-tab" class="px-5 py-3 font-semibold text-sm border-b-4 border-transparent hover:bg-slate-700 transition-all cursor-pointer">
+                    <i class="fa-solid fa-list-check mr-1"></i> पात्रता सूची नियम
+                </button>
+                <button onclick="switchPublicTab('contact-tab')" id="btn-contact-tab" class="px-5 py-3 font-semibold text-sm border-b-4 border-transparent hover:bg-slate-700 transition-all cursor-pointer">
+                    <i class="fa-solid fa-id-card mr-1"></i> संपर्क करें
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- ================= NOTICE BOARD (SCROLLING) ================= -->
-    <div class="no-print bg-amber-500 text-white py-2 overflow-hidden shadow-inner font-medium">
-        <div class="whitespace-nowrap inline-block animate-marquee strings-all values">
-            <marquee behavior="scroll" direction="left" scrollamount="6" class="text-sm sm:text-base">
-                <i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> 
-                <strong>महत्वपूर्ण सूचना:</strong> अगले माह (जुलाई) का राशन वितरण दिनांक 5 तारीख से शुरू होगा। इस बार नियमानुसार हर 3 महीने पर मिलने वाली 3 किलो चीनी (शुगर) भी वितरित की जाएगी। कृपया अपना आधार कार्ड साथ लाएं।
-            </marquee>
-        </div>
+    <div id="publicNoticeContainer" class="no-print bg-amber-500 text-white py-2 overflow-hidden shadow-inner font-medium">
+        <marquee id="publicNoticeMarquee" behavior="scroll" direction="left" scrollamount="6" class="text-sm sm:text-base">
+            <i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> 
+            <strong>महत्वपूर्ण सूचना:</strong> अगले माह का राशन वितरण नियमानुसार 5 तारीख से शुरू होगा। चीनी वितरण भी उपलब्ध रहेगा। कृपया समय पर अंगूठे का निशान लगाएं।
+        </marquee>
     </div>
 
-    <!-- ================= MAIN CONTENT AREA ================= -->
-    <main class="no-print flex-grow max-w-7xl w-full mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- ==================== PUBLIC PORTAL CONTENT ==================== -->
+    <div id="publicPortalSection" class="no-print flex-grow">
         
-        <!-- LEFT & CENTER: PUBLIC SERVICES (2 Columns) -->
-        <div class="lg:col-span-2 space-y-8">
-            
-            <!-- 1. Ration Calculator Card -->
-            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
-                <div class="bg-gradient-to-r class from-orange-500 to-amber-500 p-4 text-white flex items-center gap-3">
-                    <i class="fa-solid fa-calculator text-2xl"></i>
-                    <h2 class="text-lg font-bold">अपना राशन मापें (Ration Calculator)</h2>
-                </div>
-                <div class="p-6">
-                    <label class="block text-gray-700 font-semibold mb-2">परिवार में कुल सदस्यों की संख्या चुनें:</label>
-                    <div class="flex gap-4 items-center mb-6">
-                        <select id="memberCount" onchange="calculateRation()" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:outline-none font-bold text-lg text-gray-700">
-                            <option value="1">1 सदस्य</option>
-                            <option value="2">2 सदस्य</option>
-                            <option value="3">3 सदस्य</option>
-                            <option value="4">4 सदस्य</option>
-                            <option value="5" selected>5 सदस्य</option>
-                            <option value="6">6 सदस्य</option>
-                            <option value="7">7 सदस्य</option>
-                            <option value="8">8 सदस्य</option>
-                            <option value="9">9 सदस्य</option>
-                            <option value="10">10 सदस्य या अधिक</option>
-                        </select>
-                    </div>
-
-                    <!-- Output Display -->
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div class="bg-orange-50 p-4 rounded-xl border border-orange-200">
-                            <p class="text-xs font-bold text-orange-700 uppercase tracking-wide">गेहूं</p>
-                            <p class="text-2xl font-bold text-gray-800 mt-1"><span id="wheatQty">5</span> <span class="text-sm">किग्रा</span></p>
-                            <p class="text-[10px] text-gray-500 mt-1">(1 किलो प्रति सदस्य)</p>
-                        </div>
-                        <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
-                            <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">चावल</p>
-                            <p class="text-2xl font-bold text-gray-800 mt-1"><span id="riceQty">20</span> <span class="text-sm">किग्रा</span></p>
-                            <p class="text-[10px] text-gray-500 mt-1">(4 किलो प्रति सदस्य)</p>
-                        </div>
-                        <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
-                            <p class="text-xs font-bold text-emerald-700 uppercase tracking-wide">चीनी (त्रैमासिक)</p>
-                            <p class="text-2xl font-bold text-gray-800 mt-1"><span id="sugarQty">3</span> <span class="text-sm">किग्रा</span></p>
-                            <p class="text-[10px] text-emerald-600 font-medium mt-1">हर 3 महीने पर निश्चित</p>
-                        </div>
-                    </div>
+        <!-- PAGE 1: HOME TAB -->
+        <div id="home-tab" class="public-page max-w-7xl mx-auto px-4 py-8 space-y-8">
+            <!-- Hero Banner with AI Generated Store Image Mock -->
+            <div class="relative bg-slate-900 rounded-3xl overflow-hidden shadow-xl min-h-[260px] md:min-h-[340px] flex items-center">
+                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1200" alt="PDS Ration Shop AI Banner" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/70 to-transparent"></div>
+                <div class="relative p-6 md:p-12 max-w-2xl text-white space-y-4">
+                    <span class="bg-orange-500 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">डिजिटल उत्तर प्रदेश</span>
+                    <h2 class="text-2xl md:text-4xl font-extrabold leading-tight">ई-पॉश आधारित पारदर्शी राशन वितरण केंद्र</h2>
+                    <p class="text-xs md:text-sm text-slate-300 font-medium">यहाँ राष्ट्रीय खाद्य सुरक्षा अधिनियम (NFSA) के अंतर्गत अत्यंत सुगमता एवं ईमानदारी के साथ राशन वितरित किया जाता है। अपना विवरण नीचे दिए गए फॉर्म में अपडेट करें।</p>
                 </div>
             </div>
 
-            <!-- 2. Ration Card Data Collection Form -->
-            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
-                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-4 text-white flex items-center gap-3">
-                    <i class="fa-solid fa-address-card text-2xl"></i>
-                    <h2 class="text-lg font-bold">राशन कार्ड विवरण फॉर्म (डाटा अपडेट कराएं)</h2>
+            <!-- Two Column Public Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left/Center: Calculator & Data Form -->
+                <div class="lg:col-span-2 space-y-8">
+                    
+                    <!-- Ration Calculator -->
+                    <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-orange-500 to-amber-500 p-4 text-white flex items-center gap-3">
+                            <i class="fa-solid fa-calculator text-2xl"></i>
+                            <h2 class="text-lg font-bold">अपना राशन मापें (Ration Calculator)</h2>
+                        </div>
+                        <div class="p-6">
+                            <label class="block text-slate-700 font-semibold mb-2">परिवार में कुल सदस्यों की संख्या चुनें:</label>
+                            <select id="memberCount" onchange="calculateRation()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-500 focus:outline-none font-bold text-lg text-slate-700 cursor-pointer">
+                                <option value="1">1 सदस्य</option>
+                                <option value="2">2 सदस्य</option>
+                                <option value="3">3 सदस्य</option>
+                                <option value="4">4 सदस्य</option>
+                                <option value="5" selected>5 सदस्य</option>
+                                <option value="6">6 सदस्य</option>
+                                <option value="7">7 सदस्य</option>
+                                <option value="8">8 सदस्य</option>
+                                <option value="9">9 सदस्य</option>
+                                <option value="10">10 सदस्य या अधिक</option>
+                            </select>
+
+                            <div class="grid grid-cols-3 gap-4 text-center mt-6">
+                                <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                                    <p class="text-xs font-bold text-orange-700 uppercase tracking-wide">गेहूं</p>
+                                    <p class="text-xl md:text-2xl font-bold text-slate-800 mt-1"><span id="wheatQty">5</span> <span class="text-xs md:text-sm">किग्रा</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">(1 किलो प्रति सदस्य)</p>
+                                </div>
+                                <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                                    <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">चावल</p>
+                                    <p class="text-xl md:text-2xl font-bold text-slate-800 mt-1"><span id="riceQty">20</span> <span class="text-xs md:text-sm">किग्रा</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">(4 किलो प्रति सदस्य)</p>
+                                </div>
+                                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                                    <p class="text-xs font-bold text-emerald-700 uppercase tracking-wide">चीनी (त्रैमासिक)</p>
+                                    <p class="text-xl md:text-2xl font-bold text-slate-800 mt-1"><span id="sugarQty">3</span> <span class="text-xs md:text-sm">किग्रा</span></p>
+                                    <p class="text-[10px] text-emerald-600 font-medium mt-0.5">हर 3 महीने में एक बार</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Collection Form -->
+                    <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-4 text-white flex items-center gap-3">
+                            <i class="fa-solid fa-address-card text-2xl"></i>
+                            <h2 class="text-lg font-bold">राशन कार्ड डिजिटल लिंकिंग फॉर्म</h2>
+                        </div>
+                        <form id="rationForm" onsubmit="submitRationForm(event)" class="p-6 space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">मुखिया का नाम *</label>
+                                    <input type="text" id="holderName" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="नाम लिखें">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">मोबाइल नंबर *</label>
+                                    <input type="tel" id="holderMobile" pattern="[0-9]{10}" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="10 अंकों का नंबर">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">राशन कार्ड संख्या *</label>
+                                    <input type="number" id="rationNumber" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="12 या 15 अंकों की संख्या">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">परिवार में कुल सदस्य *</label>
+                                    <input type="number" id="formMembers" min="1" max="25" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="कुल सदस्यों की संख्या">
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg shadow transition-all cursor-pointer">
+                                <i class="fa-solid fa-share-from-square mr-2"></i> डेटा सुरक्षित करें (एडमिन पैनल में भेजें)
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <form id="rationForm" onsubmit="submitRationForm(event)" class="p-6 space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">मुखिया का नाम *</label>
-                            <input type="text" id="holderName" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="नाम लिखें">
+
+                <!-- Right Sidebar: Complaints Box -->
+                <div class="space-y-8">
+                    <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-red-600 to-rose-600 p-4 text-white flex items-center gap-3">
+                            <i class="fa-solid fa-comment-dots text-2xl"></i>
+                            <h2 class="text-lg font-bold">शिकायत एवं समस्या बॉक्स</h2>
                         </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">मोबाइल नंबर *</label>
-                            <input type="tel" id="holderMobile" pattern="[0-9]{10}" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="10 अंकों का नंबर">
-                        </div>
+                        <form id="complaintForm" onsubmit="submitComplaint(event)" class="p-6 space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">अपनी समस्या यहाँ विस्तार से लिखें *</label>
+                                <textarea id="complaintText" rows="5" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="राशन वितरण या मशीन खराबी सम्बन्धी शिकायत लिखें..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-lg shadow transition-all cursor-pointer">
+                                <i class="fa-solid fa-paper-plane mr-2"></i> शिकायत दर्ज करें
+                            </button>
+                        </form>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">राशन कार्ड संख्या *</label>
-                            <input type="number" id="rationNumber" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="12 या 15 अंकों का नंबर">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">परिवार में कुल सदस्य *</label>
-                            <input type="number" id="formMembers" min="1" max="25" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="संख्या दर्ज करें">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all cursor-pointer">
-                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> सुरक्षित करें (एडमिन को भेजें)
-                    </button>
-                </form>
+                </div>
             </div>
         </div>
 
-        <!-- RIGHT SIDEBAR: COMPLAINT BOX & INFO (1 Column) -->
-        <div class="space-y-8">
-            <!-- 3. Complaint Box -->
-            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
-                <div class="bg-gradient-to-r from-red-600 to-rose-600 p-4 text-white flex items-center gap-3">
-                    <i class="fa-solid fa-comment-dots text-2xl"></i>
-                    <h2 class="text-lg font-bold">शिकायत एवं समस्या बॉक्स</h2>
-                </div>
-                <form id="complaintForm" onsubmit="submitComplaint(event)" class="p-6 space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">अपनी समस्या/शिकायत यहाँ लिखें *</label>
-                        <textarea id="complaintText" rows="4" required class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="राशन न मिलने या अन्य कोई परेशानी यहाँ दर्ज करें..."></textarea>
+        <!-- PAGE 2: ELIGIBILITY TAB -->
+        <div id="eligibility-tab" class="public-page max-w-4xl mx-auto px-4 py-8 hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-800 border-b pb-3 mb-4 flex items-center gap-2 text-orange-600">
+                    <i class="fa-solid fa-scale-balanced"></i> उत्तर Pradesh खाद्य पात्रता नियमावली (NFSA)
+                </h2>
+                <div class="space-y-4 font-medium text-sm text-slate-600 leading-relaxed">
+                    <div class="p-4 bg-orange-50 rounded-xl border border-orange-100">
+                        <h3 class="font-bold text-orange-800 text-base">1. पात्र गृहस्थी राशन कार्ड (PHH):</h3>
+                        <p class="mt-1">इसके अंतर्गत आने वाले परिवारों को प्रति यूनिट कुल 5 किलोग्राम खाद्यान्न प्रदान किया जाता है। जिसमें 4 किलोग्राम चावल तथा 1 किलोग्राम गेहूं शामिल है।</p>
                     </div>
-                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-lg shadow-md transition-all cursor-pointer">
-                        <i class="fa-solid fa-paper-plane mr-2"></i> शिकायत दर्ज करें
-                    </button>
-                </form>
-            </div>
-
-            <!-- Helpful Information Box -->
-            <div class="bg-slate-100 rounded-2xl p-5 border border-slate-200">
-                <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-circle-info text-blue-600"></i> PDS हेल्पडेस्क नियम
-                </h3>
-                <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 font-medium">
-                    <li>नियमित वितरण माह के प्रथम सप्ताह से शुरू होता है।</li>
-                    <li>अंगूठे का निशान (e-PoS वेरिफिकेशन) अनिवार्य है।</li>
-                    <li>यदि फिंगरप्रिंट काम न करे तो 'Proxy' माध्यम का प्रयोग डीलर से करवाएं।</li>
-                </ul>
+                    <div class="p-4 bg-rose-50 rounded-xl border border-rose-100">
+                        <h3 class="font-bold text-rose-800 text-base">2. अंत्योदय अन्न योजना (AAY - गुलाबी कार्ड):</h3>
+                        <p class="mt-1">यह कार्ड अत्यंत निर्धन परिवारों को दिया जाता है। इसमें सदस्यों की संख्या चाहे जितनी भी हो, प्रति कार्ड निश्चित 35 किलोग्राम अनाज (28 किग्रा चावल + 7 किग्रा गेहूं) प्रति माह वितरित किया जाता है।</p>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+                        <h3 class="font-bold text-amber-800 text-base">3. चीनी (Sugar) वितरण नियम:</h3>
+                        <p class="mt-1">उत्तर प्रदेश सरकार के नियम के मुताबिक पात्र कार्ड धारकों को हर तीन महीने (त्रैमासिक ड्यूरेशन) के अंतराल पर 3 किलोग्राम चीनी उचित सब्सिडी मूल्य पर उपलब्ध कराई जाती है।</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+
+        <!-- PAGE 3: CONTACT TAB -->
+        <div id="contact-tab" class="public-page max-w-xl mx-auto px-4 py-8 hidden">
+            <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 text-center space-y-6">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-shop"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">आधिकारिक उचित दर विक्रेता केंद्र</h2>
+                    <p class="text-xs text-slate-500 mt-1">खाद्य एवं रसद विभाग, उत्तर प्रदेश सरकार द्वारा अधिकृत</p>
+                </div>
+                <div class="divide-y divide-slate-100 text-sm text-left font-medium">
+                    <div class="py-3 flex justify-between"><span class="text-slate-400">विक्रेता क्षेत्र:</span> <span class="text-slate-800 font-bold">गोरखपुर एवं कुशीनगर रेंज</span></div>
+                    <div class="py-3 flex justify-between"><span class="text-slate-400">हेल्पलाइन मोबाइल:</span> <span class="text-emerald-600 font-bold">7525008951</span></div>
+                    <div class="py-3 flex justify-between"><span class="text-slate-400">कार्य समय:</span> <span class="text-slate-800">प्रातः 06:00 बजे से सायं 09:00 बजे तक</span></div>
+                </div>
+                <p class="text-xs text-slate-400 bg-slate-50 p-3 rounded-lg">किसी भी प्रकार की अनियमितता या शिकायत के लिए सीधे ऊपर दिए गए टोल-फ्री हेल्पलाइन या शिकायत बॉक्स का प्रयोग करें।</p>
+            </div>
+        </div>
+
+    </div>
 
     <!-- ================= ADMIN PASSWORD MODAL ================= -->
     <div id="adminAuthModal" class="no-print fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-gray-200">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-200">
             <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
-                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-shield-halved text-orange-400"></i> सुरक्षा सत्यापन</h3>
-                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-shield-halved text-orange-400"></i> डीलर सुरक्षा लॉगिन</h3>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <div class="p-6 space-y-4">
-                <p class="text-sm text-gray-600 font-medium">एडमिन पैनल एक्सेस करने के लिए कृपया अपना सुरक्षित पासवर्ड डालें।</p>
                 <div>
-                    <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded-lg p-3 text-center tracking-widest font-bold text-xl focus:outline-none focus:ring-2 focus:ring-slate-800" placeholder="••••••••">
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-2">सिक्योरिटी पिन/पासवर्ड दर्ज करें:</label>
+                    <input type="password" id="adminPassword" class="w-full border border-slate-300 rounded-xl p-3 text-center tracking-widest font-bold text-xl focus:outline-none focus:ring-2 focus:ring-slate-800" placeholder="••••••••">
                 </div>
-                <div id="loginError" class="text-red-600 text-xs font-semibold text-center hidden">गलत पासवर्ड! कृपया दोबारा प्रयास करें।</div>
-                <button onclick="verifyPassword()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-lg transition-all cursor-pointer">
-                    लॉगिन करें
+                <div id="loginError" class="text-red-600 text-xs font-semibold text-center hidden">❌ गलत पासवर्ड! दोबारा प्रयास करें।</div>
+                <button onclick="verifyPassword()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-xl transition-all cursor-pointer">
+                    डैशबोर्ड खोलें
                 </button>
             </div>
         </div>
@@ -190,97 +256,248 @@
     <div id="adminPanelSection" class="hidden min-h-screen bg-slate-900 text-slate-100 p-4 sm:p-8">
         <div class="max-w-7xl mx-auto space-y-8">
             
-            <!-- Dashboard Header -->
-            <div class="no-print flex flex-col sm:flex-row justify-between items-center bg-slate-800 p-4 rounded-xl gap-4 border border-slate-700">
+            <!-- Dashboard Top Header (No Print) -->
+            <div class="no-print flex flex-col md:flex-row justify-between items-center bg-slate-800 p-4 rounded-2xl gap-4 border border-slate-700">
                 <div class="flex items-center gap-3">
-                    <div class="p-3 bg-orange-500 rounded-lg text-white"><i class="fa-solid fa-gauge-high text-xl"></i></div>
+                    <div class="p-3 bg-orange-500 rounded-xl text-white"><i class="fa-solid fa-gauge-high text-xl"></i></div>
                     <div>
-                        <h2 class="text-xl font-bold">दुकानदार प्रबंधन डैशबोर्ड</h2>
-                        <p class="text-xs text-slate-400 font-medium">आदित्य सहनी किराना एवं राशन स्टोर</p>
+                        <h2 class="text-xl font-bold text-white">दुकानदार प्रबंधन डैशबोर्ड (डीलर पैनल)</h2>
+                        <p class="text-xs text-slate-400 font-medium">खाद्य सुरक्षा रिकॉर्ड लेजर सिस्टम</p>
                     </div>
                 </div>
-                <div class="flex gap-3">
-                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 shadow cursor-pointer">
-                        <i class="fa-solid fa-print"></i> प्रिंट डेटा लेजर
-                    </button>
-                    <button onclick="logoutAdmin()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 shadow cursor-pointer">
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+                    <!-- Live Search Field -->
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
+                        <input type="text" id="adminSearch" onkeyup="searchAdminData()" placeholder="नाम या कार्ड नंबर खोजें..." class="w-full bg-slate-700 text-xs border border-slate-600 rounded-lg pl-8 pr-3 py-2.5 text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                    <button onclick="logoutAdmin()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 shadow cursor-pointer transition-all">
                         <i class="fa-solid fa-right-from-bracket"></i> लॉगआउट
                     </button>
                 </div>
             </div>
 
-            <!-- MAIN PRINTABLE REGION -->
-            <div id="printableContent" class="print-area space-y-8">
+            <!-- GRID SECTIONS FOR SEPARATE TASKS -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 
-                <!-- Print Header (Hidden on Web screen) -->
-                <div class="hidden print:block text-black mb-6 border-b-2 border-black pb-4">
-                    <h1 class="text-2xl font-bold text-center">उत्तर प्रदेश राशन कार्ड डेटा शीट</h1>
-                    <p class="text-center text-sm">दिनांक: <span id="printDate"></span> | प्राधिकृत डीलर रिकॉर्ड</p>
+                <!-- LEFT & CENTER COLUMN (2/3 width): Data List Table -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Section 1: Connected Forms Data -->
+                    <div class="bg-slate-800 rounded-2xl shadow border border-slate-700 overflow-hidden">
+                        <div class="bg-slate-700 p-4 font-bold text-sm flex items-center justify-between text-orange-400">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-users"></i> राशन कार्ड लिंक आवेदन रिकॉर्ड</span>
+                            <span class="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full" id="recordCount">0</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-750 border-b border-slate-700 text-slate-300 font-bold">
+                                        <th class="p-3">क्र.सं.</th>
+                                        <th class="p-3">मुखिया नाम</th>
+                                        <th class="p-3">मोबाइल नंबर</th>
+                                        <th class="p-3">राशन कार्ड नंबर</th>
+                                        <th class="p-3 text-center">सदस्य</th>
+                                        <th class="p-3 text-center">एक्शन</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminFormTable" class="divide-y divide-slate-700 font-medium">
+                                    <!-- Dynamic Rows Javascript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Complaints Log Box -->
+                    <div class="bg-slate-800 rounded-2xl shadow border border-slate-700 overflow-hidden">
+                        <div class="bg-slate-700 p-4 font-bold text-sm text-rose-400 flex items-center gap-2">
+                            <i class="fa-solid fa-envelope-open-text"></i> प्राप्त नागरिक शिकायतें / फीडबैक लेज़र
+                        </div>
+                        <div class="p-4">
+                            <ul id="adminComplaintList" class="space-y-3 divide-y divide-slate-700">
+                                <!-- Complaints Injected Javascript -->
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Section 1: Submitted Ration Forms -->
-                <div class="bg-slate-800 text-slate-100 print:text-black print:bg-white rounded-xl shadow border border-slate-700 print:border-none overflow-hidden">
-                    <div class="bg-slate-700 print:bg-gray-200 p-4 font-bold text-lg flex items-center gap-2 text-orange-400 print:text-black">
-                        <i class="fa-solid fa-table-list"></i> नए राशन कार्ड आवेदन फॉर्म डेटा
+                <!-- RIGHT COLUMN (1/3 width): Notice & Stock Maintenance Tools -->
+                <div class="space-y-8">
+                    
+                    <!-- Section 3: Live Notice Board Editor -->
+                    <div class="bg-slate-800 rounded-2xl shadow border border-slate-700 overflow-hidden">
+                        <div class="bg-slate-700 p-4 font-bold text-sm text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> लाइव सूचना पट्ट (Notice Board Editor)
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <label class="block text-xs text-slate-400">पब्लिक पोर्टल स्क्रॉलिंग टेक्स्ट बदलें:</label>
+                            <textarea id="noticeEditorInput" rows="3" class="w-full bg-slate-900 border border-slate-600 rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-400 font-medium"></textarea>
+                            <button onclick="updateNoticeBoard()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-lg transition-all cursor-pointer">
+                                <i class="fa-solid fa-rotate mr-1"></i> नोटिस बोर्ड अपडेट करें
+                            </button>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm border-collapse">
-                            <thead>
-                                <tr class="bg-slate-750 print:bg-gray-100 border-b border-slate-700 print:border-black text-slate-300 print:text-black font-bold">
-                                    <th class="p-3">क्र.सं.</th>
-                                    <th class="p-3">मुखिया का नाम</th>
-                                    <th class="p-3">मोबाइल नंबर</th>
-                                    <th class="p-3">राशन कार्ड संख्या</th>
-                                    <th class="p-3 text-center">परिवार सदस्य</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminFormTable" class="divide-y divide-slate-700 print:divide-gray-300">
-                                <!-- Data injected via Javascript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
-                <!-- Section 2: Complaints Box Log -->
-                <div class="bg-slate-800 text-slate-100 print:text-black print:bg-white rounded-xl shadow border border-slate-700 print:border-none overflow-hidden">
-                    <div class="bg-slate-700 print:bg-gray-200 p-4 font-bold text-lg flex items-center gap-2 text-rose-400 print:text-black">
-                        <i class="fa-solid fa-envelope-open-text"></i> प्राप्त शिकायतें एवं सुझाव लेज़र
+                    <!-- Section 4: Shop Stock Maintenance & Ledger -->
+                    <div class="bg-slate-800 rounded-2xl shadow border border-slate-700 overflow-hidden">
+                        <div class="bg-slate-700 p-4 font-bold text-sm text-emerald-400 flex items-center gap-2">
+                            <i class="fa-solid fa-boxes-stacked"></i> गोदाम स्टॉक प्रबंधन (Stock Manager)
+                        </div>
+                        <div class="p-4 space-y-4 text-xs font-medium">
+                            <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-700">
+                                    <p class="text-orange-400 font-bold">गेहूं स्टॉक</p>
+                                    <p class="text-sm font-bold text-white mt-1"><span id="stockWheatDisplay">1200</span> किग्रा</p>
+                                </div>
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-700">
+                                    <p class="text-amber-400 font-bold">चावल स्टॉक</p>
+                                    <p class="text-sm font-bold text-white mt-1"><span id="stockRiceDisplay">4800</span> किग्रा</p>
+                                </div>
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-700">
+                                    <p class="text-emerald-400 font-bold">चीनी स्टॉक</p>
+                                    <p class="text-sm font-bold text-white mt-1"><span id="stockSugarDisplay">360</span> किग्रा</p>
+                                </div>
+                            </div>
+                            <hr class="border-slate-700">
+                            <div class="space-y-2">
+                                <p class="text-slate-400 text-[11px] font-bold uppercase">नया स्टॉक आवक जोड़ें (किग्रा में):</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <input type="number" id="inputWheatStock" placeholder="गेहूं" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white">
+                                    <input type="number" id="inputRiceStock" placeholder="चावल" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white">
+                                    <input type="number" id="inputSugarStock" placeholder="चीनी" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white">
+                                </div>
+                                <button onclick="updateStockBalances()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 rounded-lg transition-all cursor-pointer mt-2">
+                                    <i class="fa-solid fa-plus mr-1"></i> नया स्टॉक बैलेंस अपडेट करें
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-4">
-                        <ul id="adminComplaintList" class="space-y-3 divide-y divide-slate-700 print:divide-gray-300">
-                            <!-- Complaints injected via Javascript -->
-                        </ul>
-                    </div>
+
                 </div>
 
             </div>
         </div>
     </div>
 
+    <!-- ==================== UP RATION CARD LIVE PRINT PREVIEW MODAL ==================== -->
+    <div id="rationCardModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6 relative border border-slate-300">
+            <!-- Close and Print Controls (No Print via Screen) -->
+            <div class="no-print flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-sm text-slate-800"><i class="fa-solid fa-id-card text-orange-500"></i> डिजिटल राशन कार्ड (प्रिंट प्रीव्यू)</h3>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-print"></i> प्रिंट / PDF सेव करें
+                    </button>
+                    <button onclick="closeRationCardModal()" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+            </div>
+
+            <!-- PRINTABLE RATION CARD FORMAT (UP GOVT DESIGN STYLE) -->
+            <div id="upDigitalRationCard" class="print-area bg-white border-2 border-dashed border-slate-800 p-4 text-black text-xs space-y-4">
+                <div class="flex items-center justify-between border-b-2 border-slate-800 pb-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Seal_of_Uttar_Pradesh.svg" alt="UP Govt Seal" class="h-12 w-12 object-contain">
+                    <div class="text-center flex-grow px-2">
+                        <h2 class="text-base font-extrabold tracking-wide text-black">खाद्य एवं रसद विभाग, उत्तर प्रदेश सरकार</h2>
+                        <p class="text-[10px] font-bold uppercase tracking-wider">राष्ट्रीय खाद्य सुरक्षा अधिनियम (NFSA) राशन कार्ड</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-y-2 gap-x-4 border-b pb-3 font-medium">
+                    <div><strong>राशन कार्ड संख्या:</strong> <span id="rcCardNo" class="font-bold text-sm tracking-wider"></span></div>
+                    <div><strong>कार्ड का प्रकार:</strong> <span class="font-bold">पात्र गृहस्थी</span></div>
+                    <div><strong>मुखिया का नाम:</strong> <span id="rcHolderName" class="font-bold"></span></div>
+                    <div><strong>मोबाइल नंबर:</strong> <span id="rcMobile"></span></div>
+                    <div><strong>दुकान संख्या / कोड:</strong> <span>UP-993821</span></div>
+                    <div><strong>वितरक रेंज क्षेत्र:</strong> <span>गोरखपुर - कुशीनगर (U.P.)</span></div>
+                </div>
+
+                <div>
+                    <p class="font-bold border-b pb-1 mb-1 bg-slate-100 p-1">पारिवारिक विवरण तथा आवंटन मापदंड:</p>
+                    <table class="w-full text-left border-collapse border border-slate-400">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-400 font-bold">
+                                <th class="p-1 border-r border-slate-400">कुल सदस्य संख्या</th>
+                                <th class="p-1 border-r border-slate-400">गेहूं मात्रा (मासिक)</th>
+                                <th class="p-1 border-r border-slate-400">चावल मात्रा (मासिक)</th>
+                                <th class="p-1">चीनी (त्रैमासिक)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center font-bold">
+                                <td class="p-2 border-r border-slate-400" id="rcMembers"></td>
+                                <td class="p-2 border-r border-slate-400" id="rcWheat"></td>
+                                <td class="p-2 border-r border-slate-400" id="rcRice"></td>
+                                <td class="p-2" id="rcSugar">3 किग्रा</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pt-4 flex justify-between items-end text-[9px] font-bold">
+                    <div>डिजिटल हस्ताक्षर: उचित दर डीलर सिस्टम</div>
+                    <div class="text-center border border-slate-800 p-1 uppercase tracking-tighter">सत्यापित ई-पॉश कॉपी</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ================= FOOTER ================= -->
-    <footer class="no-print bg-slate-800 text-slate-400 text-xs text-center py-4 mt-10 border-t border-slate-700 font-medium">
-        © 2026 खाद्य एवं रसद विभाग, उत्तर प्रदेश। यह पोर्टल स्थानीय उचित दर दुकान प्रबंधन हेतु डिज़ाइन किया गया है।
+    <footer class="no-print bg-slate-800 text-slate-400 text-xs text-center py-4 mt-auto border-t border-slate-700 font-medium">
+        © 2026 खाद्य एवं रसद विभाग, उत्तर प्रदेश। स्थानीय उचित दर दुकान डिजिटल पोर्टल प्रबंधन सिस्टम।
     </footer>
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // डमी डेटा (शुरुआत में दिखाने के लिए)
+        // LocalStorage या डमी डिफ़ॉल्ट डेटा लोड करना
         let rationSubmissions = JSON.parse(localStorage.getItem('rationData')) || [
-            { name: "सुरज कुमार", mobile: "9876543210", cardNo: "217845129654", members: "5" }
+            { name: "सुरज पासवान", mobile: "7525000000", cardNo: "218943152647", members: "5" },
+            { name: "अभिषेक यादव", mobile: "9140001122", cardNo: "349815264871", members: "4" }
         ];
         let complaints = JSON.parse(localStorage.getItem('complaintData')) || [
-            "मशीन में अंगूठा लगाने पर सर्वर एरर की समस्या आ रही है।"
+            "इस बार सर्वर धीमा होने के कारण अंगूठा लगाने में थोड़ा ज्यादा समय लगा था।"
         ];
+        let shopStock = JSON.parse(localStorage.getItem('shopStockData')) || { wheat: 1200, rice: 4800, sugar: 360 };
+        let activeNotice = localStorage.getItem('noticeText') || "महत्वपूर्ण सूचना: अगले माह का राशन वितरण नियमानुसार 5 तारीख से शुरू होगा। चीनी वितरण भी उपलब्ध रहेगा। कृपया समय पर अंगूठे का निशान लगाएं।";
 
-        // 1. राशन कैलकुलेटर
-        function calculateRation() {
-            const members = parseInt(document.getElementById('memberCount').value);
-            document.getElementById('wheatQty').innerText = members * 1;  // 1kg wheat per person
-            document.getElementById('riceQty').innerText = members * 4;   // 4kg rice per person
-            document.getElementById('sugarQty').innerText = 3;            // 3kg Fixed Sugar every 3 months
+        // प्रारम्भिक लोड सेटअप
+        window.onload = function() {
+            setInitialNotice();
+            renderStockDisplay();
+        };
+
+        // नोटिस इनिशियलाइज़
+        function setInitialNotice() {
+            document.getElementById('publicNoticeMarquee').innerHTML = `<i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> <strong>महत्वपूर्ण सूचना:</strong> ${activeNotice}`;
+            document.getElementById('noticeEditorInput').value = activeNotice;
         }
 
-        // 2. पब्लिक फॉर्म सबमिट
+        // पब्लिक मल्टी-पेज टैब स्विचिंग
+        function switchPublicTab(tabId) {
+            document.querySelectorAll('.public-page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            // टैब एक्टिव क्लास रीसेट
+            ['home-tab', 'eligibility-tab', 'contact-tab'].forEach(id => {
+                const btn = document.getElementById('btn-' + id);
+                if(id === tabId) {
+                    btn.classList.add('bg-slate-700', 'border-orange-500');
+                    btn.classList.remove('border-transparent');
+                } else {
+                    btn.classList.remove('bg-slate-700', 'border-orange-500');
+                    btn.classList.add('border-transparent');
+                }
+            });
+        }
+
+        // राशन कैलकुलेटर
+        function calculateRation() {
+            const members = parseInt(document.getElementById('memberCount').value);
+            document.getElementById('wheatQty').innerText = members * 1;  
+            document.getElementById('riceQty').innerText = members * 4;   
+            document.getElementById('sugarQty').innerText = 3;            
+        }
+
+        // पब्लिक डेटा सबमिशन
         function submitRationForm(event) {
             event.preventDefault();
             const newRecord = {
@@ -291,23 +508,23 @@
             };
             rationSubmissions.push(newRecord);
             localStorage.setItem('rationData', JSON.stringify(rationSubmissions));
-            alert('आपका राशन विवरण सफलतापूर्वक सुरक्षित कर लिया गया है। एडमिन जल्द ही इसे वेरीफाई करेंगे।');
+            alert('आपका राशन विवरण सफलतापूर्वक एडमिन पैनल को भेज दिया गया है।');
             document.getElementById('rationForm').reset();
             renderAdminPanel();
         }
 
-        // 3. शिकायत सबमिट
+        // शिकायत सबमिशन
         function submitComplaint(event) {
             event.preventDefault();
             const txt = document.getElementById('complaintText').value;
             complaints.push(txt);
             localStorage.setItem('complaintData', JSON.stringify(complaints));
-            alert('आपकी शिकायत गोपनीय रूप से दर्ज कर ली गई है।');
+            alert('आपकी शिकायत दुकानदार के एडमिन डैशबोर्ड पर दर्ज कर ली गई है।');
             document.getElementById('complaintForm').reset();
             renderAdminPanel();
         }
 
-        // 4. एडमिन पैनल सुरक्षा/पासवर्ड लॉजिक
+        // एडमिन सुरक्षा मोडल्स लॉजिक
         function openAdminModal() {
             document.getElementById('adminAuthModal').style.display = 'flex';
             document.getElementById('adminPassword').focus();
@@ -318,11 +535,10 @@
         }
         function verifyPassword() {
             const pass = document.getElementById('adminPassword').value;
-            // आपका सुरक्षित डिफ़ॉल्ट पासवर्ड
             if(pass === "Aditya@7525") {
                 closeAdminModal();
-                // मुख्य पब्लिक वेबसाइट छुपाएं, एडमिन डैशबोर्ड दिखाएं
-                document.querySelectorAll('.no-print').forEach(el => el.classList.add('hidden'));
+                document.getElementById('publicPortalSection').classList.add('hidden');
+                document.getElementById('publicNoticeContainer').classList.add('hidden');
                 document.getElementById('adminPanelSection').classList.remove('hidden');
                 renderAdminPanel();
             } else {
@@ -331,41 +547,111 @@
         }
         function logoutAdmin() {
             document.getElementById('adminPanelSection').classList.add('hidden');
-            document.querySelectorAll('.no-print').forEach(el => el.classList.remove('hidden'));
+            document.getElementById('publicPortalSection').classList.remove('hidden');
+            document.getElementById('publicNoticeContainer').classList.remove('hidden');
             document.getElementById('adminPassword').value = "";
         }
 
-        // 5. एडमिन पैनल में डेटा लोड करना
-        function renderAdminPanel() {
-            // सेट वर्तमान तारीख प्रिंट के लिए
-            document.getElementById('printDate').innerText = new Date().toLocaleDateString('hi-IN');
+        // नोटिस बोर्ड अपडेट (एडमिन क्रिया)
+        function updateNoticeBoard() {
+            const newText = document.getElementById('noticeEditorInput').value;
+            activeNotice = newText;
+            localStorage.setItem('noticeText', activeNotice);
+            document.getElementById('publicNoticeMarquee').innerHTML = `<i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> <strong>महत्वपूर्ण सूचना:</strong> ${activeNotice}`;
+            alert('सूचना पट्ट (Notice Board) को सफलतापूर्वक अपडेट कर दिया गया है!');
+        }
 
-            // टेबल लोड करना
+        // स्टॉक रेंडरिंग
+        function renderStockDisplay() {
+            document.getElementById('stockWheatDisplay').innerText = shopStock.wheat;
+            document.getElementById('stockRiceDisplay').innerText = shopStock.rice;
+            document.getElementById('stockSugarDisplay').innerText = shopStock.sugar;
+        }
+
+        // स्टॉक आवंटन प्लस एडिशन
+        function updateStockBalances() {
+            const wInput = parseInt(document.getElementById('inputWheatStock').value) || 0;
+            const rInput = parseInt(document.getElementById('inputRiceStock').value) || 0;
+            const sInput = parseInt(document.getElementById('inputSugarStock').value) || 0;
+
+            shopStock.wheat += wInput;
+            shopStock.rice += rInput;
+            shopStock.sugar += sInput;
+
+            localStorage.setItem('shopStockData', JSON.stringify(shopStock));
+            renderStockDisplay();
+
+            document.getElementById('inputWheatStock').value = "";
+            document.getElementById('inputRiceStock').value = "";
+            document.getElementById('inputSugarStock').value = "";
+            alert('गोदाम का स्टॉक डेटा बैलेंस सफलतापूर्वक अपडेट कर दिया गया है।');
+        }
+
+        // एडमिन डेटा रेंडरिंग मास्टर टेबल
+        function renderAdminPanel(filteredData = null) {
             const tableBody = document.getElementById('adminFormTable');
             tableBody.innerHTML = "";
-            rationSubmissions.forEach((item, index) => {
+            
+            const dataToRender = filteredData || rationSubmissions;
+            document.getElementById('recordCount').innerText = dataToRender.length;
+
+            dataToRender.forEach((item, index) => {
                 tableBody.innerHTML += `
-                    <tr class="hover:bg-slate-750 print:hover:bg-transparent">
-                        <td class="p-3 text-slate-400 print:text-black">${index + 1}</td>
-                        <td class="p-3 font-semibold text-white print:text-black">${item.name}</td>
-                        <td class="p-3 text-slate-300 print:text-black">${item.mobile}</td>
-                        <td class="p-3 tracking-wider font-mono text-amber-400 print:text-black">${item.cardNo}</td>
-                        <td class="p-3 text-center font-bold text-emerald-400 print:text-black">${item.members}</td>
+                    <tr class="hover:bg-slate-750 border-b border-slate-700">
+                        <td class="p-3 text-slate-400">${index + 1}</td>
+                        <td class="p-3 font-semibold text-white">${item.name}</td>
+                        <td class="p-3 text-slate-300">${item.mobile}</td>
+                        <td class="p-3 tracking-wider font-mono text-amber-400">${item.cardNo}</td>
+                        <td class="p-3 text-center font-bold text-emerald-400">${item.members}</td>
+                        <td class="p-3 text-center">
+                            <button onclick='generateUPRationCard(${JSON.stringify(item)})' class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2 py-1 rounded text-[10px] cursor-pointer transition-all">
+                                <i class="fa-solid fa-id-card"></i> राशन कार्ड देखें
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
 
-            // शिकायतें लोड करना
+            // शिकायतों का लोड
             const listBody = document.getElementById('adminComplaintList');
             listBody.innerHTML = "";
-            complaints.forEach((item, index) => {
+            complaints.forEach((item) => {
                 listBody.innerHTML += `
-                    <li class="pt-3 first:pt-0 text-sm text-slate-300 print:text-black flex gap-2">
+                    <li class="pt-2 text-xs text-slate-300 flex gap-2 font-medium">
                         <span class="text-rose-500 font-bold">•</span>
                         <p class="italic">"${item}"</p>
                     </li>
                 `;
             });
+        }
+
+        // एडमिन लाइव सर्च फंक्शन
+        function searchAdminData() {
+            const searchVal = document.getElementById('adminSearch').value.toLowerCase();
+            const filtered = rationSubmissions.filter(item => 
+                item.name.toLowerCase().includes(searchVal) || 
+                item.cardNo.includes(searchVal)
+            );
+            renderAdminPanel(filtered);
+        }
+
+        // यूपी राशन कार्ड जनरेटर पॉपअप
+        function generateUPRationCard(item) {
+            document.getElementById('rcCardNo').innerText = item.cardNo;
+            document.getElementById('rcHolderName').innerText = item.name;
+            document.getElementById('rcMobile').innerText = item.mobile;
+            document.getElementById('rcMembers').innerText = item.members + " सदस्य";
+            
+            const membersCount = parseInt(item.members);
+            document.getElementById('rcWheat').innerText = (membersCount * 1) + " किग्रा";
+            document.getElementById('rcRice').innerText = (membersCount * 4) + " किग्रा";
+
+            // मॉडल विज़िबल करें
+            document.getElementById('rationCardModal').style.display = 'flex';
+        }
+
+        function closeRationCardModal() {
+            document.getElementById('rationCardModal').style.display = 'none';
         }
     </script>
 </body>
