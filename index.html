@@ -330,7 +330,7 @@
                     <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl shadow-lg border border-emerald-500 overflow-hidden">
                         <div class="p-5 text-center space-y-3">
                             <h3 class="text-white font-bold text-sm"><i class="fa-brands fa-whatsapp text-xl mr-1"></i> WhatsApp डेली रिपोर्ट सिस्टम</h3>
-                            <p class="text-[10px] text-emerald-100">आज का कुल स्टॉक और कार्ड डेटा सीधे WhatsApp पर भेजें।</p>
+                            <p class="text-[10px] text-emerald-100">आज का कुल स्टॉक और कार्ड डेटा सीधे WhatsApp पर भेजें.</p>
                             <button onclick="sendWhatsAppReport()" class="w-full bg-white text-emerald-700 hover:bg-slate-100 font-extrabold text-sm py-2.5 rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-paper-plane"></i> अभी रिपोर्ट भेजें
                             </button>
@@ -359,9 +359,14 @@
                                 <div class="bg-slate-900 p-2 rounded-lg border border-slate-700">
                                     <p class="text-orange-400 font-bold">गेहूं स्टॉक</p>
                                     <p class="text-sm font-bold text-white mt-1"><span id="stockWheatDisplay">1200</span> क्विंटल</p>
-<p class="text-sm font-bold text-white mt-1"><span id="stockRiceDisplay">4800</span> क्विंटल</p>
-<p class="text-sm font-bold text-white mt-1"><span id="stockSugarDisplay">360</span> क्विंटल</p>
-
+                                </div>
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-700">
+                                    <p class="text-emerald-400 font-bold">चावल स्टॉक</p>
+                                    <p class="text-sm font-bold text-white mt-1"><span id="stockRiceDisplay">4800</span> क्विंटल</p>
+                                </div>
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-700">
+                                    <p class="text-blue-400 font-bold">चीनी स्टॉक</p>
+                                    <p class="text-sm font-bold text-white mt-1"><span id="stockSugarDisplay">360</span> क्विंटल</p>
                                 </div>
                             </div>
                             
@@ -383,7 +388,7 @@
                             <hr class="border-slate-700">
 
                             <div class="space-y-2">
-                                <p class="text-slate-400 text-[11px] font-bold uppercase">नया स्टॉक आवक जोड़ें (किग्रा में):</p>
+                                <p class="text-slate-400 text-[11px] font-bold uppercase">नया स्टॉक आवक जोड़ें (क्विंटल में):</p>
                                 <div class="grid grid-cols-3 gap-2">
                                     <input type="number" id="inputWheatStock" placeholder="गेहूं" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white">
                                     <input type="number" id="inputRiceStock" placeholder="चावल" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white">
@@ -617,7 +622,7 @@
             
             if(stockHistory[selectedDate]) {
                 const data = stockHistory[selectedDate];
-                resultDiv.innerHTML = `तारीख: <b>${selectedDate}</b><br>गेहूं: ${data.wheat} किग्रा | चावल: ${data.rice} किग्रा | चीनी: ${data.sugar} किग्रा`;
+                resultDiv.innerHTML = `तारीख: <b>${selectedDate}</b><br>गेहूं: ${data.wheat} क्विंटल | चावल: ${data.rice} क्विंटल | चीनी: ${data.sugar} क्विंटल`;
                 resultDiv.classList.remove('hidden', 'text-red-400');
                 resultDiv.classList.add('text-emerald-400');
             } else {
@@ -658,9 +663,9 @@
             message += `*क्षेत्र:* गोरखपुर\n`;
             message += `------------------------------\n`;
             message += `*📦 आज का कुल स्टॉक:*\n`;
-            message += `🌾 *गेहूं:* ${shopStock.wheat} किग्रा\n`;
-            message += `🍚 *चावल:* ${shopStock.rice} किग्रा\n`;
-            message += `🍬 *चीनी:* ${shopStock.sugar} किग्रा\n`;
+            message += `🌾 *गेहूं:* ${shopStock.wheat} क्विंटल\n`;
+            message += `🍚 *चावल:* ${shopStock.rice} क्विंटल\n`;
+            message += `🍬 *चीनी:* ${shopStock.sugar} क्विंटल\n`;
             message += `------------------------------\n`;
             message += `*📝 कुल पंजीकृत कार्ड:* ${rationSubmissions.length}\n`;
             message += `*⚠️ कुल प्राप्त शिकायतें:* ${complaints.length}\n`;
