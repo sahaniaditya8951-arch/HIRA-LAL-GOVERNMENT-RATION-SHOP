@@ -16,6 +16,22 @@
             .print-area { display: block !important; width: 100% !important; color: black !important; }
             body { background: white !important; }
         }
+
+        /* New Admin Lock Design Animations */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .shake-animation {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
     </style>
 </head>
 <body class="bg-slate-50 flex flex-col min-h-screen">
@@ -27,7 +43,7 @@
                 <div>
                     <h1 class="text-xl font-bold text-orange-600">उचित दर दुकान (ई-पॉश पोर्टल)</h1>
                     <p class="text-xs font-semibold text-emerald-700">खाद्य एवं रसद विभाग, उत्तर प्रदेश सरकार</p>
-                    <p class="text-sm font-medium text-slate-500">📍 कुशीनगर-गोरखपुर क्षेत्र | <strong>कोटेदार: हीरालाल</strong> | डीलर कोड: UP-993821</p>
+                    <p class="text-sm font-medium text-slate-500">📍 गोरखपुर क्षेत्र | <strong>कोटेदार: हीरालाल</strong> | डीलर कोड: 20581921</p>
                 </div>
             </div>
             
@@ -210,7 +226,7 @@
                 </div>
                 <div class="divide-y divide-slate-100 text-sm text-left font-medium">
                     <div class="py-3 flex justify-between"><span class="text-slate-400">विक्रेता/कोटेदार का नाम:</span> <span class="text-slate-800 font-bold text-lg">हीरालाल</span></div>
-                    <div class="py-3 flex justify-between"><span class="text-slate-400">विक्रेता क्षेत्र:</span> <span class="text-slate-800 font-bold">गोरखपुर एवं कुशीनगर रेंज</span></div>
+                    <div class="py-3 flex justify-between"><span class="text-slate-400">विक्रेता क्षेत्र:</span> <span class="text-slate-800 font-bold">गोरखपुर रेंज</span></div>
                     <div class="py-3 flex justify-between"><span class="text-slate-400">हेल्पलाइन मोबाइल:</span> <span class="text-emerald-600 font-bold">7525008951</span></div>
                     <div class="py-3 flex justify-between"><span class="text-slate-400">कार्य समय:</span> <span class="text-slate-800">प्रातः 06:00 बजे से सायं 09:00 बजे तक</span></div>
                 </div>
@@ -220,20 +236,26 @@
 
     </div>
 
-    <div id="adminAuthModal" class="no-print fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-200">
-            <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
-                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-shield-halved text-orange-400"></i> डीलर सुरक्षा लॉगिन</h3>
-                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <div class="p-6 space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 uppercase mb-2">सिक्योरिटी पिन/पासवर्ड दर्ज करें:</label>
-                    <input type="password" id="adminPassword" class="w-full border border-slate-300 rounded-xl p-3 text-center tracking-widest font-bold text-xl focus:outline-none focus:ring-2 focus:ring-slate-800" placeholder="••••••••">
+    <div id="adminAuthModal" class="no-print fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+        <div id="loginCard" class="glass-panel rounded-3xl max-w-md w-full shadow-2xl overflow-hidden transition-all transform scale-100">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 text-white p-6 flex flex-col items-center justify-center relative border-b border-slate-700">
+                <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <div class="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mb-3 shadow-inner border border-slate-600">
+                    <i class="fa-solid fa-user-shield text-3xl text-orange-400"></i>
                 </div>
-                <div id="loginError" class="text-red-600 text-xs font-semibold text-center hidden">❌ गलत पासवर्ड! दोबारा प्रयास करें।</div>
-                <button onclick="verifyPassword()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-xl transition-all cursor-pointer">
-                    डैशबोर्ड खोलें
+                <h3 class="font-bold text-xl tracking-wide">एडमिन पैनल लॉगिन</h3>
+                <p class="text-xs text-slate-400 mt-1 font-medium">केवल डीलर (हीरालाल) के लिए सुरक्षित</p>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="relative">
+                    <i class="fa-solid fa-key absolute left-4 top-4 text-slate-400"></i>
+                    <input type="password" id="adminPassword" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-lg font-bold text-slate-800 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-all placeholder-slate-400 tracking-widest" placeholder="सिक्योरिटी पिन">
+                </div>
+                <div id="loginError" class="text-red-500 text-sm font-bold text-center bg-red-50 py-2 rounded-lg hidden border border-red-100">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> गलत पासवर्ड! दोबारा प्रयास करें।
+                </div>
+                <button onclick="verifyPassword()" class="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3.5 rounded-2xl shadow-lg hover:shadow-orange-500/30 transition-all cursor-pointer text-lg flex justify-center items-center gap-2">
+                    सुरक्षित लॉगिन <i class="fa-solid fa-arrow-right-to-bracket"></i>
                 </button>
             </div>
         </div>
@@ -305,9 +327,19 @@
 
                 <div class="space-y-8">
                     
+                    <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl shadow-lg border border-emerald-500 overflow-hidden">
+                        <div class="p-5 text-center space-y-3">
+                            <h3 class="text-white font-bold text-sm"><i class="fa-brands fa-whatsapp text-xl mr-1"></i> WhatsApp डेली रिपोर्ट सिस्टम</h3>
+                            <p class="text-[10px] text-emerald-100">आज का कुल स्टॉक और कार्ड डेटा सीधे WhatsApp पर भेजें।</p>
+                            <button onclick="sendWhatsAppReport()" class="w-full bg-white text-emerald-700 hover:bg-slate-100 font-extrabold text-sm py-2.5 rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> अभी रिपोर्ट भेजें
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="bg-slate-800 rounded-2xl shadow border border-slate-700 overflow-hidden">
                         <div class="bg-slate-700 p-4 font-bold text-sm text-amber-400 flex items-center gap-2">
-                            <i class="fa-solid fa-pen-to-square"></i> लाइव सूचना पट्ट (Notice Board Editor)
+                            <i class="fa-solid fa-pen-to-square"></i> लाइव सूचना पट्ट (Notice Board)
                         </div>
                         <div class="p-4 space-y-3">
                             <label class="block text-xs text-slate-400">पब्लिक पोर्टल स्क्रॉलिंग टेक्स्ट बदलें:</label>
@@ -319,8 +351,8 @@
                     </div>
 
                     <div class="bg-slate-800 rounded-2xl shadow border border-slate-700 overflow-hidden">
-                        <div class="bg-slate-700 p-4 font-bold text-sm text-emerald-400 flex items-center gap-2">
-                            <i class="fa-solid fa-boxes-stacked"></i> गोदाम स्टॉक प्रबंधन (Stock Manager)
+                        <div class="bg-slate-700 p-4 font-bold text-sm text-emerald-400 flex items-center justify-between">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-boxes-stacked"></i> गोदाम स्टॉक प्रबंधन</span>
                         </div>
                         <div class="p-4 space-y-4 text-xs font-medium">
                             <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
@@ -337,7 +369,24 @@
                                     <p class="text-sm font-bold text-white mt-1"><span id="stockSugarDisplay">360</span> किग्रा</p>
                                 </div>
                             </div>
+                            
                             <hr class="border-slate-700">
+                            
+                            <div class="space-y-2 bg-slate-900 p-3 rounded-lg border border-slate-700">
+                                <p class="text-slate-400 text-[11px] font-bold uppercase flex justify-between items-center">
+                                    <span>पुराना स्टॉक चेक करें:</span>
+                                    <button onclick="saveDailyStock()" class="text-[9px] bg-blue-600 text-white px-2 py-1 rounded cursor-pointer"><i class="fa-solid fa-save"></i> आज का सेव करें</button>
+                                </p>
+                                <div class="flex gap-2">
+                                    <input type="date" id="historyDate" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-white">
+                                    <button onclick="checkStockHistory()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 rounded text-xs font-bold cursor-pointer">खोजें</button>
+                                </div>
+                                <div id="historyResult" class="text-[10px] text-emerald-400 mt-2 hidden bg-slate-800 p-2 rounded border border-slate-600">
+                                    </div>
+                            </div>
+
+                            <hr class="border-slate-700">
+
                             <div class="space-y-2">
                                 <p class="text-slate-400 text-[11px] font-bold uppercase">नया स्टॉक आवक जोड़ें (किग्रा में):</p>
                                 <div class="grid grid-cols-3 gap-2">
@@ -385,8 +434,8 @@
                     <div><strong>मुखिया का नाम:</strong> <span id="rcHolderName" class="font-bold"></span></div>
                     <div><strong>मोबाइल नंबर:</strong> <span id="rcMobile"></span></div>
                     <div><strong>कोटेदार का नाम:</strong> <span class="font-bold text-sm">हीरालाल</span></div>
-                    <div><strong>दुकान संख्या / कोड:</strong> <span>UP-993821</span></div>
-                    <div class="col-span-2"><strong>वितरक रेंज क्षेत्र:</strong> <span>गोरखपुर - कुशीनगर (U.P.)</span></div>
+                    <div><strong>दुकान संख्या / कोड:</strong> <span>20581921</span></div>
+                    <div class="col-span-2"><strong>वितरक रेंज क्षेत्र:</strong> <span>गोरखपुर (U.P.)</span></div>
                 </div>
 
                 <div>
@@ -428,7 +477,7 @@
     </footer>
 
     <script>
-        // LocalStorage या डमी डिफ़ॉल्ट डेटा लोड करना
+        // LocalStorage Data Setup
         let rationSubmissions = JSON.parse(localStorage.getItem('rationData')) || [
             { name: "सुरज पासवान", mobile: "7525000000", cardNo: "218943152647", members: "5" },
             { name: "अभिषेक यादव", mobile: "9140001122", cardNo: "349815264871", members: "4" }
@@ -438,25 +487,26 @@
         ];
         let shopStock = JSON.parse(localStorage.getItem('shopStockData')) || { wheat: 1200, rice: 4800, sugar: 360 };
         let activeNotice = localStorage.getItem('noticeText') || "अगले माह का राशन वितरण नियमानुसार 5 तारीख से शुरू होगा। कृपया ध्यान दें: चीनी केवल लाल कार्ड (अंत्योदय) धारकों को ही मिलेगी। कृपया समय पर अंगूठे का निशान लगाएं।";
+        
+        // NEW: Stock History Array
+        let stockHistory = JSON.parse(localStorage.getItem('stockHistoryData')) || {};
 
-        // प्रारम्भिक लोड सेटअप
         window.onload = function() {
             setInitialNotice();
             renderStockDisplay();
+            // सेट करें आज की डिफ़ॉल्ट डेट हिस्ट्री पिकर में
+            document.getElementById('historyDate').value = new Date().toISOString().split('T')[0];
         };
 
-        // नोटिस इनिशियलाइज़
         function setInitialNotice() {
             document.getElementById('publicNoticeMarquee').innerHTML = `<i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> <strong>महत्वपूर्ण सूचना (कोटेदार: हीरालाल):</strong> ${activeNotice}`;
             document.getElementById('noticeEditorInput').value = activeNotice;
         }
 
-        // पब्लिक मल्टी-पेज टैब स्विचिंग
         function switchPublicTab(tabId) {
             document.querySelectorAll('.public-page').forEach(page => page.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
             
-            // टैब एक्टिव क्लास रीसेट
             ['home-tab', 'eligibility-tab', 'contact-tab'].forEach(id => {
                 const btn = document.getElementById('btn-' + id);
                 if(id === tabId) {
@@ -469,7 +519,6 @@
             });
         }
 
-        // राशन कैलकुलेटर
         function calculateRation() {
             const members = parseInt(document.getElementById('memberCount').value);
             document.getElementById('wheatQty').innerText = members * 1;  
@@ -477,7 +526,6 @@
             document.getElementById('sugarQty').innerText = 3;            
         }
 
-        // पब्लिक डेटा सबमिशन
         function submitRationForm(event) {
             event.preventDefault();
             const newRecord = {
@@ -493,7 +541,6 @@
             renderAdminPanel();
         }
 
-        // शिकायत सबमिशन
         function submitComplaint(event) {
             event.preventDefault();
             const txt = document.getElementById('complaintText').value;
@@ -504,27 +551,38 @@
             renderAdminPanel();
         }
 
-        // एडमिन सुरक्षा मोडल्स लॉजिक
+        // --- NEW ADMIN MODAL LOGIC WITH ANIMATION ---
         function openAdminModal() {
             document.getElementById('adminAuthModal').style.display = 'flex';
             document.getElementById('adminPassword').focus();
         }
+        
         function closeAdminModal() {
             document.getElementById('adminAuthModal').style.display = 'none';
             document.getElementById('loginError').classList.add('hidden');
+            document.getElementById('loginCard').classList.remove('shake-animation');
+            document.getElementById('adminPassword').value = '';
         }
+
         function verifyPassword() {
             const pass = document.getElementById('adminPassword').value;
+            const card = document.getElementById('loginCard');
+            
             if(pass === "Aditya@7525") {
                 closeAdminModal();
                 document.getElementById('publicPortalSection').classList.add('hidden');
                 document.getElementById('publicNoticeContainer').classList.add('hidden');
                 document.getElementById('adminPanelSection').classList.remove('hidden');
                 renderAdminPanel();
+                saveDailyStock(); // लॉग इन करते ही ऑटोमेटिक आज का स्टॉक सेव करे
             } else {
                 document.getElementById('loginError').classList.remove('hidden');
+                card.classList.remove('shake-animation');
+                void card.offsetWidth; // trigger reflow
+                card.classList.add('shake-animation');
             }
         }
+
         function logoutAdmin() {
             document.getElementById('adminPanelSection').classList.add('hidden');
             document.getElementById('publicPortalSection').classList.remove('hidden');
@@ -532,23 +590,48 @@
             document.getElementById('adminPassword').value = "";
         }
 
-        // नोटिस बोर्ड अपडेट (एडमिन क्रिया)
         function updateNoticeBoard() {
             const newText = document.getElementById('noticeEditorInput').value;
             activeNotice = newText;
             localStorage.setItem('noticeText', activeNotice);
-            document.getElementById('publicNoticeMarquee').innerHTML = `<i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> <strong>महत्वपूर्ण सूचना (कोटेदार: हीरालाल):</strong> ${activeNotice}`;
+            document.getElementById('publicNoticeMarquee').innerHTML = `<i class="fa-solid fa-bullhorn text-red-700 mx-2"></i> <strong>मह महत्वपूर्ण सूचना (कोटेदार: हीरालाल):</strong> ${activeNotice}`;
             alert('सूचना पट्ट (Notice Board) को सफलतापूर्वक अपडेट कर दिया गया है!');
         }
 
-        // स्टॉक रेंडरिंग
         function renderStockDisplay() {
             document.getElementById('stockWheatDisplay').innerText = shopStock.wheat;
             document.getElementById('stockRiceDisplay').innerText = shopStock.rice;
             document.getElementById('stockSugarDisplay').innerText = shopStock.sugar;
         }
 
-        // स्टॉक आवंटन प्लस एडिशन
+        // --- NEW: DAILY STOCK HISTORY FUNCTIONS ---
+        function saveDailyStock() {
+            const todayDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            stockHistory[todayDate] = { 
+                wheat: shopStock.wheat, 
+                rice: shopStock.rice, 
+                sugar: shopStock.sugar 
+            };
+            localStorage.setItem('stockHistoryData', JSON.stringify(stockHistory));
+            alert("आज का स्टॉक डेटा रिकॉर्ड में सेव कर लिया गया है।");
+        }
+
+        function checkStockHistory() {
+            const selectedDate = document.getElementById('historyDate').value;
+            const resultDiv = document.getElementById('historyResult');
+            
+            if(stockHistory[selectedDate]) {
+                const data = stockHistory[selectedDate];
+                resultDiv.innerHTML = `तारीख: <b>${selectedDate}</b><br>गेहूं: ${data.wheat} किग्रा | चावल: ${data.rice} किग्रा | चीनी: ${data.sugar} किग्रा`;
+                resultDiv.classList.remove('hidden', 'text-red-400');
+                resultDiv.classList.add('text-emerald-400');
+            } else {
+                resultDiv.innerHTML = `तारीख <b>${selectedDate}</b> का कोई रिकॉर्ड नहीं मिला!`;
+                resultDiv.classList.remove('hidden', 'text-emerald-400');
+                resultDiv.classList.add('text-red-400');
+            }
+        }
+
         function updateStockBalances() {
             const wInput = parseInt(document.getElementById('inputWheatStock').value) || 0;
             const rInput = parseInt(document.getElementById('inputRiceStock').value) || 0;
@@ -560,6 +643,7 @@
 
             localStorage.setItem('shopStockData', JSON.stringify(shopStock));
             renderStockDisplay();
+            saveDailyStock(); // अपडेट होते ही आज की हिस्ट्री भी अपडेट हो जाएगी
 
             document.getElementById('inputWheatStock').value = "";
             document.getElementById('inputRiceStock').value = "";
@@ -567,7 +651,29 @@
             alert('गोदाम का स्टॉक डेटा बैलेंस सफलतापूर्वक अपडेट कर दिया गया है।');
         }
 
-        // एडमिन डेटा रेंडरिंग मास्टर टेबल
+        // --- NEW: WHATSAPP REPORTING FUNCTION ---
+        function sendWhatsAppReport() {
+            const today = new Date().toLocaleDateString('hi-IN');
+            
+            let message = `*📊 ई-पॉश दुकान स्टॉक रिपोर्ट*\n`;
+            message += `------------------------------\n`;
+            message += `*तारीख:* ${today}\n`;
+            message += `*कोटेदार:* हीरालाल\n`;
+            message += `*डीलर कोड:* 20581921\n`;
+            message += `*क्षेत्र:* गोरखपुर\n`;
+            message += `------------------------------\n`;
+            message += `*📦 आज का कुल स्टॉक:*\n`;
+            message += `🌾 *गेहूं:* ${shopStock.wheat} किग्रा\n`;
+            message += `🍚 *चावल:* ${shopStock.rice} किग्रा\n`;
+            message += `🍬 *चीनी:* ${shopStock.sugar} किग्रा\n`;
+            message += `------------------------------\n`;
+            message += `*📝 कुल पंजीकृत कार्ड:* ${rationSubmissions.length}\n`;
+            message += `*⚠️ कुल प्राप्त शिकायतें:* ${complaints.length}\n`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
         function renderAdminPanel(filteredData = null) {
             const tableBody = document.getElementById('adminFormTable');
             tableBody.innerHTML = "";
@@ -592,7 +698,6 @@
                 `;
             });
 
-            // शिकायतों का लोड
             const listBody = document.getElementById('adminComplaintList');
             listBody.innerHTML = "";
             complaints.forEach((item) => {
@@ -605,7 +710,6 @@
             });
         }
 
-        // एडमिन लाइव सर्च फंक्शन
         function searchAdminData() {
             const searchVal = document.getElementById('adminSearch').value.toLowerCase();
             const filtered = rationSubmissions.filter(item => 
@@ -615,7 +719,6 @@
             renderAdminPanel(filtered);
         }
 
-        // यूपी राशन कार्ड जनरेटर पॉपअप
         function generateUPRationCard(item) {
             document.getElementById('rcCardNo').innerText = item.cardNo;
             document.getElementById('rcHolderName').innerText = item.name;
@@ -626,7 +729,6 @@
             document.getElementById('rcWheat').innerText = (membersCount * 1) + " किग्रा";
             document.getElementById('rcRice').innerText = (membersCount * 4) + " किग्रा";
 
-            // मॉडल विज़िबल करें
             document.getElementById('rationCardModal').style.display = 'flex';
         }
 
@@ -634,7 +736,6 @@
             document.getElementById('rationCardModal').style.display = 'none';
         }
 
-        // ================= नया फीचर: सभी कार्ड का डेटा प्रिंट करें =================
         function printAllCardsData() {
             if(rationSubmissions.length === 0) {
                 alert("प्रिंट करने के लिए कोई कार्ड मौजूद नहीं है।");
@@ -645,7 +746,7 @@
                 <div style="font-family: Arial, sans-serif; padding: 20px; color: black; background: white;">
                     <div style="text-align: center; border-bottom: 2px solid black; padding-bottom: 10px; margin-bottom: 20px;">
                         <h2>सभी पंजीकृत राशन कार्ड धारकों की सूची</h2>
-                        <p><strong>कोटेदार का नाम:</strong> हीरालाल | <strong>डीलर कोड:</strong> UP-993821 | <strong>क्षेत्र:</strong> कुशीनगर - गोरखपुर</p>
+                        <p><strong>कोटेदार का नाम:</strong> हीरालाल | <strong>डीलर कोड:</strong> 20581921 | <strong>क्षेत्र:</strong> गोरखपुर</p>
                     </div>
                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;" border="1" cellpadding="8" cellspacing="0">
                         <thead>
@@ -682,14 +783,12 @@
                 </div>
             `;
 
-            // प्रिंटिंग के लिए एक अस्थायी iframe या div बनाकर प्रिंट करना
             let printWindow = window.open('', '_blank', 'width=900,height=600');
             printWindow.document.write('<html><head><title>Print All Cards</title></head><body>');
             printWindow.document.write(printHTML);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             
-            // लोड होने के बाद प्रिंट कमांड
             setTimeout(() => {
                 printWindow.print();
                 printWindow.close();
@@ -698,4 +797,3 @@
     </script>
 </body>
 </html>
-
